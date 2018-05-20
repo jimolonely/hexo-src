@@ -6,6 +6,10 @@ p: cloudcompute/007-docker-basic
 ---
 容器技术.
 
+# 本文结构
+
+{% asset_img 004.png %}
+
 # 基本概念
 看下面的图.
 
