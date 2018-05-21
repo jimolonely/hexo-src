@@ -1,7 +1,7 @@
 ---
 title: 4.docker Registry
 tags:
-  - java
+  - docker
 p: cloudcompute/010-docker-registry
 ---
 
