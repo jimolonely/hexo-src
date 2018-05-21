@@ -1,5 +1,5 @@
 ---
-title: docker镜像
+title: 2.docker镜像
 tags:
   - docker
 p: cloudcompute/008-docker-image
@@ -11,24 +11,21 @@ docker镜像.
 {% asset_img 000.png %}
 
 # 1.docker commit方式创建镜像
-1. 运行容器
+1. 运行容器: it进入进入交互环境.
 ```shell
 root@jimo-VirtualBox:/home/jimo# docker run -it ubuntu
 root@4a12c1ec8971:/#
 ```
-it进入进入交互环境.
-
 2. 安装vim
 ```shell
 root@4a12c1ec8971:/# apt-get install -y vim
 ```
-3. 查看运行的实例
+3. 查看运行的实例: 我们需要那个随机的名字: eager_austin
 ```shell
 root@jimo-VirtualBox:~# docker ps
 CONTAINER ID        IMAGE               COMMAND              CREATED              STATUS              PORTS                  NAMES
 4a12c1ec8971        ubuntu              "/bin/bash"          About a minute ago   Up About a minute                          eager_austin
 ```
-我们需要那个随机的名字: eager_austin
 4. 保存为新的镜像
 ```shell
 root@jimo-VirtualBox:~# docker commit eager_austin ubuntu-with-vi
