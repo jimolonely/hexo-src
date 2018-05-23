@@ -202,3 +202,8 @@ p: linux/008-linux-kernel1
 ```shell
 /scaffolds/post.md
 ```
+
+## hexo代码样式
+
+原版采用[highlight.js](http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html)
+
