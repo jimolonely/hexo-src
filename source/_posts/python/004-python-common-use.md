@@ -214,3 +214,24 @@ from datetime import datetime
 today = datetime.today()
 today.day/month/year
 ```
+计算日期之间的月份差
+```python
+from datetime import datetime,date
+
+def month_delta(start_date, end_date=datetime.now().date()):
+    """
+    返回 end_date  - start_date  的差值
+        :param start_date:
+        :param end_date:
+        :return:  month_delta   int
+    """
+    flag = True
+    if start_date > end_date:
+        start_date, end_date = end_date, start_date
+        flag = False
+    year_diff = end_date.year - start_date.year
+    end_month = year_diff * 12 + end_date.month
+    delta = end_month - start_date.month
+    # return -delta if flag is False else delta
+    return abs(delta)
+```
