@@ -112,6 +112,12 @@ cd ~/.vim/bundle/YouCompleteMe
 1. umlet
 2. umbrello
 
+### 6.linux下的绘图工具推荐
+1. [Dia](https://wiki.gnome.org/Apps/Dia/Download)
+2. [Edraws](http://www.edrawsoft.cn/)
+3. [像编程一样绘图,可嵌入各个编辑器插件-mermaid](https://github.com/knsv/mermaid)
+
+
 ## 辅助工具
 
 ### 1.keepassx ,用于管理密码
