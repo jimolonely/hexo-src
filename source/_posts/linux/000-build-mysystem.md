@@ -117,6 +117,11 @@ cd ~/.vim/bundle/YouCompleteMe
 2. [Edraws](http://www.edrawsoft.cn/)
 3. [像编程一样绘图,可嵌入各个编辑器插件-mermaid](https://github.com/knsv/mermaid)
 
+### 7.linux下录屏工具
+1. [SimpleScreenRecorder](http://www.maartenbaert.be/simplescreenrecorder/)
+
+### 8.linux下视频剪辑软件
+1. [kdenlive](https://kdenlive.org/)
 
 ## 辅助工具
 
