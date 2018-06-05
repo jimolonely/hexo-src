@@ -38,11 +38,11 @@ render_drafts: false
 post_asset_folder: true
 relative_link: false
 future: true
-highlight:
-  enable: true
-  line_number: true
-  auto_detect: true
-  tab_replace:
+# highlight:
+#   enable: true
+#   line_number: true
+#   auto_detect: true
+#   tab_replace:
   
 prism_plugin:
   mode: 'realtime'    # realtime/preprocess

@@ -83,4 +83,11 @@ s == '寂寞'.decode('utf-8')
 ```
 而python3下则不需要.
 
+# Cannot uninstall 'pyzmq'.
+ Cannot uninstall 'pyzmq'. It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall.
 
+ 这个是在使用pip安装jupyter时出现的错误,无法卸载,因为是作为系统项目进行安装的.
+
+ 所以解决办法很简单,只需要在系统里把pyzmq模块卸载了先.
+
+ 
