@@ -12,7 +12,10 @@ p: java/001-junit-design-pattern
 JUnit的来源.
 
 # 前提知识
-1. 要了解的几种设计模式
+1. 要了解的几种设计模式: 
+  1. [Observer pattern](https://www.tutorialspoint.com/design_pattern/observer_pattern.htm),[wiki](https://en.wikipedia.org/wiki/Observer_pattern).
+  2. [Composite pattern](https://www.tutorialspoint.com/design_pattern/composite_pattern.htm).[wiki](https://en.wikipedia.org/wiki/Composite_pattern).
+  3. [Command pattern](https://www.tutorialspoint.com/design_pattern/command_pattern.htm),[wiki](https://en.wikipedia.org/wiki/Command_pattern).
 2. 反射编程
 
 # 类图
