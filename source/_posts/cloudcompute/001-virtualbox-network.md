@@ -4,13 +4,19 @@ tags:
   - 云计算
   - linux
 p: cloudcompute/001-virtualbox-network
-date: 2018-03-25 11:10:49
+# date: 2018-03-25 11:10:49
 ---
 有时不仅需要虚拟机能连外网,还需要虚拟机之间能互相通信.
 
 # 了解virtualbox的4种联网方式
 
 可以参考[文章](https://www.cnblogs.com/york-hust/archive/2012/03/29/2422911.html)
+
+通过3张图来看看.
+
+{% asset_img 004.png %}
+{% asset_img 005.png %}
+{% asset_img 006.png %}
 
 # 目标
 1. 虚拟机可以访问外网
