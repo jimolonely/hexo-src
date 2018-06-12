@@ -30,7 +30,7 @@ stress: dbug: [5] touching bytes in strides of 4096 bytes ...
 
 当大于200M内存,会卡死在那.
 
-# 限制内存
+# 限制CPU
 
 看他们之间的相对比例.
 1. --cpu : 设置工作线程的数量
