@@ -20,3 +20,10 @@ It doesn't matter what my name is. It doesn't matter where I come from. It doesn
 
 What I care about? who cares about me? from struggling learning, lengthy talks, aimless walking, procreation from generation to generation, to scared deer, burning forest, gravitational attraction of the planet, dust of the universe. There was no change in everything.
 
+# 生活
+我认为世界上任何事情都没有对错,这可能涉及一个哲学问题,比如康德谈论的经验论.
+
+但这里我简化了,我认为没有对错,据说成年人只看利益.
+
+那么我划分了2条线,一条道德线,一条法律线.只要我们在法律线之上生活,就不会犯罪.
+
