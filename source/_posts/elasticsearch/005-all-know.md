@@ -118,4 +118,42 @@ http://<ip>:<port>/<索引>/<类型>/<文档id>
 {% asset_img 005.png %}
 {% asset_img 006.png %}
 
+### 插入
+文档插入：
+
+指定ｉｄ插入
+{% asset_img 007.png %}
+
+或者自动生成ｉｄ插入．(注意POST方式和去掉id)
+{% asset_img 008.png %}
+
+在head中查看结果：
+{% asset_img 009.png %}
+
+### 修改
+指定id通过URL修改
+{% asset_img 010.png %}
+
+通过脚本修改，支持的脚本语言有：内置的，js,python.
+下面使用内置的修改：(**可看到，脚本可以灵活的使用参数**)
+{% asset_img 011.png %}
+
+### 删除
+1. 删除文档
+{% asset_img 012.png %}
+
+2. 删除索引
+
+使用head
+{% asset_img 013.png %}
+
+使用命令行：
+{% asset_img 014.png %}
+
+### 查询
+1. 简单查询
+
+2. 条件查询
+
+3. 聚合查询
 
