@@ -112,10 +112,10 @@ http://<ip>:<port>/<索引>/<类型>/<文档id>
 
 查看其信息，发现mappings这一项：如果是空（"mappings": { }）的则代表是非结构化数据，否则可以自定义结构化结构．
 下面给ｂｏｏｋ索引定义一个带有title字段的novel属性：
-{% assert_img 004.png %}
+{% asset_img 004.png %}
 
 ２. 使用HTTP请求创建,推荐使用Postman,便于编写json
-{% assert_img 005.png %}
-{% assert_img 006.png %}
+{% asset_img 005.png %}
+{% asset_img 006.png %}
 
 
