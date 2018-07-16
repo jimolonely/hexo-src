@@ -151,9 +151,85 @@ http://<ip>:<port>/<索引>/<类型>/<文档id>
 {% asset_img 014.png %}
 
 ### 查询
+先插入一些数据：
+```json
+{
+	"title": "python之父",
+	"author": "王麻子",
+	"word_count": 1000,
+	"publish_date": "2002-10-01"
+},
+{
+	"title": "java",
+	"author": "王三",
+	"word_count": 2000,
+	"publish_date": "2017-08-20"
+},
+{
+	"title": "java入门",
+	"author": "王四",
+	"word_count": 5000,
+	"publish_date": "2017-08-15"
+},
+{
+	"title": "C++入门",
+	"author": "王五",
+	"word_count": 10000,
+	"publish_date": "2000-09-20"
+},
+{
+	"title": "java精通",
+	"author": "李四",
+	"word_count": 8000,
+	"publish_date": "2010-09-20"
+},
+{
+	"title": "java大法好",
+	"author": "张三",
+	"word_count": 3000,
+	"publish_date": "2017-08-01"
+},
+{
+	"title": "代码整洁之道",
+	"author": "寂寞哥",
+	"word_count": 5000,
+	"publish_date": "1997-01-20"
+},
+{
+	"title": "太极拳",
+	"author": "赵牛",
+	"word_count": 1000,
+	"publish_date": "2005-08-20"
+}
+```
+{% asset_img 015.png %}
+
 1. 简单查询
+
+Get查询
+{% asset_img 016.png %}
+
+POST查询所有数据：
+{% asset_img 017.png %}
 
 2. 条件查询
 
+指定数据量：
+{% asset_img 018.png %}
+
+按条件并按日期降序排序：
+{% asset_img 019.png %}
+
 3. 聚合查询
+
+按日期和字数聚合：
+{% asset_img 020.png %}
+
+统计：
+{% asset_img 021.png %}
+{% asset_img 022.png %}
+
+或直接指定函数：
+{% asset_img 023.png %}
+{% asset_img 024.png %}
 
