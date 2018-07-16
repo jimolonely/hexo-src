@@ -60,4 +60,29 @@ http.cors.allow-origin: "*"
 {% asset_img 000.png %}
 
 
+### 集群安装
+ｍａｓｔｅｒ节点配置：config/elasticsearch
+```yml
+cluster.name: jimo
+node.name: master
+node.master: true
+ 
+network.host: 127.0.0.1
+```
+slave节点只需要打开新的terminal,使用新的文件夹．配置如下：改改端口
+```yml
+cluster.name: jimo
+node.name: slave1
+
+network.host: 127.0.0.1
+
+http.port: 8200
+discovery.zen.ping.unicast.hosts: ["127.0.0.1"] # 用于发现master节点
+```
+**注意的就是：节点的elasticsearch目录不能相互ｃｏｐｙ**
+
+{% asset_img 001.png %}
+
+
+
 
