@@ -233,3 +233,63 @@ POST查询所有数据：
 {% asset_img 023.png %}
 {% asset_img 024.png %}
 
+## 高级查询
+### query
+query context:
+```
+查询时除了判断文档是否满足查询条件外，还会
+计算一个_score的字段来标识匹配程度，范围0-1
+
+常用查询：
+１．全文本查询：针对文本数据
+２．字段级别查询：针对结构化数据，如日期，数字等
+```
+１．全文本查询
+
+模糊查询
+{% asset_img 019.png %}
+
+定向查询: 如果使用match，那么java入门会被分成java和入门２个词
+{% asset_img 025.png %}
+
+多个关键字查询
+{% asset_img 026.png %}
+
+语法查询:fields省略可查询所有字段
+{% asset_img 027.png %}
+
+２．字段级别查询
+
+指定值
+{% asset_img 028.png %}
+
+范围查询: 数字，日期呀
+{% asset_img 029.png %}
+
+### filter
+filter context:
+```
+查询时只判断yes或no，不进行匹配程度判断．
+```
+{% asset_img 030.png %}
+
+### 复合查询
+结合查询和过滤．
+
+1. 固定分数查询:通过boost指定分数，每个filter过滤出的结果都是这个分数
+{% asset_img 031.png %}
+
+2. 布尔查询
+must:
+{% asset_img 032.png %}
+
+must_not:
+{% asset_img 035.png %}
+
+should:
+{% asset_img 033.png %}
+
+同时加上过滤：
+{% asset_img 034.png %}
+
+
