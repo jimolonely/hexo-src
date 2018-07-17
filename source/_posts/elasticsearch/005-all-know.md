@@ -292,4 +292,213 @@ should:
 同时加上过滤：
 {% asset_img 034.png %}
 
+# 实战
+集成spring-boot. [代码地址](https://github.com/jimolonely/codes/tree/master/spring-boot-elasticsearch-demo)
+
+环境：Intellij IDE，JDK1.8
+
+{% asset_img 043.png %}
+
+1. 建一个spring-boot项目
+2. pom.xml
+```maven
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.elasticsearch.client/transport -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>transport</artifactId>
+            <version>6.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.7</version>
+        </dependency>
+    </dependencies>
+```
+3. ESConfig配置TransportClient:
+```java
+@Configuration
+public class ESConfig {
+
+    @Bean
+    public TransportClient client() throws UnknownHostException {
+        final InetSocketTransportAddress nodeAddress =
+                new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300);
+
+        final Settings settings = Settings.builder().put("cluster.name", "jimo").build();
+
+        final PreBuiltTransportClient client = new PreBuiltTransportClient(settings);
+        client.addTransportAddress(nodeAddress);
+
+        return client;
+    }
+}
+```
+4. 增删改查操作
+```java
+@RestController
+@RequestMapping("/book/novel")
+public class BookNovelController {
+
+    private final TransportClient client;
+
+    @Autowired
+    public BookNovelController(TransportClient client) {
+        this.client = client;
+    }
+    //...
+}
+```
+查询:
+```java
+
+```
+{% asset_img 037.png %}
+
+增加：
+```java
+@PostMapping("/new")
+public ResponseEntity addBook(
+        @RequestParam("title") String title,
+        @RequestParam("author") String author,
+        @RequestParam("word_count") int wordCount,
+        @RequestParam("publish_date")
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                Date publishDate) {
+    try {
+        final XContentBuilder content = XContentFactory.jsonBuilder()
+                .startObject()
+                .field("title", title)
+                .field("author", author)
+                .field("word_count", wordCount)
+                // .field("publish_date", publishDate.getTime())
+                .endObject();
+        final IndexResponse result = client.prepareIndex("book", "novel")
+                .setSource(content).get();
+        return new ResponseEntity(result.getId(), HttpStatus.OK);
+    } catch (IOException e) {
+        e.printStackTrace();
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+```
+{% asset_img 040.png %}
+
+删除：
+```java
+@DeleteMapping
+public ResponseEntity deleteBook(@RequestParam("id") String id) {
+    final DeleteResponse response = client.prepareDelete("book", "novel", id).get();
+    return new ResponseEntity(response.getResult(), HttpStatus.OK);
+}
+```
+{% asset_img 039.png %}
+
+修改：
+```java
+@PostMapping("/update")
+public ResponseEntity updateBook(
+        @RequestParam("id") String id,
+        @RequestParam(name = "title", required = false) String title,
+        @RequestParam(name = "author", required = false) String author) {
+    final UpdateRequest updateRequest = new UpdateRequest("book", "novel", id);
+    try {
+        final XContentBuilder builder = XContentFactory.jsonBuilder().startObject();
+        if (title != null) {
+            builder.field("title", title);
+        }
+        if (author != null) {
+            builder.field("author", author);
+        }
+        builder.endObject();
+        updateRequest.doc(builder);
+    } catch (IOException e) {
+        e.printStackTrace();
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    try {
+        final UpdateResponse updateResponse = client.update(updateRequest).get();
+        return new ResponseEntity(updateResponse.getResult(), HttpStatus.OK);
+    } catch (InterruptedException | ExecutionException e) {
+        e.printStackTrace();
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+```
+{% asset_img 041.png %}
+
+查询：
+```java
+@PostMapping("/query")
+public ResponseEntity queryBook(
+        @RequestParam(name = "author", required = false) String author,
+        @RequestParam(name = "title", required = false) String title,
+        @RequestParam(name = "gt_word_count", defaultValue = "0") Integer gtWordCount,
+        @RequestParam(name = "lt_word_count", required = false) Integer ltWordCount) {
+    final BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+    if (author != null) {
+        boolQuery.must(QueryBuilders.matchQuery("author", author));
+    }
+    if (title != null) {
+        boolQuery.must(QueryBuilders.matchQuery("title", title));
+    }
+    final RangeQueryBuilder rangeQuery = QueryBuilders.rangeQuery("word_count").from(gtWordCount);
+    if (ltWordCount != null && ltWordCount >= gtWordCount) {
+        rangeQuery.to(ltWordCount);
+    }
+    boolQuery.filter(rangeQuery);
+    final SearchRequestBuilder builder = client.prepareSearch("book")
+            .setTypes("novel")
+            .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+            .setQuery(boolQuery)
+            .setFrom(0)
+            .setSize(10);
+
+    System.out.println(builder);
+
+    final SearchResponse response = builder.get();
+    List<Map<String, Object>> result = new ArrayList<>();
+
+    for (SearchHit hit : response.getHits()) {
+        result.add(hit.getSource());
+    }
+    return new ResponseEntity(result, HttpStatus.OK);
+}
+```
+{% asset_img 042.png %}
+
+## 遇到的问题
+参考：[blog](https://blog.csdn.net/napoay/article/details/53581027)
+
+1. java.lang.ClassNotFoundException: org.elasticsearch.transport.Netty3Plugin
+{% asset_img 036.png %}
+
+2. failed to parse [publish_date]
+{% asset_img 038.png %}
+需要将date的fromat改为dateOptionalTime.**注意：数据类型是不能修改的，所以建立索引时就要考虑清除.**
+
+
+
 
