@@ -6,6 +6,7 @@ p: linux/013-linux-backup
 ---
 
 本文讲述备份系统要注意哪些方面．
+关于重装系统应该做什么参看：[build-linux](http://jimolonely.github.io/2017/12/27/linux/000-build-mysystem/),[manjaro-build](http://jimolonely.github.io/2018/07/19/linux/001-linux-manjaro/)
 
 # 同步
 能同步的就同步了，不需要拷贝，比如以下的数据:

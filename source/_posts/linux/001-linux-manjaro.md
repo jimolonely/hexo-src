@@ -7,7 +7,7 @@ p: linux/001-linux-manjaro
 # date: 2017-12-27 16:29:07
 ---
 #  manjaro
-讲了manjaro如何配置. 如果要备份系统，[查看备份系统要点]().
+讲了manjaro如何配置. 如果要备份系统，[查看备份系统要点](http://jimolonely.github.io/2018/07/19/linux/013-linux-backup/).
 
 ## 配置鏡像
 
