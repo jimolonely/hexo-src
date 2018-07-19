@@ -4,10 +4,11 @@ tags:
   - linux
   - manjaro
 p: linux/001-linux-manjaro
-date: 2017-12-27 16:29:07
+# date: 2017-12-27 16:29:07
 ---
 #  manjaro
-讲了manjaro如何配置.
+讲了manjaro如何配置. 如果要备份系统，[查看备份系统要点]().
+
 ## 配置鏡像
 
 ```shell
