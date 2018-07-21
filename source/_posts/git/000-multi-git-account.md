@@ -4,7 +4,7 @@ tags:
   - git
   - ssh
 p: git/000-multi-git-account
-date: 2017-12-31 11:36:45
+# date: 2017-12-31 11:36:45
 ---
 一台电脑如何配置多个github账户
 有一个github账户时很简单,不管采用ssh还是https方式提交都没问题,但多个账户时最好采用ssh.
@@ -81,15 +81,8 @@ Identity added: id_rsa_jimo (id_rsa_jimo)
 2048 SHA256:a95OgBQ9DBkNw4RM8NKi/NXbbQmJyjHYiwk2UaO+i7k id_rsa_jimo (RSA)
 ```
 4. 将公钥(id_rsa_code.pub里的)复制到[github账户ssh里](https://github.com/settings/keys)
-5. 测试:
-```shell
-[jimo@jimo-pc .ssh]$ ssh -T github.com
-Hi jimolonely! You've successfully authenticated, but GitHub does not provide shell access.
 
-[jimo@jimo-pc .ssh]$ ssh -T github-code
-Hi mycodefarm! You've successfully authenticated, but GitHub does not provide shell access.
-```
-6. 配置,在~/.ssh/config下配置:
+5. 配置,在~/.ssh/config下配置:
 ```shell
 [jimo@jimo-pc .ssh]$ cat config 
 # Default github account
@@ -104,6 +97,15 @@ Host github-code
  User git
  IdentityFile /home/jimo/.ssh/id_rsa_code
 ```
+6. 测试:
+```shell
+[jimo@jimo-pc .ssh]$ ssh -T github.com
+Hi jimolonely! You've successfully authenticated, but GitHub does not provide shell access.
+
+[jimo@jimo-pc .ssh]$ ssh -T github-code
+Hi mycodefarm! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
 ## 如何使用很关键
 到这里,克隆或则添加origin的时候需要注意,使用config里自己定义的Host.
 
