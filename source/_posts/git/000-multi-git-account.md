@@ -4,7 +4,7 @@ tags:
   - git
   - ssh
 p: git/000-multi-git-account
-# date: 2017-12-31 11:36:45
+date: 2017-12-31 11:36:45
 ---
 一台电脑如何配置多个github账户
 有一个github账户时很简单,不管采用ssh还是https方式提交都没问题,但多个账户时最好采用ssh.
@@ -38,16 +38,16 @@ p: git/000-multi-git-account
 
 1. 去掉以前的key cache,可有可无,因为可能有其他的ssh key
 ```shell
-$ ssh-add -D # 删除所有 
-$ ssh-add -l 
+$ ssh-add -D # 删除所有
+$ ssh-add -l
 ```
 2. 生成key
 ```shell
 [jimo@jimo-pc .ssh]$ ssh-keygen -t rsa -C "xxx@foxmail.com"
 Generating public/private rsa key pair.
 Enter file in which to save the key (/home/jimo/.ssh/id_rsa): /home/jimo/.ssh/id_rsa_jimo
-Enter passphrase (empty for no passphrase): 
-Enter same passphrase again: 
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
 Your identification has been saved in /home/jimo/.ssh/id_rsa_jimo.
 Your public key has been saved in /home/jimo/.ssh/id_rsa_jimo.pub.
 The key fingerprint is:
@@ -84,7 +84,7 @@ Identity added: id_rsa_jimo (id_rsa_jimo)
 
 5. 配置,在~/.ssh/config下配置:
 ```shell
-[jimo@jimo-pc .ssh]$ cat config 
+[jimo@jimo-pc .ssh]$ cat config
 # Default github account
 Host github.com
  HostName github.com
@@ -142,5 +142,3 @@ $ git config --global --unset user.name
 现在可以混用https和ssh提交了.
 
 但最好全部改为ssh,因为如果使用了credential.helper store,会把密码存储在~/.git-credentials下,不太好.
-
-

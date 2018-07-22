@@ -3,7 +3,7 @@ title: 部署hexo到github
 tags:
   - hexo
 p: hexo/deploy-hexo-on-github
-# date: 2017-12-23 22:08:04
+date: 2017-12-23 22:08:04
 ---
 
 飞快搭建hexo+github博客.
@@ -206,4 +206,3 @@ p: linux/008-linux-kernel1
 ## hexo代码样式
 
 原版采用[highlight.js](http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html)
-
