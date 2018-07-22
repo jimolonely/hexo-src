@@ -4,7 +4,7 @@ tags:
   - linux
   - linux kernel
 p: linux/008-linux-kernel1
-# date: 2018-04-27 14:56:37
+date: 2018-04-27 14:56:37
 ---
 
 # 1.常识
@@ -39,7 +39,7 @@ p: linux/008-linux-kernel1
 
 系统最大进程数配置,理论可达几百万:
 ```shell
-$ cat /proc/sys/kernel/pid_max 
+$ cat /proc/sys/kernel/pid_max
 32768
 ```
 ### 2.3 进程创建
@@ -74,7 +74,7 @@ O(1) => CFS(完全公平的调度)
 
 linux偏向于交互式应用.
 ### 3.4 进程优先级
-1. nice值: -19到20,越大越低,默认为0. 
+1. nice值: -19到20,越大越低,默认为0.
 ```shell
 # 注意NI值
 $ ps -el
@@ -113,6 +113,3 @@ S     0   318     2     50 00:02:36 irq/51-DLLA6B2:
 1. 太长或太短都不好
 2. IO密集型希望短,CPU密集型希望长
 3. Linux直接分配时间片到进程,这个进程获得的时间受系统负载和nice值的共同影响.
-
-
-

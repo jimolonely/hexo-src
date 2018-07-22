@@ -3,7 +3,7 @@ title: python中的常见错误
 tags:
   - python
 p: python/008-python-error
-# date: 2018-04-17 10:13:30
+date: 2018-04-17 10:13:30
 ---
 python中的常见错误.
 
@@ -89,5 +89,3 @@ s == '寂寞'.decode('utf-8')
  这个是在使用pip安装jupyter时出现的错误,无法卸载,因为是作为系统项目进行安装的.
 
  所以解决办法很简单,只需要在系统里把pyzmq模块卸载了先.
-
- 

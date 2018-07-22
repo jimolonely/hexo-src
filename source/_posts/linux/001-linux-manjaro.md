@@ -4,7 +4,7 @@ tags:
   - linux
   - manjaro
 p: linux/001-linux-manjaro
-# date: 2017-12-27 16:29:07
+date: 2017-12-27 16:29:07
 ---
 #  manjaro
 讲了manjaro如何配置. 如果要备份系统，[查看备份系统要点](http://jimolonely.github.io/2018/07/19/linux/013-linux-backup/).
@@ -12,7 +12,7 @@ p: linux/001-linux-manjaro
 ## 配置鏡像
 
 ```shell
-[jimo@jimo-pc ~]$ nano /etc/pacman-mirrors.conf 
+[jimo@jimo-pc ~]$ nano /etc/pacman-mirrors.conf
 OnlyCountry=China
 
 [jimo@jimo-pc ~]$ sudo pacman-mirrors -g
@@ -33,10 +33,10 @@ OnlyCountry=China
 ```
 then
 ```shell
-# /etc/pacman.conf 
-[archlinuxcn] 
-SigLevel = Optional TrustedOnly 
-Server = https://mirrors.ustc.edu.cn/archlinuxcn/$arch 
+# /etc/pacman.conf
+[archlinuxcn]
+SigLevel = Optional TrustedOnly
+Server = https://mirrors.ustc.edu.cn/archlinuxcn/$arch
 ```
 then
 ```shell
@@ -51,7 +51,7 @@ sudo pacman -S fcitx-configtool # 图形化配置工具
 ```
 then
 ```shell
-nano ~/.xprofile 
+nano ~/.xprofile
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS="@im=fcitx"
@@ -95,7 +95,7 @@ yaourt google-chrome
 | 最小化窗口 | Alt+F9 |
 | 切换窗口 | Alt+Tab |
 | 显示桌面 | Ctrl+Alt+D |
-| 关闭窗口 | Alt+F4 | 
+| 关闭窗口 | Alt+F4 |
 
 ## 安装mariadb
 用mariadb替代mysql

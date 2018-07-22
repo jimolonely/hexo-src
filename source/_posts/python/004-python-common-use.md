@@ -3,7 +3,7 @@ title: python中的常用操作
 tags:
   - python
 p: python/004-python-common-use
-# date: 2018-03-12 10:36:29
+date: 2018-03-12 10:36:29
 ---
 真的很常用诶.
 
@@ -113,7 +113,7 @@ open('file.txt','w).close()
 In [1]: import os
 
 In [2]: os.listdir('./')
-Out[2]: 
+Out[2]:
 ['0307_nodes.txt',
  '0307_links.txt',
  '0901_nodes.txt',

@@ -4,7 +4,7 @@ tags:
   - python
   - pandas
 p: python/007-use-pandas
-# date: 2018-04-15 11:33:00
+date: 2018-04-15 11:33:00
 ---
 pandas那些常用操作,不用不知道.
 
@@ -153,4 +153,3 @@ stu1['photo']
 ```html
 <img src="data:jpeg;base64,str"> <!--其中jpeg可能为png-->
 ```
-

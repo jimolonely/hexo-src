@@ -4,7 +4,7 @@ tags:
   - tool
   - linux
 p: tools/008-computer-basic
-# date: 2018-03-25 15:54:09
+date: 2018-03-25 15:54:09
 ---
 不得不知的计算机基础知识.
 
@@ -63,5 +63,3 @@ p: tools/008-computer-basic
 1. 了解unicode的历史,从65535到一百多万的字符集;
 2. UTF8和UTF16,UTF32都是unicode的实现,是编码方式;
 3. UTF8并不是只有8位,可根据情况变化1到3个字节.
-
-
