@@ -69,6 +69,9 @@ mvn -v
       <mirrorOf>central</mirrorOf>
 </mirror>
 ```
+其他类型的linux系统可能不在那，但一定会在用户目录下，可以参考idea的目录：
+
+{% asset_img 000.png %}
 
 ## 数据库相关
 
