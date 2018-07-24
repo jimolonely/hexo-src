@@ -14,3 +14,5 @@ date: 2018-07-23 10:33:09
 J2EE型：java源代码中的模式
 
 {% asset_img 000.png %}
+
+1. [Factory Method Pattern](https://github.com/jimolonely/codes/tree/master/designpatternbyjava/src/main/java/jimo/factory)
