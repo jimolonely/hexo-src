@@ -146,3 +146,16 @@ cd ~/.vim/bundle/YouCompleteMe
 tar -cf workspace.tar ~/workspace/
 mv workspace.tar ~/backup/ -u
 ```
+
+## network indicator
+```shell
+sudo add-apt-repository ppa:fossfreedom/indicator-sysmonitor  
+sudo apt-get update
+sudo apt-get install indicator-sysmonitor  
+```
+[refrence](https://blog.csdn.net/bfboys/article/details/53031998)
+
+## screen shot
+```
+Ctrl+Alt+A: gnome-screenshot -ai
+```
