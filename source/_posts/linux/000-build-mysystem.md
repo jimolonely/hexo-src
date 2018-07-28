@@ -2,6 +2,7 @@
 title: 如何构建个性化linux系统
 tags:
   - linux
+  - ubuntu
 p: linux/000-build-mysystem
 date: 2017-12-27 16:24:19
 ---
@@ -159,3 +160,10 @@ sudo apt-get install indicator-sysmonitor
 ```
 Ctrl+Alt+A: gnome-screenshot -ai
 ```
+
+## Ubuntu 18.x的右键问题
+现在2指单击代表右键，3指单击代表中间键。
+
+如果实在不习惯，可以安装gnome-tweaks.如下，选择区域.
+
+{% asset_img 001.png %}
