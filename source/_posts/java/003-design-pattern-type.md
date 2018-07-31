@@ -43,3 +43,6 @@ J2EE型：java源代码中的模式
 
 12. [Flyweight Pattern](https://github.com/jimolonely/codes/tree/master/designpatternbyjava/src/main/java/jimo/flyweight)
 
+13. [Proxy Pattern](https://github.com/jimolonely/codes/tree/master/designpatternbyjava/src/main/java/jimo/proxy)
+
+

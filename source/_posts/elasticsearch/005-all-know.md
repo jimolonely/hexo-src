@@ -499,6 +499,9 @@ public ResponseEntity queryBook(
 {% asset_img 038.png %}
 需要将date的fromat改为dateOptionalTime.**注意：数据类型是不能修改的，所以建立索引时就要考虑清除.**
 
+# 总结
+[官方的java客户端连接例子](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-overview.html)
+
 
 
 
