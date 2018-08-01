@@ -7,7 +7,7 @@ date: 2018-03-09 09:07:39
 ---
 这是一条不归路.
 # 掌握基本命令
-跟着官方的web版练习[Try Redis](http://try.redis.io/)即可,我做的文件{% asset_path try-redis.txt%}
+跟着官方的web版练习[Try Redis](http://try.redis.io/)即可,我做的文件[try-redis.txt](https://github.com/jimolonely/hexo-src/blob/master/source/_posts/lang/002-redis/try-redis.txt)
 
 现在应该学会了以下命令和数据结构:
 ```

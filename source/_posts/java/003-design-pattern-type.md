@@ -45,4 +45,11 @@ J2EE型：java源代码中的模式
 
 13. [Proxy Pattern](https://github.com/jimolonely/codes/tree/master/designpatternbyjava/src/main/java/jimo/proxy)
 
+14. [Chain of Responsility Pattern](https://github.com/jimolonely/codes/tree/master/designpatternbyjava/src/main/java/jimo/chainofresponsility)
+
+15. [Command Pattern](https://github.com/jimolonely/codes/tree/master/designpatternbyjava/src/main/java/jimo/command)
+
+
+
+
 
