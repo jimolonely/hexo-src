@@ -77,6 +77,17 @@ date: 2018-08-02 07:18:26
 12. bin/stop-hbase.sh
 ```
 
+1. HBase常用的查看数据方式有scan和get，get是一种特殊的scan，get是scan的startrow和endrow等于同一个值的特殊情况。
+2. hbase的rowkey是按照B+树的形式存放的，所以查找一个具体的rowkey速度是非常快的，所以查询数据的时候一般都会设置scan的startrow和endrow，这样可以缩小查找的范围，所以rowkey的设计在hbase里面是极为重要的。
+```java
+Scan scan = new Scan();
+scan.setStartRow("001".getBytes());
+scan.setStopRow("1000".getBytes());
+scan.setCaching(10000);//hbase扫描时的缓存
+scan.setBatch(100);//一次扫描数据
+```
+3. Filter进行条件查询。
+
 # 5.elasticsearch
 1. 熟悉elasticsearc的基本原理
 2. 熟练使用elasticsearch-head插件
