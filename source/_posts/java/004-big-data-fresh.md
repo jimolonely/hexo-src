@@ -2,6 +2,7 @@
 title: Big Data Freshman
 tags:
   - big data
+  - java
 p: java/004-big-data-fresh
 date: 2018-08-02 07:18:26
 ---
@@ -39,6 +40,7 @@ date: 2018-08-02 07:18:26
 1. 了解hbase的数据结构
 2. 了解hbase的使用场景
 3. 掌握hbase的基本常洵方式
+
 ## 4.1 hbase数据结构
 [参考文档](https://hbase.apache.org/book.html#datamodel)
 
