@@ -60,6 +60,8 @@ date: 2018-08-02 07:18:26
 **访问数据时：**
 {% asset_img 002.png %}
 
+还需要明白的一些概念：[Region],[RegionServer],[WAL(write ahead log)]
+
 ## 4.2 hbase使用场景
 
 ## 4.3 hbase基本查询方式
