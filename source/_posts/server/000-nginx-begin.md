@@ -49,6 +49,9 @@ stop：相当于发送SIGTERM信号，要你强制退出。
 https://nginx.org/en/docs/control.html
 
 # 配置文件结构
+
+[https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/](https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/)
+
 nginx由模块组成，这些模块由配置文件中指定的指令控制。 指令分为简单指令和块指令。 一个简单的指令包括由空格分隔的名称和参数，以分号（;）结尾。 块指令与简单指令具有相同的结构，但它不是以分号结尾，而是以大括号（{和}）包围的一组附加指令结束。 如果块指令在大括号内包含其他指令，则称为上下文（示例：events，http，server和location）。
 
 放置在任何上下文之外的配置文件中的指令被认为是在主上下文中。 事件和http指令驻留在主上下文中，服务器位于http中，位于服务器中。
@@ -64,6 +67,63 @@ nginx由模块组成，这些模块由配置文件中指定的指令控制。 �
 		包含简单指令
 		形成上下文(context)
 # 评论
+```
+
+下面是分别描述
+## 指令
+以分号结尾的命令，包含在块中。
+```
+user             nobody;
+error_log        logs/error.log notice;
+worker_processes 1;
+```
+## 指定配置文件地址
+nginx.conf可以包含单个模块的配置文件引用，配置文件位于/etc/nginx/conf.d
+```
+include conf.d/http;
+include conf.d/stream;
+include conf.d/exchange-enhanced;
+```
+## 上下文
+一般来说有几种context:
+
+1. events:通用连接处理
+2. http:HTTP流量相关
+3. mail：邮件流量相关
+4. stream：TCP和UDP流量相关 
+
+## 一个例子
+```shell
+user nobody; # a directive in the 'main' context
+
+events {
+    # configuration of connection processing
+}
+
+http {
+    # Configuration specific to HTTP and affecting all virtual servers  
+
+    server {
+        # configuration of HTTP virtual server 1       
+        location /one {
+            # configuration for processing URIs starting with '/one'
+        }
+        location /two {
+            # configuration for processing URIs starting with '/two'
+        }
+    } 
+    
+    server {
+        # configuration of HTTP virtual server 2
+    }
+}
+
+stream {
+    # Configuration specific to TCP/UDP and affecting all virtual servers
+    server {
+        # configuration of TCP virtual server 1 
+    }
+}
 ```
 
 # 服务静态内容
@@ -134,4 +194,18 @@ server {
  {% asset_img 019.png %}
 
 这就完成了一个简单的CDN服务器配置。
+
+# 接下来学什么
+也就是作为nginx管理员要学什么，也就是nginx可以做什么，也就是闲的无聊，下面就是了：
+
+1. 负载均衡：HTTP，TCP/UDP
+2. 内容缓存：CDN等
+3. Web服务器：静态或动态的
+4. 安全控制
+5. 监控：log，活动等
+6. 高可用：你懂的
+7. 动态模块：cookie，GEOIP，Filter，JS等
+8. 邮件代理服务器
+
+其实上述涉及了一个核心概念：代理。
 
