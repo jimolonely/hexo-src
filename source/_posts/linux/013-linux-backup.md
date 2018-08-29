@@ -3,6 +3,7 @@ title: linux-backup
 tags:
   - linux
 p: linux/013-linux-backup
+date: 2018-06-21 13:51:55
 ---
 
 本文讲述备份系统要注意哪些方面．

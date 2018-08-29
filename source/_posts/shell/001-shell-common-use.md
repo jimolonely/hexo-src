@@ -4,6 +4,7 @@ tags:
   - shell
   - linux
 p: shell/001-shell-common-use
+date: 2018-04-01 13:51:55
 ---
 shell那些常用操作.
 

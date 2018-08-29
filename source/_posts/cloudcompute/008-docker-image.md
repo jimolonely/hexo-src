@@ -3,6 +3,7 @@ title: 2.docker镜像
 tags:
   - docker
 p: cloudcompute/008-docker-image
+date: 2018-08-01 13:51:55
 ---
 docker镜像.
 

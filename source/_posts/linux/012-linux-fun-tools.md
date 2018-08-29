@@ -4,6 +4,7 @@ tags:
   - linux
   - tool
 p: linux/012-linux-fun-tools
+date: 2018-02-01 13:51:55
 ---
 纯粹为了娱乐.不过真的很有趣
 

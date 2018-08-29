@@ -4,6 +4,7 @@ tags:
   - java
   - junit
 p: java/001-junit-design-pattern
+date: 2018-03-22 13:51:55
 ---
 本文将以junit4.12为例,阅读其核心源码,理解其核心设计模式.
 希望最后能实现一个JUnit.

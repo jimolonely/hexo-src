@@ -3,6 +3,7 @@ title: 命令行的QQ
 tags:
   - linux
 p: linux/011-linux-terminal-qq
+date: 2018-04-20 13:51:55
 ---
 买了服务器,运行一个后台进程,定时给一个好友发消息.
 

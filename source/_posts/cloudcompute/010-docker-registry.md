@@ -3,6 +3,7 @@ title: 4.docker Registry
 tags:
   - docker
 p: cloudcompute/010-docker-registry
+date: 2018-08-03 13:51:55
 ---
 
 # 总图导航

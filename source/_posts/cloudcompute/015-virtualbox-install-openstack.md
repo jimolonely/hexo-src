@@ -5,6 +5,7 @@ tags:
   - openstack
   - linux
 p: cloudcompute/015-virtualbox-install-openstack
+date: 2018-06-30 13:51:55
 ---
 
 # 环境介绍

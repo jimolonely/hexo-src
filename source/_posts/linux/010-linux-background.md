@@ -3,6 +3,7 @@ title: linux后台进程那些事
 tags:
   - linux
 p: linux/010-linux-background
+date: 2018-03-01 13:51:55
 ---
 linux后台进程那些事.
 

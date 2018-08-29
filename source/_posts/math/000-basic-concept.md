@@ -5,6 +5,7 @@ tags:
   - probability
   - statistics
 p: math/000-basic-concept
+date: 2018-05-10 13:51:55
 ---
 那些必须明白的概率与统计学基本概念.
 

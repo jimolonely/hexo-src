@@ -3,6 +3,7 @@ title: 区块链学习路径与资源
 tags:
   - blockchain
 p: blockchain/000-learn-resources
+date: 2018-06-11 13:51:55
 ---
 学习永远在路上.
 

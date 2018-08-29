@@ -3,6 +3,7 @@ title: hexo换电脑或备份
 tags:
   - hexo
 p: hexo/001-hexo-backup
+date: 2018-02-20 13:51:55
 ---
 本文对hexo的源代码如何备份做一个方案的探讨.我们知道hexo生成的静态页面放在public目录下,
 每次将这个目录推送到github上,但是hexo本身却没上传,如果换电脑就无力回天了.下面就是一些解决方案.

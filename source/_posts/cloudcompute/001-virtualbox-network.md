@@ -4,7 +4,7 @@ tags:
   - 云计算
   - linux
 p: cloudcompute/001-virtualbox-network
-# date: 2018-03-25 11:10:49
+date: 2018-03-25 11:10:49
 ---
 有时不仅需要虚拟机能连外网,还需要虚拟机之间能互相通信.
 

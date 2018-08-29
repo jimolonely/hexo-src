@@ -5,6 +5,7 @@ tags:
   - tool
   - video
 p: tools/010-ffmpeg
+date: 2018-05-01 13:51:55
 ---
 本问主要说明视频的一些参数和linux下ffmpeg的视频转换和压缩功能.
 

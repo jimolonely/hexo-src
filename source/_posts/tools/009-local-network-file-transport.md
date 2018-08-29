@@ -5,6 +5,7 @@ tags:
   - tool
   - python
 p: tools/009-local-network-file-transport
+date: 2018-06-01 13:51:55
 ---
 linux局域网文件传输,好吃又好玩.
 
