@@ -476,28 +476,238 @@ Redis有命令来测试成员属性。 例如，检查元素是否存在：
 
 当您需要获取随机元素而不从集合中删除它们时，SRANDMEMBER命令适合该任务。 它还具有返回重复和非重复元素的能力。
 
+# Redis sorted set
+排序集是一种数据类型，类似于Set和Hash之间的混合。 与集合一样，有序集合由唯一的，非重复的字符串元素组成，因此在某种意义上，有序集合也是一个集合。
 
+但是，虽然内部集合中的元素没有排序，但是有序集合中的每个元素都与浮点值相关联，称为分数（这就是为什么类型也类似于散列，因为每个元素都映射到一个值）。
 
+此外，排序集合中的元素按顺序排列（因此它们不是根据请求排序的，顺序是用于表示排序集合的数据结构的特性）。 它们按照以下规则排序：
 
+1. 如果A和B是两个具有不同分数的元素，如果A.score是> B.score ，那么A> B。
+2. 如果A和B具有完全相同的分数，那么如果A字符串在字典上大于B字符串，则A> B. A和B字符串不能相等，因为有序集只有唯一元素。
 
+让我们从一个简单的例子开始，添加一些选定的黑客名称作为有序集合元素，其出生年份为“得分”。
+```
+> zadd hackers 1940 "Alan Kay"
+(integer) 1
+> zadd hackers 1957 "Sophie Wilson"
+(integer) 1
+> zadd hackers 1953 "Richard Stallman"
+(integer) 1
+> zadd hackers 1949 "Anita Borg"
+(integer) 1
+> zadd hackers 1965 "Yukihiro Matsumoto"
+(integer) 1
+> zadd hackers 1914 "Hedy Lamarr"
+(integer) 1
+> zadd hackers 1916 "Claude Shannon"
+(integer) 1
+> zadd hackers 1969 "Linus Torvalds"
+(integer) 1
+> zadd hackers 1912 "Alan Turing"
+(integer) 1
+```
+正如您所看到的，ZADD与SADD类似，但需要一个额外的参数（放在要添加的元素之前），这是分数。 ZADD也是可变参数，因此您可以自由指定多个得分-值对，即使在上面的示例中未使用它。
 
+对于排序集，返回按出生年份排序的黑客列表是微不足道的，因为实际上它们已经排序了。
 
+实现说明：排序集是通过包含跳过列表和散列表的双端口数据结构实现的，因此每次添加元素时，Redis都会执行O（log（N））操作。 这很好，但是当我们要求排序的元素时，Redis根本不需要做任何工作，它已经全部排序了：
 
+```
+> zrange hackers 0 -1
+1) "Alan Turing"
+2) "Hedy Lamarr"
+3) "Claude Shannon"
+4) "Alan Kay"
+5) "Anita Borg"
+6) "Richard Stallman"
+7) "Sophie Wilson"
+8) "Yukihiro Matsumoto"
+9) "Linus Torvalds"
+```
+注意：0和-1表示从元素索引0到最后一个元素（-1就像在LRANGE命令的情况下一样工作）。
 
+如果我想以相反的方式排序它们，最小到最老的怎么办？ 使用ZREVRANGE而不是ZRANGE：
+```
+> zrevrange hackers 0 -1
+1) "Linus Torvalds"
+2) "Yukihiro Matsumoto"
+3) "Sophie Wilson"
+4) "Richard Stallman"
+5) "Anita Borg"
+6) "Alan Kay"
+7) "Claude Shannon"
+8) "Hedy Lamarr"
+9) "Alan Turing"
+```
+使用WITHSCORES参数也可以返回分数：
+```
+> zrange hackers 0 -1 withscores
+1) "Alan Turing"
+2) "1912"
+3) "Hedy Lamarr"
+4) "1914"
+5) "Claude Shannon"
+6) "1916"
+7) "Alan Kay"
+8) "1940"
+9) "Anita Borg"
+10) "1949"
+11) "Richard Stallman"
+12) "1953"
+13) "Sophie Wilson"
+14) "1957"
+15) "Yukihiro Matsumoto"
+16) "1965"
+17) "Linus Torvalds"
+18) "1969"
+```
+## Range操作
+排序集比这更强大。 他们可以在范围内操作。 让我们得到所有出生到1950年的人。 我们使用ZRANGEBYSCORE命令来执行此操作：
+```
+> zrangebyscore hackers -inf 1950
+1) "Alan Turing"
+2) "Hedy Lamarr"
+3) "Claude Shannon"
+4) "Alan Kay"
+5) "Anita Borg"
+```
+我们要求Redis以负无穷大和1950之间的分数返回所有元素（包括两个极值）。
 
+也可以删除元素范围。 让我们从排序集中删除1940年到1960年间出生的所有黑客：
+```
+> zremrangebyscore hackers 1940 1960
+(integer) 4
+```
+ZREMRANGEBYSCORE可能不是最好的命令名，但它可能非常有用，并返回已删除元素的数量。
 
+为有序集元素定义的另一个非常有用的操作是get-rank操作。 可以询问有序元素集中元素的位置。
 
+```
+> zrank hackers "Anita Borg"
+(integer) 4
+```
+考虑到按降序排序的元素，ZREVRANK命令也可用于获得排名。
 
+# 词典分数
+使用Redis 2.8的最新版本，引入了一个新功能，允许按字典顺序获取范围，假设排序集中的元素都插入了相同的相同分数（元素与C memcmp函数进行比较，每个Redis实例都将使用相同的输出进行回复）。
 
+使用词典范围操作的主要命令是ZRANGEBYLEX，ZREVRANGEBYLEX，ZREMRANGEBYLEX和ZLEXCOUNT。
 
+例如，让我们再次添加我们的着名黑客列表，但这次使用所有元素的得分为零：
+```
+> zadd hackers 0 "Alan Kay" 0 "Sophie Wilson" 0 "Richard Stallman" 0
+  "Anita Borg" 0 "Yukihiro Matsumoto" 0 "Hedy Lamarr" 0 "Claude Shannon"
+  0 "Linus Torvalds" 0 "Alan Turing"
+```
+由于排序集排序规则，它们已经按字典顺序排序：
 
+```
+> zrange hackers 0 -1
+1) "Alan Kay"
+2) "Alan Turing"
+3) "Anita Borg"
+4) "Claude Shannon"
+5) "Hedy Lamarr"
+6) "Linus Torvalds"
+7) "Richard Stallman"
+8) "Sophie Wilson"
+9) "Yukihiro Matsumoto"
+```
+使用ZRANGEBYLEX我们可以要求词典范围：
+```
+> zrangebylex hackers [B [P
+1) "Claude Shannon"
+2) "Hedy Lamarr"
+3) "Linus Torvalds"
+```
+范围可以是包含的或排他的（取决于第一个字符），字符串无限和负无限分别用+和 - 字符串指定。 有关更多信息，请参阅文档。
 
+此功能很重要，因为它允许我们使用有序集作为通用索引。 例如，如果要通过128位无符号整数参数索引元素，则需要做的就是将元素添加到具有相同分数的排序集中（例如0），但使用由128组成的16字节前缀 big endian中的位数。 由于big endian中的数字按字典顺序排列（以原始字节顺序排列）实际上也是按数字顺序排序的，因此可以在128位空间中请求范围，并获取元素的值以丢弃前缀。
 
+如果您想在更严肃的演示环境中查看该功能，请查看Redis自动完成演示。
 
+[http://autocomplete.redis.io/](http://autocomplete.redis.io/)
 
+# 更新得分：排行榜
+在切换到下一个主题之前，关于排序集的最后一个注释。 排序集的分数可以随时更新。 只针对已经包含在已排序集合中的元素调用ZADD将使用O（log（N））时间复杂度更新其得分（和位置）。 因此，当有大量更新时，排序集合是合适的。
 
+由于这个特性，常见的用例是排行榜。 典型的应用程序是一个Facebook游戏，您可以将用户按高分排序，加上排名操作，以显示前N个用户以及排行榜中的用户排名（例如，“ 你是这里＃4932的最佳成绩“）。
 
+# 位图
+位图不是实际的数据类型，而是在String类型上定义的一组面向位的操作。 由于字符串是二进制安全blob，并且它们的最大长度为512 MB，因此它们适合设置232个不同的位。
 
+位操作分为两组：恒定时单位(single bit)操作，如将位设置为1或0，或获取其值，以及对位组进行操作，例如计算给定位范围内的设置位数 （例如，人口统计）。
+
+位图的最大优势之一是它们在存储信息时通常可以节省大量空间。 例如，在通过增量用户ID表示不同用户的系统中，可以使用仅512MB的存储器记住40亿用户的单个位信息（例如，知道用户是否想要接收新闻通讯）。
+
+使用SETBIT和GETBIT命令设置和检索位：
+
+```
+> setbit key 10 1
+(integer) 1
+> getbit key 10
+(integer) 1
+> getbit key 11
+(integer) 0
+```
+SETBIT命令的第一个参数是位号，第二个参数是将该位设置为1或0的值。如果寻址位超出当前字符串长度，命令会自动放大字符串。
+
+GETBIT只返回指定索引处的位值。 超出范围的位（寻址存储在目标密钥中的字符串长度之外的位）始终被认为是零。
+
+有三组命令在一组位上运行：
+1. BITOP在不同的字符串之间执行逐位操作。 提供的操作是AND，OR，XOR和NOT。
+2. BITCOUNT执行填充计数，报告设置为1的位数。
+3. BITPOS查找具有指定值0或1的第一个位。
+
+BITPOS和BITCOUNT都能够以字符串的字节范围运行，而不是在字符串的整个长度上运行。 以下是BITCOUNT调用的一个简单示例：
+```
+> setbit key 0 1
+(integer) 0
+> setbit key 100 1
+(integer) 0
+> bitcount key
+(integer) 2
+```
+位图的常见用例是：
+
+* 各种实时分析。
+* 存储与对象ID关联的节省空间但高性能的布尔信息。
+
+例如，想象一下您想知道网站用户每日访问的最长连续性。 您开始计算从零开始的天数，即您将网站公开的日期，并在每次用户访问网站时使用SETBIT设置一些。 作为位索引，您只需获取当前的unix时间，减去初始偏移量，然后除以3600 * 24。
+
+这种方式对于每个用户，您都有一个包含每天访问信息的小字符串。 使用BITCOUNT可以轻松获得给定用户访问网站的天数，同时只需几次BITPOS调用，或者只是获取和分析位图客户端，就可以轻松计算出最长的条纹。
+
+位图很容易分割成多个键，例如为了分片数据集，因为通常最好避免使用大键。 要在不同的key上拆分位图而不是将所有的位都设置为key，一个简单的策略就是每个key存储M位并获得带有 位号/M 的key名称和第N位用于在key内部用位寻址 - 位号MOD M.
+
+# HyperLogLogs
+HyperLogLog是用于计算唯一事物的概率数据结构（从技术上讲，这被称为估计集合的基数）。通常计算唯一项目需要使用与您想要计算的项目数量成比例的内存量，因为您需要记住过去已经看过的元素，以避免多次计算它们。然而，有一组算法可以交换内存以获得精确度：以标准错误的估计度量结束，在Redis实现的情况下小于1％。这种算法的神奇之处在于你不再需要使用与计数项目数量成比例的内存量，而是可以使用恒定的内存量！在最坏的情况下12k字节，或者如果您的HyperLogLog（我们从现在开始称它们为HLL）已经看到的元素非常少，则要少得多。
+
+Redis中的HLL虽然在技术上是一种不同的数据结构，但是被编码为Redis字符串，因此您可以调用GET来序列化HLL，并使用SET将其反序列化回服务器。
+
+从概念上讲，HLL API就像使用Sets来执行相同的任务一样。 您可以将每个观察到的元素SADD到一个集合中，并使用SCARD来检查集合中的元素数量，这是唯一的，因为SADD不会重新添加现有元素。
+
+虽然您没有真正将项添加到HLL中，因为数据结构只包含不包含实际元素的状态，所以API是相同的：
+
+* 每次看到新元素时，都会使用PFADD将其添加到计数中。
+* 每次要检索到目前为止使用PFADD添加的唯一元素的当前近似值时，都使用PFCOUNT。
+
+```
+> pfadd hll a b c d
+(integer) 1
+> pfcount hll
+(integer) 4
+```
+此数据结构的用例示例是计算用户每天在搜索表单中执行的唯一查询。
+
+Redis还能够执行HLL的联合，请查看完整文档以获取更多信息。
+
+# 其他值得注意的功能
+Redis API中还有其他重要的内容无法在本文档的上下文中进行探讨，但值得您关注：
+
+1. 可以递增地迭代大集合的key空间。
+2. 可以运行Lua脚本服务器端来改善延迟和带宽。
+3. Redis也是Pub-Sub服务器。
 
 
 # 接下来干什么
