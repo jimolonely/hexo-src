@@ -14,6 +14,8 @@ MULTI，EXEC，DISCARD和WATCH是Redis交易的基础。它们允许在一个步
 
 从版本2.2开始，Redis允许对上述两者进行额外保证，其形式为 **乐观锁定**，其方式与check and set（CAS）操作非常相似。这将在本页后面介绍。
 
+{% asset_img 000.png %}
+
 # 用法
 使用MULTI命令输入Redis事务。 该命令总是回复OK。 此时，用户可以发出多个命令。 Redis不会执行这些命令，而是将它们排队。 调用EXEC后执行所有命令。
 
