@@ -54,9 +54,9 @@ $<len><cr><lf>
 <argN><cr><lf>
 ```
 
-其中 ```<cr>``` 表示“\ r”（或ASCII字符13），```<lf>``` 表示“\ n”（或ASCII字符10）。
+其中 `<cr>` 表示“\ r”（或ASCII字符13），`<lf>` 表示“\ n”（或ASCII字符10）。
 
-例如，命令 ```SET key value``` 由以下协议表示：
+例如，命令 `SET key value` 由以下协议表示：
 
 ```
 *3<cr><lf>
