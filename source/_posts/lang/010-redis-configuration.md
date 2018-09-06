@@ -399,6 +399,126 @@ Redis主站能够以不同方式列出所连接从站的地址和端口。例如
 # slave-announce-ip 5.5.5.5
 # slave-announce-port 1234
 ```
+# 安全
+## requirepass
+访问redis-server的密码，最好很复杂，不然每秒150k的暴力破解很容易猜出来。
+```
+requirepass kdsjfkdsj
+```
+## rename-command
+对危险命令进行重命名，如果为"",则完全禁用此命令。
+```
+rename-command CONFIG ""
+```
+# Clients
+设置客户端最大连接数，默认10000，如果达到限制，报错：`'max number of clients reached'`
+```
+maxclients 10000
+```
+# 内存管理
+## maxmemory
+最大内存限制,单位字节。
+
+* 当达到限制，redis会根据maxmemory-policy(见下面)移除key
+* 如果无法移除，则对写命令报错，对读命令正常
+
+```
+maxmeory <bytes>
+```
+## maxmemory-policy
+当最大内存限制达到，如何清除keys：
+
+* volatile-lru - >移除近似LRU中的过期集。
+* allkeys-lru - >移除近似LRU中的任何键。
+* volatile-lfu - >移除近似LFU中的过期集。
+* allkeys-lfu - >移除近似LFU中的任何键。
+* volatile-random - >随机删除过期集合中的key。
+* allkeys-random - >随机删除任意key。
+* volatile-ttl - > 删除最近的达到TTL的key
+* noeviction - >不删除任何key，只报错。
+
+* LRU means Least Recently Used
+* LFU means Least Frequently Used
+
+包括的写命令：
+```
+    set setnx setex append
+    incr decr rpush lpush rpushx lpushx linsert lset rpoplpush sadd
+    sinter sinterstore sunion sunionstore sdiff sdiffstore zadd zincrby
+    zunionstore zinterstore hset hsetnx hmset hincrby incrby decrby
+    getset mset msetnx exec sort
+```
+# 懒删除
+redis删除key有2个命令：DEL和UNLINK，FLUSHALL，FLUSHDB
+
+* DEL是一个同步阻塞操作，如果key关联的值非常大，则会阻塞很长时间
+* UNLINK就是非阻塞的删除
+
+服务器自己删除key的场景：
+1. 内存爆了时
+2. 过期key
+3. 类型RENAME命令，SET，SUNIONSTORE会移除old keys
+4. 从站复制时会先删除再接收
+
+下面可以配置这些懒删除：
+```
+lazyfree-lazy-eviction no
+lazyfree-lazy-expire no
+lazyfree-lazy-server-del no
+slave-lazy-flush no
+```
+# 只读模式
+默认情况下，针对配置的save point，数据持久化可能会丢失数据。
+
+AOF是AppendOnly File的缩写，是Redis系统提供了一种记录Redis操作的持久化方案，在AOF生成的文件中，将忠实记录发生在Redis的操作，从而达到在Redis服务器重启或者当机之后，继续恢复之前数据状态的机制。
+
+## appendonly
+AOF和RDB可以同时启动。
+```
+appendonly no
+```
+## appendfilename
+追加的文件名，默认`appendonly.aof`
+```
+appendfilename "appendonly.aof"
+```
+## appendfsync
+fsync()是告诉操作系统将数据写入磁盘而不是buffer的确切操作。
+有下面3种模式，如果不确定，使用everysec
+
+* no: 不fsync
+* everysec: 默认，每秒一次
+* always： 每次写入都同步
+
+```
+appendfsync everysec
+```
+## no-appendfsync-on-rewrite
+如果开启AOF并且有很大延迟，则改为yes，但最好是no
+```
+no-appendfsync-on-rewrite no
+```
+## auto-aof-rewrite
+当达到配置的存储大小的百分比后，自动重写文件：
+```
+auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+```
+## aof-load-truncates
+当OS发生故障时AOF文件可能会截断，下面的配置：
+
+* 如果设为yes，则截断AOF只是发出事件通知给用户
+* 否则，服务器会报错而终止
+
+```
+aof-load-truncated yes
+```
+## aof-use-rdb-preamble
+如果为yes，则AOF文件会为`[RDB file][AOF tail]`.
+```
+aof-use-rdb-preamble no
+```
+
 
 
 
