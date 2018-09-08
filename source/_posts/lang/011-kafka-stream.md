@@ -271,7 +271,7 @@ stream.flatMapValues(value -> Arrays.asList(value.toLowerCase(Locale.getDefault(
         .groupBy((key, value) -> value)
         .count(Materialized.as("count"))
         .toStream()
-        .to("weizhangqing", Produced.with(Serdes.String(), Serdes.Long()));
+        .to("jimo", Produced.with(Serdes.String(), Serdes.Long()));
 ```
 
 ## 消费者
