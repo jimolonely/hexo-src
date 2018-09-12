@@ -39,6 +39,28 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
+# 一些常见问题
+## 单引号嵌套
+要在单引号里打印出单引号，比如`raise notice 'xxxx'`
+
+正确写法：
+```
+'''yes''' --> 'yes'
+```
+也就是不是用`/`转义，而是用单引号转义.
+
+## array_append
+追加数据需要返回数组，否则报错：
+```
+arr := array_append(arr, 'ele');
+```
+打印数组：
+```
+raise notice '%s',array_to_string(arr, ',');
+```
+
+
+
 # 参考
 
 
