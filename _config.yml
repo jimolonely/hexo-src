@@ -4,7 +4,7 @@
 
 # Site
 title: 在我的世界
-subtitle: 你是谁,你从哪里来,你活着为了什么?
+subtitle: 希望用20%的时间学会80%的知识，然后用20%的知识解决80%的问题
 description: who,where,what
 author: Jackpler
 language: zh-CN
@@ -43,7 +43,7 @@ future: true
 #   line_number: true
 #   auto_detect: true
 #   tab_replace:
-  
+
 prism_plugin:
   mode: 'realtime'    # realtime/preprocess
   theme: 'atom-dark'
@@ -58,7 +58,7 @@ index_generator:
   path: ''
   per_page: 20
   order_by: -date
-  
+
 # Category & Tag
 default_category: uncategorized
 category_map:
@@ -93,6 +93,3 @@ deploy:
 
 
 # google_analytics: UA-111673440-1
-
-
-
