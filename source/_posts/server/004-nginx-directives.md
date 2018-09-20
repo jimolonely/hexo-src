@@ -17,4 +17,125 @@ date: 2018-09-19 10:06:57
 # aio on | off | threads[=pool]
 ```
 默认：off
+上下文：http,server,location
+异步文件IO，针对FreeBSD和linux
 ```
+# alias path
+```
+context: location
+定义或替换指定路径
+
+location /i/ {
+    alias /data/w3/images/;
+}
+在请求 /i/top.gif时，会映射到 ：/data/w3/images/top.gif
+
+alias可以包含除了$document_root和$realpath_root的变量
+
+alias中可以使用正则，并且应该包含捕获
+location ~ ^/users/(.+\.(?:gif|jpe?g|png))$ {
+    alias /data/w3/images/$1;
+}
+```
+alias和root有什么区别？
+
+```
+location /images/ {
+    alias /data/w3/images/;
+}
+等价于：
+location /images/ {
+    root /data/w3;
+}
+```
+# client_body_buffer_size
+设置读取客户端请求正文的缓冲区大小。 如果请求主体大于缓冲区，则整个主体或仅其部分被写入临时文件。 默认情况下，缓冲区大小等于两个内存页。 x86和其他32位平台和x86-64为8k。 在其他64位平台上通常为16K。
+```
+client_body_buffer_size 8k | 16k;
+context: http,location,server
+```
+# client_header_buffer_size
+设置header的缓冲区大小，默认1k字节够用了，如果有些cookie很长，可以设大些。
+# client_max_body_size
+在header`Content-Length`中指定请求的body大小，超过1M会被返回`413(Request Entity Too Large)`,设置为0禁用这个检查，因为有些浏览器无法显示这个错误。
+# connection_pool_size
+每个连接的内存分配，对性能影响很小，应谨慎使用。默认32位是256字节，64位是512字节。
+# default_type
+```
+默认：default_type text/plain;
+
+mime-type有很多
+```
+# error_page
+```
+context: http,server,location
+
+例子：
+error_page 404 /404.html;
+error_page 500 502 504 /50x.html;
+
+动态改变响应码：
+error_page 404 =200 /empty.gif;
+
+转到指定location：
+location / {
+    error_page 404 = @fallback;
+}
+location @fallback {
+    proxy_pass http://backend;
+}
+
+重定向处理：
+error_page 403 http://example.html
+客户端会收到302.
+```
+# http
+运行于最外层的模块，里面指定server指令。
+# internal
+内部请求重定向，有条件限制，比如，error_page
+```
+error_page 404 /404.html;
+
+location = /404.html {
+    internal;
+}
+
+internal限制为10个，避免循环跳转。
+```
+# limit except
+limit except methods(GET, HEAD, POST, PUT, DELETE, MKCOL, COPY, MOVE, OPTIONS, PROPFIND, PROPPATCH, LOCK, UNLOCK, or PATCH).
+
+```
+#除了 GET（包括HEAD）方法，其他禁用
+limit except GET {
+    allow 192.168.1.0/32;
+    deny all;
+}
+```
+# limit_rate
+限制客户端每个链接的速率，默认为0，不限制。比如：
+```
+server {
+    if($slow){
+        set $limit_rate 4k;# 字节
+    }
+}
+```
+# limit_rate_after
+初始化时限制速度，后面不管，如下，开始时加载快点，后面慢慢来：
+```
+location /flv/ {
+    flv;
+    limit_rate_after 500k;
+    limit_rate 50k;
+}
+```
+# lingering_close
+控制nginx如何关闭链接：
+1. on: 默认，等待客户端发数据，但只是启发性建议发更多数据；
+2. always: 总是无条件的等待处理客户端数据；
+3. off: 从不等待并且立即关闭链接，这个行为打破了协议，正常不应该使用。
+# lingering_time
+在`lingering_close`的影响下处理（读取或忽视）数据的最长时间，默认30s.
+# lingering_timeout
+在`lingering_close`的影响下等待数据到来的最长时间，默认5s.
