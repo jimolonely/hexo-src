@@ -135,7 +135,55 @@ location /flv/ {
 1. on: 默认，等待客户端发数据，但只是启发性建议发更多数据；
 2. always: 总是无条件的等待处理客户端数据；
 3. off: 从不等待并且立即关闭链接，这个行为打破了协议，正常不应该使用。
+
 # lingering_time
 在`lingering_close`的影响下处理（读取或忽视）数据的最长时间，默认30s.
 # lingering_timeout
 在`lingering_close`的影响下等待数据到来的最长时间，默认5s.
+# listen
+```
+default: listen *.80 | *.8000
+context: server
+```
+//TODO
+# location
+```
+syntax: location [= | ~ | ~* | ^* ] uri {...}
+        location @name {...}
+context: server, location
+```
+解释：
+1. `~*`: 大小写不敏感
+2. `~`: 大小写敏感
+3. `^~`: 如果最长前缀有这个，则不检查正则；
+4. `=`: 精确匹配，如果不匹配，则停止搜索；
+
+## 匹配路径规则
+先检查前缀匹配，且记住最长前缀，然后检查正则匹配，正则按声明的先后顺序检查，只要找到第一个匹配的就停止，然后使用正则，如果没有找到正则匹配，则使用前面的最长前缀，否则就只有404了。
+## 例子
+```
+location = / {
+    A
+}
+location / {
+    B
+}
+location /doc/ {
+    C
+}
+location ^~ /img/ {
+    D
+}
+location ~* \.(gif|jpg|jpeg)$ {
+    E
+}
+```
+`/` ==> A
+
+`/index.html` ==> B
+
+`/doc/doc.html` ==> C
+
+`/img/1.gif` ==> D
+
+`/doc/1.jpg` ==> E
