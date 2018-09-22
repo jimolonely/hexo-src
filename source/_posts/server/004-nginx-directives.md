@@ -187,3 +187,66 @@ location ~* \.(gif|jpg|jpeg)$ {
 `/img/1.gif` ==> D
 
 `/doc/1.jpg` ==> E
+
+## 末尾加斜杠
+？？//TODO
+
+# merge_slashes
+是否合并斜杠，默认`on`:
+
+context: http,server
+```
+location /scripts/ {
+    xxx /one.php;
+}
+```
+# open_file_cache
+```
+open_file_cache off;
+open_file_cache max=N [inactive=time];
+
+缓存存什么：
+    1.open file描述符，大小和修改次数
+    2.目录存在的信息；
+    3.文件被查找的次数，如"file not found","no read permission"
+
+
+max: 缓存最大元素数量，LRU
+inactive： 最大时间从缓存移除
+```
+# root
+```
+root path;
+default: root html;
+context: http,server,location
+```
+如果一个URI必须被改变，则应该用alias命令。
+# server
+一个虚拟服务器的配置模块，`listen`指令描述监听的地址或端口并接收链接，`server_name`指令列出所有的服务器名称。
+详细见[nginx如何处理一个请求](https://nginx.org/en/docs/http/request_processing.html).
+
+# server_name
+设置一个server的名称。
+```
+server {
+    server_name example_name www.example.com
+}
+```
+`*`通配符可以用在开头或结尾表示省略的名字：
+```
+server {
+    server_name name *.example_name www.example.*
+}
+```
+同样可以用正则：
+```
+server {
+    server_name www.example.com ~^www\d+\.example\.com$
+}
+```
+## server_name的匹配顺序
+1. 明确的名称
+2. 最长的通配符名开头的名字
+3. 最长的通配符名结尾的名字
+4. 按定义的顺序出现的第一个正则匹配的名字
+
