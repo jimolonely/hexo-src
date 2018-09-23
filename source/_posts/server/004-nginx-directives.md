@@ -223,19 +223,19 @@ context: http,server,location
 如果一个URI必须被改变，则应该用alias命令。
 # server
 一个虚拟服务器的配置模块，`listen`指令描述监听的地址或端口并接收链接，`server_name`指令列出所有的服务器名称。
-详细见[nginx如何处理一个请求](https://nginx.org/en/docs/http/request_processing.html).
+详细见{% post_link server/005-how-nginx-handle-a-request nginx如何处理一个请求 %}.
 
 # server_name
-设置一个server的名称。
+设置一个server的名称,可以有多个，因为匹配的站点可以有多个，但`listen`只有一个。
 ```
 server {
-    server_name example_name www.example.com
+    server_name example.com www.example.com
 }
 ```
 `*`通配符可以用在开头或结尾表示省略的名字：
 ```
 server {
-    server_name name *.example_name www.example.*
+    server_name example.com *.example_name www.example.*
 }
 ```
 同样可以用正则：
@@ -249,4 +249,3 @@ server {
 2. 最长的通配符名开头的名字
 3. 最长的通配符名结尾的名字
 4. 按定义的顺序出现的第一个正则匹配的名字
-
