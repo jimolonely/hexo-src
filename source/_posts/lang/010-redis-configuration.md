@@ -71,7 +71,7 @@ protected-mode yes
 则redis只接受127.0.0.1 和 ::1的客户端。
 ## TCP backlog
 ```
-#默认值 511 
+#默认值 511
 tcp-backlog：511
 ```
 
@@ -309,7 +309,7 @@ repl-diskless-sync no
 ```
 repl-diskless-sync-delay 5
 ```
-## repl-ping-slave-period 
+## repl-ping-slave-period
 从站以预定义的间隔将PING发送到服务器。 可以使用repl_ping_slave_period选项更改此间隔。 默认值为10秒。
 ```
 repl-ping-slave-period 10
@@ -346,7 +346,7 @@ repl-disable-tcp-nodelay no
 ```
 repl-backlog-size 1mb
 ```
-## repl-backlog-ttl 
+## repl-backlog-ttl
 在主设备不再连接从设备一段时间后，将释放待办事项。 以下选项配置从上次从站断开连接开始需要经过的秒数，以释放待处理日志缓冲区。
 
 请注意，从站永远不会因为超时释放积压，因为它们可能会在以后升级为主站，并且应该能够与从站正确“部分重新同步”：因此它们应始终积累积压。
@@ -355,7 +355,7 @@ repl-backlog-size 1mb
 ```
 repl-backlog-ttl 3600
 ```
-## slave-priority 
+## slave-priority
 从属优先级一个整数。 如果主服务器不再正常工作，Redis Sentinel将使用它来选择要升级为主服务器的从服务器。
 
 具有 **低优先级编号的从站被认为更适合升级** ，因此例如如果有三个优先级为10,100的从站，则Sentinel将选择优先级为10的从站，即最低的。
@@ -518,8 +518,89 @@ aof-load-truncated yes
 ```
 aof-use-rdb-preamble no
 ```
+# LUA 脚本
+## lua-time-limit
+lua脚本执行的最长时间。
+```
+lua-time-limit 5000
+```
+# redis集群
+## cluster-enabled
+这是个实验功能，只有声明为cluster节点的的redis实例才能成为集群的一份子，如下：默认是没启用的：
+```
+# cluster-enabled yes
+```
+## cluster-config-file
+每个节点都有一个配置文件，但是不能手动更改，节点会自己更新管理这个文件，**保证同一个机器上的节点的配置文件名不重复。**
+```
+# cluster-config-file nodes-6379.conf
+```
+## cluster-node-timeout
+节点超时时间是一个节点无法响应的最大时限：他就被认为挂了
+```
+# cluster-node-timeout 15000
+```
 
+//TODO 其他参数
 
+# 集群docker/NAT支持
+redis的地址发现在docker等容器环境中会失败，为了支持docker等容器，可以采用以下配置：
+```
+cluster-announce-ip 10.1.1.5
+cluster-announce-port 6379
+cluster-announce-bus-port 6380
+```
+上面的意思就是把这个节点自己的ip和端口通知所有其他节点，让他们发现，这个总线端口就是用来收发消息的，如果不指定，将会采用节点端口偏移10000，比如上面为`6379+10000=16379`.
+# slow log
+执行时间：命令的执行时间不包括IO操作和与其他客户端通信的时间。
 
+一条命令的执行时间达到配置的最大时间后写一条日志：
+```
+# 10ms
+slowing-log-slower-than 10000
+```
+配置这个日志队列的最大长度：新的来了老的移除
+```
+slowing-max-len 128
+```
+# 延迟监视器
+为了收集redis实例延迟原因的数据。
 
+`LATENCY` 命令：打印图片和报告。
 
+下面的命令为0表示关闭监视，否则代表延迟的最大时间限制，达到了就写入操作日志，单位为毫秒：
+```
+latency-monitor-threshold 0
+```
+可以在运行时动态配置：
+```
+CONFIG SET latency-monitor-threshold <milliseconds>
+```
+# 事件通知
+redis可以通知Pub/Sub客户端发生的事件，在键空间。例如，一个DEL操作删除了存储子啊database 0的`foo`key,2条信息会通过Pub/Sub发送：
+```
+PUBLISH __keyspace@0__:foo del
+PUBLISH __keyevent@0__:del foo
+```
+通知分为很多类，每类用一个字符标识：
+```
+#  K     Keyspace events, published with __keyspace@<db>__ prefix.
+#  E     Keyevent events, published with __keyevent@<db>__ prefix.
+#  g     Generic commands (non-type specific) like DEL, EXPIRE, RENAME, ...
+#  $     String commands
+#  l     List commands
+#  s     Set commands
+#  h     Hash commands
+#  z     Sorted set commands
+#  x     Expired events (events generated every time a key expires)
+#  e     Evicted events (events generated when a key is evicted for maxmemory)
+#  A     Alias for g$lshzxe, so that the "AKE" string means all the events.
+```
+例如：只启用list和无类型命令的事件：
+```
+notify-keyspace-events Elg
+```
+默认空字符串，没开启任何事件：
+```
+notify-keyspace-events ""
+```
