@@ -16,7 +16,7 @@ js条件判断，看似简单，却暗藏玄机。
 
 在js中哪些是true，哪些是false呢？
 
-1.  ```object(arr,class等)``永远是```true\`
+1.  `object(arr,class等)永远是`true`
 2.  `undefiend` ==> `false`
 3.  `null` ==> `false`
 4.  Boolean条件
