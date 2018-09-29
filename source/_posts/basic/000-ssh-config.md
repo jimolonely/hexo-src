@@ -2,6 +2,7 @@
 title: ssh配置记录
 tags:
   - ssh
+  - basic
 p: basic/000-ssh-config
 date: 2018-09-14 17:07:43
 ---

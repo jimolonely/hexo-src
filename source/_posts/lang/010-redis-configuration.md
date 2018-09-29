@@ -605,3 +605,58 @@ notify-keyspace-events Elg
 notify-keyspace-events ""
 ```
 # 高级配置
+## hash-max
+hash会被在内存中进行编码来节约空间，下面限制最大的entry项数量阈值
+```
+hash-max-ziplist-entries 512
+hash-max-ziplist-value 64
+```
+## list-max
+list也会被编码来节约空间，下面的参数限制了每个内部的list节点可以被指定的最大entry数量或者最大大小。
+
+对于固定的最大大小，从-5到-1的含义：
+```
+# -5: max size: 64 Kb  <-- not recommended for normal workloads
+# -4: max size: 32 Kb  <-- not recommended
+# -3: max size: 16 Kb  <-- probably not recommended
+# -2: max size: 8 Kb   <-- good
+# -1: max size: 4 Kb   <-- good
+```
+正数代表每个list节点确切的元素个数。通常性能最好的就是-2或-1，但如果你的应用场景不同，也可以调节：
+```
+list-max-ziplist-size -2
+```
+## list-compress
+list也会被压缩，压缩的深度代表：list两端的不压缩节点个数，看下面就明白了：
+```
+# 0: 不压缩
+# 1: 只压缩除首尾外的中间节点
+#    如：[head]->node->node->...->node->[tail]
+#    [head], [tail] 不会压缩; 内部节点压缩
+# 2: [head]->[next]->node->node->...->node->[prev]->[tail]
+#    2 here means: don't compress head or head->next or tail->prev or tail,
+#    but compress all nodes between them.
+# 3: [head]->[next]->[next]->node->node->...->node->[prev]->[prev]->[tail]
+# 等等
+```
+默认是不压缩：
+```
+list-compress-depth 0
+```
+## set-max
+set只会在一种情况被编码：就是这个集合只有字符串组成，且这些字符串恰好都是64位的10进制整数。
+下面的配置代表：使用这种编码的集合最大元素个数为512.
+```
+set-max-intset-entries 512
+```
+## zset-max
+sorted set 也会编码来解决空间，只在数量低于下面的配置时才有用：
+```
+zset-max-ziplist-entries 128
+zset-max-ziplist-value 64
+```
+## hll-sparse-max-bytes
+HyperLogLog的稀疏表示限制，当超过下面的配置时就转为密集表示，大于16000是没必要的，因为这时候密集表示的效率已高于稀疏的，推荐用3000，如果CPU很厉害，只考虑空间，那么可以提高到10000。
+```
+hll-sparse-max-bytes 3000
+```
