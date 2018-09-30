@@ -68,7 +68,7 @@ public class DeadLockDemo {
 ```
 
 运行结果：
-![1](https://img-blog.csdn.net/20180929161848407?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppbW9fbG9uZWx5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+{% asset_img 1.png %}
 
 # 改正确
 ```java
@@ -127,4 +127,4 @@ public class DeadLockDemo {
 }
 ```
 结果：
-![2](https://img-blog.csdn.net/20180929162026913?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppbW9fbG9uZWx5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+{% asset_img 2.png %}
