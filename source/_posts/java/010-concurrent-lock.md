@@ -47,17 +47,18 @@ public class LockDemo {
 	private static class Printer {
 		private final Lock lock = new ReentrantLock();
 
-		public void print() {
+        public void print() {
 			lock.lock();
 			try {
 				final int duration = ThreadLocalRandom.current().nextInt(1000);
 				System.out.println(Thread.currentThread().getName() + ": 打印花费时间：" + duration + " ms");
+				Thread.sleep(duration);
+			} catch (InterruptedException e) {
 			} finally {
 				System.out.println(Thread.currentThread().getName() + ": 打印成功！");
 				lock.unlock();
 			}
 		}
-	}
 
 	private static class Task extends Thread {
 		private Printer printer;
@@ -86,16 +87,47 @@ public class LockDemo {
 ```
 结果：
 ```java
-task 1: 开始打印...
 task 2: 开始打印...
+task 1: 开始打印...
 task 3: 开始打印...
-task 1: 打印花费时间：167 ms
-task 1: 打印成功！
 task 4: 开始打印...
-task 2: 打印花费时间：873 ms
+task 2: 打印花费时间：641 ms
 task 2: 打印成功！
-task 3: 打印花费时间：452 ms
+task 1: 打印花费时间：662 ms
+task 1: 打印成功！
+task 3: 打印花费时间：590 ms
 task 3: 打印成功！
-task 4: 打印花费时间：726 ms
+task 4: 打印花费时间：481 ms
 task 4: 打印成功！
+```
+
+假如没有锁，代码这样写：
+```java
+/**
+ * 没有锁时
+ */
+public void print() {
+	try {
+		final int duration = ThreadLocalRandom.current().nextInt(1000);
+		System.out.println(Thread.currentThread().getName() + ": 打印花费时间：" + duration + " ms");
+		Thread.sleep(duration);
+		System.out.println(Thread.currentThread().getName() + ": 打印成功！");
+	} catch (InterruptedException e) {
+	}
+}
+```
+则得到的结果将不是顺序的：
+```java
+task 2: 开始打印...
+task 1: 开始打印...
+task 3: 开始打印...
+task 4: 开始打印...
+task 2: 打印花费时间：58 ms
+task 1: 打印花费时间：38 ms
+task 4: 打印花费时间：532 ms
+task 3: 打印花费时间：849 ms
+task 1: 打印成功！
+task 2: 打印成功！
+task 4: 打印成功！
+task 3: 打印成功！
 ```
