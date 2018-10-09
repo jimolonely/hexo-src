@@ -1,5 +1,5 @@
 ---
-title: j
+title: java并发-Lock
 tags:
   - java
 p: java/010-concurrent-lock

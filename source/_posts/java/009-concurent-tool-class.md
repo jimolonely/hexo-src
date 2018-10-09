@@ -8,6 +8,7 @@ date: 2018-10-01 21:46:42
 
 # ThreadLocal
 看代码
+
 ```java
 import java.util.Random;
 
