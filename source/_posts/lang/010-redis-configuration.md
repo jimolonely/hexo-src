@@ -660,3 +660,30 @@ HyperLogLog的稀疏表示限制，当超过下面的配置时就转为密集表
 ```
 hll-sparse-max-bytes 3000
 ```
+## activerehashing
+
+## client-output-buffer-limit
+
+## client-query-buffer-limit
+
+## proto-max-bulk-len
+批量请求的单个string的长度限制在512MB，下面可以配置：
+```
+proto-max-bulk-len 512mb
+```
+## hz
+redis有许多后台任务，比如关闭超时连接，删除过时key等。
+
+并不是所有任务执行的频率都一样，但redis会根据hz的值来表现。
+
+默认hz为10，提高hz会使CPU更活跃，响应更快，超时判断更精确。
+
+hz范围为1-500，一般不会超过100。
+```
+hz 10
+```
+## aof-rewrite-incremental-fsync
+如果为yes，则AOF文件每生成32MB，就同步到磁盘，避免大的延迟飙升。
+```
+aof-rewrite-incremental-fsync yes
+```
