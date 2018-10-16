@@ -253,5 +253,84 @@ public class NetworkService implements Runnable {
 	}
 }
 ```
+## 子接口ScheduledThreadPoolExecutor
+从名字可以看出此接口是和定时调度有关，确实，可以延迟和定期执行。
+下面是接口，很简单：
+```java
+public interface ScheduledExecutorService extends ExecutorService {
+
+    public ScheduledFuture<?> schedule(Runnable command,
+                                   long delay, TimeUnit unit);
+
+    public <V> ScheduledFuture<V> schedule(Callable<V> callable,
+                                          long delay, TimeUnit unit);  
+
+    public ScheduledFuture<?> scheduleAtFixedRate(Runnable command,
+                                                long initialDelay,
+                                                long period,
+                                                TimeUnit unit);
+
+    public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command,
+                                                     long initialDelay,
+                                                     long delay,
+                                                     TimeUnit unit);
+}
+```
+下面的例子会说明区别和用法：
+```java
+public class ScheduledExecutorDemo {
+
+	public static void main(String[] args) {
+		System.out.println("now: " + new Date());
+		final ScheduledExecutorService pool = Executors.newScheduledThreadPool(3);
+
+		// 一次性任务，隔3秒执行
+		pool.schedule(new DateTask("task1"), 3, TimeUnit.SECONDS);
+
+		// 周期性：2+3*n秒执行，不会管任务是否执行完
+		pool.scheduleAtFixedRate(new DateTask("task2"), 2, 3, TimeUnit.SECONDS);
+
+		// 周期性: 2+3*n,上一次执行完到下一次开始之间等待3秒
+		final ScheduledFuture<?> task3 =
+				pool.scheduleWithFixedDelay(new DateTask("task3"), 2, 3, TimeUnit.SECONDS);
+
+		// 在10秒后关闭
+		pool.schedule(() -> {
+			task3.cancel(true);
+			pool.shutdown();
+		}, 10, TimeUnit.SECONDS);
+	}
+
+	private static class DateTask implements Runnable {
+
+		private String name;
+
+		DateTask(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public void run() {
+			System.out.println(name + ": " + new Date());
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+			}
+		}
+	}
+}
+```
+结果可以看出task3会逐渐比task2慢1，2，3...秒.
+```java
+now: Tue Oct 16 14:31:38 CST 2018
+task2: Tue Oct 16 14:31:40 CST 2018
+task3: Tue Oct 16 14:31:40 CST 2018
+task1: Tue Oct 16 14:31:41 CST 2018
+task2: Tue Oct 16 14:31:43 CST 2018
+task3: Tue Oct 16 14:31:44 CST 2018
+task2: Tue Oct 16 14:31:46 CST 2018
+task3: Tue Oct 16 14:31:48 CST 2018
+```
+
 # 总结
 参考：[文档](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html)
