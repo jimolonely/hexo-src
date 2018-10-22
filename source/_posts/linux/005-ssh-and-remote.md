@@ -24,9 +24,14 @@ $ rdesktop -u xxx ip:port -p xxxx -r sound:local -r disk:Jimo=/home/jimo/xxx
 ```shell
 $ ssh username@ip
 ```
+### 2.1上传文件
 通过ssh传文件到远程linux服务器:
-```shell
+```java
 $ scp localfile username@ip:/remote_path
 # 例如
 $ scp apache8.0.tar root@119.1.1.1:/root/webapp
+```
+### 2.2下载文件
+```java
+scp username@host:/remote_path/filename ~/local_destination
 ```
