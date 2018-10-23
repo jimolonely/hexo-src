@@ -41,3 +41,29 @@ function f(){
 ```
 ## 2.2 那些严格的限制
 1. 不能声明eval或arguments的变量
+2. 不能删除未定义变量：`"use strict"; delete a;
+VM786:1 Uncaught SyntaxError: Delete of an unqualified identifier in strict mode.`
+
+# 数据类型
+```java
+Number(true)
+1
+Number(false)
+0
+
+```
+
+# 其他
+## 为何null==undefined?
+因为undefined派生自null。
+## 那些true/false
+{% asset_img 000.png %}
+
+```java
+// not applicable (不适用)
+Boolean('n/a')
+true
+
+NaN==NaN
+false
+```
