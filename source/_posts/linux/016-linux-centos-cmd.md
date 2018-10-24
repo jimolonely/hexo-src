@@ -37,3 +37,10 @@ public (active)
   icmp-blocks:
   rich rules:
 ```
+# 系统相关
+## 查看运行进程
+```java
+# ps -aux
+
+# ps -aux | grep "java -jar"
+```
