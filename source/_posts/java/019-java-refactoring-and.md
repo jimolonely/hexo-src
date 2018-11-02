@@ -745,8 +745,6 @@ public class AssetMapperTest {
 
 而使用开发数据库来测是不稳定的，所以最好的办法就是有一套测试的数据库，内置一些数据来测试。
 
-//TODO 讨论下更好的方法？
-
 //TODO hbase, ES 等的数据构造
 
 ## Service层
