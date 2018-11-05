@@ -53,6 +53,105 @@ Number(false)
 
 ```
 
+# 内存
+## 引用类型
+值类型：基本类型
+
+引用类型：对象
+
+参数传递：值传递
+
+typeof 与 instanceof
+
+常用引用类型：
+### Object
+`var person = new Object() or var person = {}`
+
+### Array
+`var arrs = new Array() or var arr = [];`
+
+```html  
+var color = ["black"];
+color[99] = "red";
+console.log(color.length) == 100
+```
+检测数组：
+```html
+Array.isArray(value)
+```
+转换为字符串：
+`toString() 和 toLocalString() `,后者调用数组元素的方法。
+
+Array可以当栈用：`push() pop()`
+
+也可以当队列用：`push() shift() or unshift() pop()`
+
+重排序：`sort(compare_func) or reverse()`
+
+数组切分、连接
+`slice(begin,end), concat(arr)`
+
+强大的删除、插入、替换方法：splice(...)
+
+位置方法
+`indexOf() , lastIndexOf()`
+
+迭代方法
+`every(func), filter(), forEach(), map(), some()`
+
+缩小方法：`reduce(prev,curr,index,array)`
+
+### Date对象
+
+```html
+new Date(Date.parse("2018-10-01"))
+Mon Oct 01 2018 08:00:00 GMT+0800 (中国标准时间)
+
+// 区别：月份、小时从0开始
+new Date(Date.UTC(2018,10,1))
+Thu Nov 01 2018 08:00:00 GMT+0800 (中国标准时间)
+```
+
+### RegExp对象
+`var exp = / pattern / flags(i,g,m)`
+
+### Function类型
+实际上是对象类型。
+
+没有重载
+
+
+
+
+## 变量没有块级作用域
+只有执行环境，没有var声明的变量成为全局变量。
+
+有以下环境：
+1. 函数环境
+2. 全局环境（window）
+
+```html
+function bu(){
+	var url = "jiko";
+	with(url){
+		var kk = url+"11";
+	}
+	function b2(){
+		var cc = 1;
+	}
+	console.log(cc);
+	return kk;
+}
+// Uncaught ReferenceError: cc is not defined
+```
+
+
+## 垃圾回收
+1. 引用计数（废弃）
+2. 标记清除
+
+
+
 # 其他
 ## 为何null==undefined?
 因为undefined派生自null。
