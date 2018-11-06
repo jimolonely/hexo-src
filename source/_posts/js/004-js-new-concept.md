@@ -150,6 +150,168 @@ function bu(){
 1. 引用计数（废弃）
 2. 标记清除
 
+# OOP
+[https://jsfiddle.net/](https://jsfiddle.net/)
+## ECMA5
+
+ECMA5没有类的概念，类只是属性和函数的集合。
+
+### 属性
+
+[关于枚举属性](https://segmentfault.com/a/1190000007908692)
+
+#### 属性类型：
+1. configurable：删除属性重定义 or 修改属性配置
+2. enumerable：for-in循环返回属性
+3. writable：可修改**值**
+4. value：默认undefined
+
+例子：
+```javascript
+"use strict";
+
+var person = {};
+Object.defineProperty(person,"name",{
+		configuration: false,
+    value: "jimo",
+    enumerable: false,
+    writable: false
+});
+console.log(person);
+
+// 修改值
+person.name = "hehe";
+console.log(person);
+
+// 修改配置
+Object.defineProperty(person,"name",{
+		configuration: true,
+    value: "tudou",
+    enumerable: false,
+    writable: false
+});
+console.log(person);
+
+// 遍历属性
+for(var p in person){
+	console.log(p);
+}
+```
+注意：在严格模式下的区别
+
+#### 访问器属性：
+1. configuration：修改，重定义
+2. enumerable：遍历属性
+3. get：读取时调用，默认undefined
+4. set：写入时调用，默认undefined
+
+例子：
+```javascript
+/* "use strict"; */
+
+var person = {
+   _name: "jimo"
+};
+console.log(person._name);
+
+Object.defineProperty(person,"name",{
+       configuration: true,
+   //enumerable: false,
+   get: function(){
+       console.log("调用getter");
+       return  this._name;
+   },
+   set: function(newName){
+     console.log("调用setter");
+     this._name = newName;
+   }
+});
+console.log(person);
+
+// 只定义了get或set
+person.name = "hehe";
+console.log(person.name);
+
+// 修改配置
+Object.defineProperty(person,"name",{
+       configuration: true,
+   value: "tudou",
+});
+console.log(person);
+
+// 遍历属性
+for(var p in person){
+	console.log(p);
+}
+```
+
+注意：
+1. 可以只定义getter或setter其中一个
+2. 支持这个方法：IE9+
+3. value/writeable和get/set不能一起定义：`(index):37 Uncaught TypeError: Invalid property descriptor. Cannot both specify accessors and a value or writable attribute, #<Object>`
+4. `_name`只是一种共识，不是强制的规定
+
+#### 定义多个属性
+
+```javascript
+/* "use strict"; */
+
+var person = {};
+
+Object.defineProperties(person, {
+   _name: {
+   value: "jimo"
+ },
+ age: {
+   value: 100
+ },
+ name: {
+   get: function(){
+       return this._name
+   }
+ }
+});
+console.log(person);
+console.log(person.name);
+```
+
+#### 读取属性
+
+```js
+var person = {};
+
+Object.defineProperties(person, {
+   _name: {
+   value: "jimo"
+ },
+ age: {
+   value: 100
+ },
+ name: {
+   get: function(){
+       return this._name
+   }
+ }
+});
+
+// 单个
+var desc = Object.getOwnPropertyDescriptor(person, "_name");
+console.log(desc);
+
+// 多个
+var descs = Object.getOwnPropertyDescriptors(person);
+console.log(descs);
+// or 包括可枚举和不可枚举的
+Object.getOwnPropertyNames(person).forEach(function(key){
+    console.log(key,person[key]);
+});
+
+// 可以枚举的
+for(var p in person){
+	console.log(p);
+}
+```
+
 
 
 # 其他
