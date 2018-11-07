@@ -313,6 +313,10 @@ for(var p in person){
 ```
 
 
+一个原型链搜索的例子：
+//TODO
+
+
 
 # 其他
 ## 为何null==undefined?
