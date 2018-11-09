@@ -317,6 +317,91 @@ for(var p in person){
 //TODO
 
 
+## ES6
+
+http://es6-features.org/#ClassDefinition
+https://es6.ruanyifeng.com/#docs/class
+
+
+# 函数表达式
+
+什么是this：是**运行时**对象基于执行环境绑定的，注意是运行时，也就是说可以动态改变this。
+
+```js
+"use strict";
+
+/* var tag = "window-age"; */
+
+var object = {
+	tag: "jimo",
+  getFunc:function(){
+  	var tag = "hehe";
+  	return function(){
+    	return tag;
+    }
+  }
+}
+```
+
+## 模仿块级作用域
+```js
+"use strict";
+
+function output(count){
+	(function(){
+  	for(var i=0;i<count;i++){
+    	console.log(i);
+    }
+  })();
+
+  // error
+  console.log(i);
+}
+
+output(3);
+```
+等价于：
+```js
+"use strict";
+
+function output(count){
+	var func = function(){
+  	for(var i=0;i<count;i++){
+    	console.log(i);
+    }
+  };
+  func();
+  // error
+  console.log(i);
+}
+
+output(3);
+```
+
+这种匿名闭包的好处：
+1. 大型多人开发中避免命名冲突，不会搞乱全局作用域；
+2. 减少内存占用，因为运行完会被立即回收；
+
+## 私有变量
+```js
+"use strict";
+
+
+function Person(){
+	function getAge(){
+  	return 100;
+  }
+	this.getName = function(){
+  	return "jimo";
+  }
+}
+
+var p = new Person();
+console.log(p.getName());
+
+Person.getName();
+```
+
 
 # 其他
 ## 为何null==undefined?
