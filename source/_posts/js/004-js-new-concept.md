@@ -152,6 +152,9 @@ function bu(){
 
 # OOP
 [https://jsfiddle.net/](https://jsfiddle.net/)
+
+https://playcode.io/150941?tabs=console&script.js&output
+
 ## ECMA5
 
 ECMA5没有类的概念，类只是属性和函数的集合。
@@ -252,7 +255,7 @@ for(var p in person){
 4. `_name`只是一种共识，不是强制的规定
 
 #### 定义多个属性
-
+上面都是对一个属性单独的定义，下面可以一次定义多个：
 ```javascript
 /* "use strict"; */
 
@@ -311,6 +314,332 @@ for(var p in person){
 	console.log(p);
 }
 ```
+### 创建对象
+接下来的方式多种多样，原因在于解决原始创建方式的一些弊端：
+1. 创建的繁琐，重复性；
+2. 会产生重复代码，不可重用；
+
+根本原因：程序员的洁癖特征。
+
+#### 工厂模式
+```js
+function createPerson(name,age,job){
+	var o = new Object();
+  o.name = name;
+  o.age = age;
+  o.job = job;
+  o.sayName = function(){
+  	console.log(this.name);
+  };
+  return o;
+}
+
+var person1 = createPerson("jimo",100,"teacher");
+var person2 = createPerson("hehe",99,"doctor");
+
+person1.sayName();
+person2.sayName();
+```
+解决的问题：相似对象的多次创建；
+
+存在的问题：对象识别问题（如何知道一个对象的类型）
+
+#### 构造函数模式
+```js
+function Person(name,age,job){
+	this.name = name;
+  this.age = age;
+  this.job = job;
+	this.sayName = function(){
+  	console.log(this.name);
+  };
+}
+
+var person1 = new Person("jimo",100,"teacher");
+var person2 = new Person("hehe",99,"doctor");
+
+person1.sayName();
+person2.sayName();
+
+// 构造函数属性
+console.log(person1.constructor == Person);
+console.log(person2.constructor == Person);
+
+// 判断类型
+console.log(person1 instanceof Object);
+console.log(person1 instanceof Person);
+```
+为什么上面的代码成立？ 因为函数也是对象，function也是Object，所以可以new出来。
+
+也可以直接调用：
+```js
+// 直接当函数调用
+Person("kaka",101,"loser");
+window.sayName();
+Person.call(window,"lala",11,"Nurse");
+window.sayName();
+
+// 在另一个作用域内调用
+var o = new Object();
+Person.call(o,"xixi",11,"Nurse");
+o.sayName();
+```
+解决的问题：对象识别
+
+存在的问题：函数`sayName()`每次都被重新创建，本可以共享的，如下：
+
+```js
+function Person(name,age,job){
+	this.name = name;
+  this.age = age;
+  this.job = job;
+	this.sayName = new Function("console.log(this.name)");
+}
+```
+可以移到外面：
+```js
+function Person(name,age,job){
+	this.name = name;
+  this.age = age;
+  this.job = job;
+	this.sayName = sayName;
+}
+
+function sayName(){
+  console.log(this.name);
+}
+```
+但这样破坏了**封装性**.
+
+#### 原型模式
+```js
+function Person(){}
+
+Person.prototype.name = "jimo";
+Person.prototype.age = 100;
+Person.prototype.job = "teacher";
+Person.prototype.sayName = function(){
+  console.log(this.name);
+}
+
+var p1 = new Person();
+p1.sayName();
+
+var p2 = new Person();
+p2.sayName();
+
+console.log(p1.sayName === p2.sayName);
+```
+##### 如何理解原型对象
+
+![](./004-js-new-concept/001.png)
+
+```js
+// 判断原型对象
+console.log(Person.prototype.isPrototypeOf(p1));
+console.log(Person.prototype.isPrototypeOf(p2));
+console.log(Object.getPrototypeOf(p1) === Person.prototype);
+console.log(Object.getPrototypeOf(p1).name);
+```
+修改属性的值：
+```js
+p1.name = "hehe";
+p1.sayName();
+p2.sayName();
+
+// 证明这个值是p1实例的
+delete p1.name;
+p1.sayName();
+```
+##### 理解原型链
+```js
+function Person(){}
+
+Person.prototype.name = "jimo";
+Person.prototype.age = 100;
+Person.prototype.job = "teacher";
+Person.prototype.sayName = function(){
+  console.log(this.name);
+}
+
+var p1 = new Person();
+p1.sayName();
+
+var p2 = new Person();
+p2.sayName();
+
+console.log(p1.hasOwnProperty("name"));
+p1.name = "hehe";
+console.log(p1.hasOwnProperty("name"));
+
+console.log(p2.hasOwnProperty("name"));
+
+delete p1.name;
+console.log(p1.hasOwnProperty("name"));
+```
+![](./004-js-new-concept/002.png)
+
+##### in操作符
+不管name属性是在哪，只要有就返回true
+```js
+console.log("name" in p1);
+```
+
+// TODO 访问属性
+
+##### 更简单的原型语法
+上面每次输入Person.prototype太麻烦，可以简化：
+```js
+function Person(){}
+
+Person.prototype = {
+  name: "jimo",
+  age: 100,
+  job: "teacher",
+  sayName: function(){
+    console.log(this.name);
+  }
+}
+
+var p1 = new Person();
+p1.sayName();
+
+// 注意，这样的constructor指向变了：
+console.log(p1.constructor == Person);
+console.log(p1.constructor == Object);
+```
+于是继续修改：
+```js
+function Person(){}
+
+// 显示设置constructor的值
+Person.prototype = {
+  constructor: Person,
+  name: "jimo",
+  age: 100,
+  job: "teacher",
+  sayName: function(){
+    console.log(this.name);
+  }
+}
+
+var p1 = new Person();
+p1.sayName();
+
+console.log(p1.constructor == Person);
+
+// 但这样会导致constructor属性的enumerable为true，所以再改改：
+Object.defineProperty(Person.prototype,"constructor",{
+  enumerable: false,
+  value: Person
+});
+```
+##### 动态性
+```js
+// 新增方法
+Person.prototype.sayHi = function(){
+  console.log("hi");
+}
+p1.sayHi();
+
+// 但是，如果重新定义就会出问题
+Person.prototype = {
+  constructor: Person,
+  name: "jimo",
+  age: 100,
+  job: "teacher",
+  sayName: function(){
+    console.log(this.name);
+  },
+  sayYes: function(){
+    console.log("yes");
+  }
+}
+p1.sayYes();
+```
+为什么？
+
+![](./004-js-new-concept/003.png)
+
+##### 原生对象的原型
+现在，我们可以理解原生对象的原型了，并且可以重写他们：
+```js
+console.log(typeof Array.prototype.sort);
+console.log(typeof String.prototype.substring)
+
+// 新增方法
+String.prototype.startsWith = function(text){
+  return this.indexOf(text) === 0;
+};
+
+console.log("jimo haha".startsWith("jimo"));
+```
+##### 该出问题了
+原型对象的问题很容易理解，对于引用对象也成为共享的：
+```js
+function Person(){}
+
+Person.prototype = {
+  constructor: Person,
+  name: "jimo",
+  age: 100,
+  job: "teacher",
+  friends: ["kaka","xixi"],
+  sayName: function(){
+    console.log(this.name);
+  }
+}
+
+var p1 = new Person();
+console.log(p1.friends)
+p1.friends.push("nani");
+console.log(p1.friends)
+
+var p2 = new Person();
+console.log(p2.friends);
+
+console.log(p1.friends === p2.friends);
+```
+#### 构造模式+原型模式
+注意他们解决的问题：
+1. 构造模式：每个对象相互隔离
+2. 原型模式：每个对象相互共享
+
+我们的目标：属性隔离，方法共享！！！
+
+很容易想到：
+```js
+// 构造属性
+function Person(name,age,job){
+  this.name = name;
+  this.age = age;
+  this.job = job;
+  this.friends = ["kaka","hehe"];
+}
+// 共享函数
+Person.prototype = {
+  constructor: Person,
+  sayName: function(){
+    console.log(this.name);
+  }
+}
+
+var p1 = new Person("jimo",100,"teacher");
+var p2 = new Person("lili",19,"doctor");
+
+p1.friends.push("vakin");
+console.log(p1.friends);
+console.log(p2.friends);
+
+console.log(p1.sayName === p2.sayName);
+```
+
+用处：定义引用类型。
+
+但还没完，程序员的折腾永不停止。。。
+
+#### 动态原型模式
+
 
 
 一个原型链搜索的例子：
