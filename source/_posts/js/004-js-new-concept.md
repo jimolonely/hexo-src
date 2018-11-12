@@ -432,7 +432,7 @@ console.log(p1.sayName === p2.sayName);
 ```
 ##### 如何理解原型对象
 
-![](./004-js-new-concept/001.png)
+{% asset_img 001.png %}
 
 ```js
 // 判断原型对象
@@ -477,7 +477,7 @@ console.log(p2.hasOwnProperty("name"));
 delete p1.name;
 console.log(p1.hasOwnProperty("name"));
 ```
-![](./004-js-new-concept/002.png)
+{% asset_img 002.png %}
 
 ##### in操作符
 不管name属性是在哪，只要有就返回true
@@ -559,7 +559,7 @@ p1.sayYes();
 ```
 为什么？
 
-![](./004-js-new-concept/003.png)
+{% asset_img 003.png %}
 
 ##### 原生对象的原型
 现在，我们可以理解原生对象的原型了，并且可以重写他们：
@@ -746,7 +746,7 @@ console.log(instance.getSuperValue());
 console.log(instance.getSubValue());
 ```
 
-![](./004-js-new-concept/004.png)
+{% asset_img 004.png %}
 
 搜索机制：从低到高，从子到父。
 
@@ -754,7 +754,7 @@ console.log(instance.getSubValue());
 
 ##### 默认原型
 
-![](./004-js-new-concept/005.png)
+{% asset_img 005.png %}
 
 ##### 原型链的问题
 依然是引用类型的问题：
@@ -909,7 +909,7 @@ p1.sayHi();
 #### 寄生组合式继承
 源于组合式的那点小问题，如下图：
 
-![](./004-js-new-concept/006.png)
+{% asset_img 006.png %}
 
 ```js
 function inheritPrototype(sub,superType){
@@ -1161,8 +1161,6 @@ b.printName();
 
 new Animal();
 ```
-
-![](./004-js-new-concept/00.png)
 
 # 函数表达式
 
