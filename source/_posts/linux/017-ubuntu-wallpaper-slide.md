@@ -11,7 +11,6 @@ date: 2018-11-27 07:48:55
 
 使用自带工具Shotwell即可。
 
-选中所有图片--》文件---》set as desktop slideshow.
+选中所有图片---》文件---》set as desktop slideshow.
 
 [4种方法设置](http://ubuntuhandbook.org/index.php/2018/07/4-wallpaper-changer-ubuntu-18-04/)
-
