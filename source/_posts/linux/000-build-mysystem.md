@@ -158,7 +158,7 @@ sudo apt-get install indicator-sysmonitor
 
 ## screen shot
 ```
-Ctrl+Alt+A: gnome-screenshot -ai
+Ctrl+Alt+A: gnome-screenshot -ac
 ```
 
 ## Ubuntu 18.x的右键问题
