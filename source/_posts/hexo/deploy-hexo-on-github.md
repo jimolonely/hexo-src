@@ -85,6 +85,8 @@ ok.
 
 看官方文档:[https://hexo.io/docs/asset-folders.html](https://hexo.io/docs/asset-folders.html)
 
+如何限制图片大小：https://yoheikoga.github.io/2016/04/05/How-to-put-pictures-and-change-sizes-on-your-Hexo-Blog/
+
 ## 如何链接站点内文章
 ```
 {% post_link markdown-learning-by-maxiang 点击这里查看这篇文章 %}
