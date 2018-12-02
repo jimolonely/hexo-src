@@ -17,11 +17,11 @@ date: 2018-11-13 08:00:01
 
 1. 一个类的方法依赖另一个类的方法
 
-![](./021-mock-test/000.png)
+{% asset_img 000.png%}
 
 2. 同一个类的方法间依赖
 
-![](./021-mock-test/001.png)
+{% asset_img 001.png%}
 
 ```java
 public class A {
