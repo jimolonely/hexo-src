@@ -160,6 +160,13 @@ sudo apt-get install indicator-sysmonitor
 ```
 Ctrl+Alt+A: gnome-screenshot -ac
 ```
+不过，我更喜欢flameshot：和qq/微信截图一样方便
+```shell
+sudo apt install flameshot
+
+flameshot gui
+```
+
 
 ## Ubuntu 18.x的右键问题
 现在2指单击代表右键，3指单击代表中间键。
