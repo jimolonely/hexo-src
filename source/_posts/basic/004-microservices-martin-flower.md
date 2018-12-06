@@ -200,4 +200,17 @@ JVM作为一个平台的发展只是在一个通用平台中混合语言的最�
 
 这些标准与企业界的许多标准不同，它们通常由最近没有编程经验或受供应商过度影响的团体开发。
 
+## 做正确的事情很容易
+我们发现由于持续交付和部署而增加自动化的一个副作用是创建有用的工具来帮助开发人员和操作人员。 用于创建人工制品，管理代码库，提供简单服务或添加标准监视和日志记录的工具现在非常普遍。 网上最好的例子可能是[Netflix的开源工具集](http://netflix.github.io/)，但还有其他一些，包括我们广泛使用的[Dropwizard](http://dropwizard.codahale.com/)。
+
+## 断路器和生产就绪代码
+[断路器](https://martinfowler.com/bliki/CircuitBreaker.html)出现在 [Release It](https://www.amazon.com/gp/product/B00A32NXZO?ie=UTF8&tag=martinfowlerc-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=B00A32NXZO) 中，以及其他模式，如Bulkhead和Timeout。 这些模式一起实施，在构建通信应用程序时至关重要。 这篇[Netflix博客文章](http://techblog.netflix.com/2012/02/fault-tolerance-in-high-volume.html)很好地解释了它们的应用。
+
+## 同步调用被认为是有害的
+每当您在服务之间进行多次同步调用时，您将遇到停机的乘法效应。 简而言之，这就是系统停机时间成为各个组件停机时间的产物。 您面临一个选择，使您的呼叫异步或管理停机时间。 在www.guardian.co.uk，他们在新平台上实施了一个简单的规则 - 每个用户请求一个同步调用，而在Netflix，他们的平台API重新设计已经在API结构中构建了异步性。
+
+
+
+
+
 
