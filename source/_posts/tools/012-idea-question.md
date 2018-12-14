@@ -38,3 +38,26 @@ date: 2018-12-14 09:30:49
 以Java为例：
 {% asset_img 001.png %}
 
+# idea里markdown绘制UML图
+
+[https://www.jetbrains.com/help/idea/markdown.html](https://www.jetbrains.com/help/idea/markdown.html)
+
+这样下载：
+
+{% asset_img 002.png %}
+
+需要安装：Graphviz
+[https://www.jianshu.com/p/6c4071eac339](https://www.jianshu.com/p/6c4071eac339)
+https://www.jianshu.com/p/a6bd7e3048ef
+
+
+## 其他选择
+直接建立uml文件：
+
+安装一个插件：plantuml integration.
+
+[https://plugins.jetbrains.com/plugin/7017-plantuml-integration](https://plugins.jetbrains.com/plugin/7017-plantuml-integration)
+
+绘制语法：[http://plantuml.com/](http://plantuml.com/)
+
+
