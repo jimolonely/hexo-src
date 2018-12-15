@@ -42,7 +42,7 @@ int bigEyeball(int[] eyes) {
 	}
 ```
 
-### 看看有多复杂
+### 让我们热身吧
 你能想到的最直接的算法，实现它。
 
 思考最大size的构成：
@@ -175,8 +175,80 @@ int bigEyeball(int[] eyes) {
 		}
 ```
 
-可惜答案是no。
+可惜答案是no，比如[5,4,3,2,1]。
 
+2个选择2个循环，3个也就需要3个，19个循环你写过吗？ 仔细一看，这也就是个组合问题，所以可以改成通用形式：
 
+```java
+	class Comb {
+		int sum;
+		int[] sub;
+	}
+
+	int bigEyeball(int[] eyes) {
+		int maxSize = 0;
+		// 每一种情况：从1到n-1
+		for (int i = 1; i < eyes.length; i++) {
+			// 求得这种情况下所有组合和子数组
+			Comb[] c = getCombination(eyes, i);
+			for (Comb comb : c) {
+				if (foundEqual(comb.sum, comb.sub)) {
+					maxSize = Math.max(maxSize, comb.sum);
+				}
+			}
+		}
+		return maxSize;
+	}
+```
+
+关于`getCombination()`方法是可以实现的，也就是[m选n的组合问题](https://cgs1999.iteye.com/blog/2327664)，或参考[stackoverflow](https://stackoverflow.com/questions/29910312/algorithm-to-get-all-the-combinations-of-size-n-from-an-array-java)。
+
+到此为止，热身运动做完了，可以开始正式活动了。
 
 人天生具有很好的递归思维。
+
+### 来段长跑吧
+你觉得`n!`就很厉害了吗？ nonono， 再想想，一定可以想出更低复杂度的。
+
+我们想得到2个球对把，不重复的选择，那么一个球的可能情况不就刚好3种情况：
+1. 做成球1
+2. 做成球2
+3. 被抛弃
+
+如果遍历出每个球的所有情况，也才 `3^20=3486784401`, 远低于`19!`。所以，这个简单：
+
+```java
+	int bigEyeball(int[] eyes) {
+		int maxSize = 0;
+
+		for (int i = 0; i < Math.pow(3, eyes.length); i++) {
+			int k = i;
+			int s1 = 0;
+			int s2 = 0;
+			for (int s : eyes) {
+				if (k % 3 == 0) {
+					// 加入球1
+					s1 += s;
+				} else if (k % 3 == 1) {
+					// 加入球2
+					s2 += s;
+				} else {
+					// 都不加入
+				}
+				k /= 3;
+			}
+			if (s1 == s2) {
+				maxSize = Math.max(maxSize, s1);
+			}
+		}
+		return maxSize;
+	}
+```
+
+### 来几个专业动作
+
+
+
+# 参考
+
+[java8实现排列算法](https://dzone.com/articles/java-8-master-permutations)
