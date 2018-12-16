@@ -38,6 +38,8 @@ date: 2018-12-14 09:30:49
 以Java为例：
 {% asset_img 001.png %}
 
+有意思是吧，看自己的选择了。
+
 # idea里markdown绘制UML图
 
 [https://www.jetbrains.com/help/idea/markdown.html](https://www.jetbrains.com/help/idea/markdown.html)
