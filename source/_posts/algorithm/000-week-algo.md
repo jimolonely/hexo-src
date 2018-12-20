@@ -23,7 +23,6 @@ date: 2018-12-14 08:24:37
 2. 1<= eyeball[i] <=1000 (0<=i<n)
 3. size<=5000(即眼球最大为5000)
 
-
 # 答案
 
 大脑就像肌肉，也是需要锻炼的，否则会卡在一个舒适区很难走出来，就像看抖音的人和想方设法制作抖音视频的人。
@@ -449,8 +448,30 @@ dp[i][abs(j - s)] = max(dp[i][abs(j - s)], dp[i - 1][j] + min(j, s));
 ```
 这3个状态转移方程对应3种情况，需要说明的就是第3种情况，画个图解释把。
 
+// todo
 
+如果你觉得这就完了，那你就太天真了，其实这里的二维数组完全可以变为一维数组：
+```java
+	int bigEyeballDim1(int[] eyes) {
+		int n = eyes.length;
+		int sum = sum(eyes);
+		int[] dp = new int[sum + 1];
 
+		Arrays.fill(dp, -1);
+		dp[0] = 0;
+		for (int s : eyes) {
+			int[] old = Arrays.copyOf(dp, dp.length);
+			for (int i = 0; i <= sum - s; i++) {
+				if (old[i] < 0) {
+					continue;
+				}
+				dp[i + s] = max(dp[i + s], old[i]);
+				dp[abs(i - s)] = max(dp[abs(i - s)], old[i] + min(s, i));
+			}
+		}
+		return dp[0];
+	}
+```
 
 # 参考
 
