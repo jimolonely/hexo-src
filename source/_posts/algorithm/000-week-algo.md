@@ -245,7 +245,210 @@ int bigEyeball(int[] eyes) {
 	}
 ```
 
-### 来几个专业动作
+当然，这并不是唯一的一种暴力求解方法，还可以利用数组: 这个思想的解释见下面一节。
+```java
+		Ball[] state = new Ball[(int) Math.pow(3, eyes.length)];
+		int t = 0;
+		state[t++] = new Ball(0, 0);
+		for (int size : eyes) {
+			int end = t;
+			for (int i = 0; i < end; i++) {
+				Ball b = state[i];
+				// 放入s1
+				state[t++] = new Ball(b.s1 + size, b.s2);
+				// 放入s2
+				state[t++] = new Ball(b.s1, b.s2 + size);
+				// 不放，舍去
+			}
+		}
+		for (Ball b : state) {
+			if (b.s1 == b.s2) {
+				maxSize = Math.max(maxSize, b.s1);
+			}
+		}
+```
+
+### 找个捷径穿过去
+我们有`3^N`种可能的状态，每个小球x要么放入s1，要么放入s2，要么不放，为了方便计算，我们用数字表示，分别对应：+x，-x 或 0。
+
+为了加快速度，我们先单独求解每一半，然后将它们结合起来。例如，如果我们有球[1,2,3,6]，那么前两个球最多可以创建九种状态：
+`[0 + 0,1 + 0,0 - 1,2 + 0,0 - 2，3 + 0，1 - 2,2 - 1,0 - 3]`，后两个球也可以创造9个状态。
+我们将每个状态存储为正项的总和，以及负项的绝对值之和。例如，`+ 1 + 2 -3 -4`变为（3,7）。
+我们也将差值`3  -  7`称为该状态的增量，因此该状态的增量为-4。
+ 
+我们的下一个目标是将总和为0的增量的状态 结合起来。状态的大小将是正项的总和， 我们希望获得最大大小。请注意，对于每个增量，我们只关心大小最大的状态。
+
+算法
+1. 将球分成两半：左右两侧。
+2. 对于每一半，使用暴力计算上面定义的可达状态。然后，对于每个状态，记录增量和最大分数。
+3. 现在，我们有一个左右两半的[（增量，分数）]信息。我们将找到总增量为0的最大总分。
+
+如何计算每一半的状态：就是上一节的第二种暴力方法
+```java
+	private Map<Integer, Integer> cal(int[] sizes) {
+		Ball[] state = new Ball[(int) Math.pow(3, sizes.length)];
+		int t = 0;
+		state[t++] = new Ball(0, 0);
+		for (int size : sizes) {
+			int end = t;
+			for (int i = 0; i < end; i++) {
+				Ball b = state[i];
+				// 放入s1
+				state[t++] = new Ball(b.s1 + size, b.s2);
+				// 放入s2
+				state[t++] = new Ball(b.s1, b.s2 + size);
+				// 不放，舍去
+			}
+		}
+		// ...
+	}
+```
+这个求解的结果如下：以[1,2,3,6]为例，下面是前半段[1,2]的状态集：
+```java
+Ball{s1=0, s2=0}
+Ball{s1=1, s2=0}
+Ball{s1=0, s2=1}
+Ball{s1=2, s2=0}
+Ball{s1=0, s2=2}
+Ball{s1=3, s2=0}
+Ball{s1=1, s2=2}
+Ball{s1=2, s2=1}
+Ball{s1=0, s2=3}
+```
+接着求解增量状态：
+```java
+		Map<Integer, Integer> map = new HashMap<>(t);
+		for (int i = 0; i < t; i++) {
+			int s1 = state[i].s1;
+			int s2 = state[i].s2;
+			map.put(s1 - s2, Math.max(map.getOrDefault(s1 - s2, 0), s1));
+		}
+```
+最后是合并，完整代码如下：
+```java
+	int bigEyeBallHalf(int[] eyes) {
+		int maxSize = 0;
+
+		int n = eyes.length;
+		Map<Integer, Integer> delta1 = cal(Arrays.copyOfRange(eyes, 0, n / 2));
+		Map<Integer, Integer> delta2 = cal(Arrays.copyOfRange(eyes, n / 2, n));
+
+		// 合并，差值为0的最大情况
+		for (Integer d : delta1.keySet()) {
+			if (delta2.containsKey(-d)) {
+				maxSize = Math.max(maxSize, delta1.get(d) + delta2.get(-d));
+			}
+		}
+
+		return maxSize;
+	}
+
+	private Map<Integer, Integer> cal(int[] sizes) {
+		Ball[] state = new Ball[(int) Math.pow(3, sizes.length)];
+		int t = 0;
+		state[t++] = new Ball(0, 0);
+		for (int size : sizes) {
+			int end = t;
+			for (int i = 0; i < end; i++) {
+				Ball b = state[i];
+				// 放入s1
+				state[t++] = new Ball(b.s1 + size, b.s2);
+				// 放入s2
+				state[t++] = new Ball(b.s1, b.s2 + size);
+				// 不放，舍去
+			}
+		}
+		Map<Integer, Integer> map = new HashMap<>(t);
+		for (int i = 0; i < t; i++) {
+			int s1 = state[i].s1;
+			int s2 = state[i].s2;
+			map.put(s1 - s2, Math.max(map.getOrDefault(s1 - s2, 0), s1));
+		}
+		return map;
+	}
+
+	class Ball {
+		int s1;
+		int s2;
+
+		Ball(int s1, int s2) {
+			this.s1 = s1;
+			this.s2 = s2;
+		}
+
+		@Override
+		public String toString() {
+			return "Ball{" +
+					"s1=" + s1 +
+					", s2=" + s2 +
+					'}';
+		}
+	}
+```
+
+为什么可以拆分又合并？ 
+为什么可以不需要考虑数组元素的顺序？
+
+### 穿越虫洞
+总会有更好、更快的方法。 应该一开始就看出来这道题满足动态规划的条件。
+
+```java
+	int bigEyeball(int[] eyes) {
+		int n = eyes.length;
+		int[][] dp = new int[n + 1][];
+
+		int sum = sum(eyes);
+
+		initArray(dp, sum);
+
+		dp[0][0] = 0;
+
+		for (int i = 1; i <= eyes.length; i++) {
+			int s = eyes[i - 1];
+			for (int j = 0; j <= sum - s; j++) {
+				if (dp[i - 1][j] < 0) {
+					continue;
+				}
+				// not choose
+				dp[i][j] = max(dp[i][j], dp[i - 1][j]);
+				// put in bigger
+				dp[i][j + s] = max(dp[i][j + s], dp[i - 1][j]);
+				// put in smaller, 2 situation
+				dp[i][abs(j - s)] = max(dp[i][abs(j - s)], dp[i - 1][j] + min(j, s));
+			}
+		}
+//		printArray(dp);
+		return dp[n][0];
+	}
+
+	private void initArray(int[][] dp, int sum) {
+		for (int i = 0; i < dp.length; i++) {
+			dp[i] = new int[sum + 1];
+			for (int j = 0; j < dp[i].length; j++) {
+				dp[i][j] = -1;
+			}
+		}
+	}
+
+	private int sum(int[] eyes) {
+		int sum = 0;
+		for (int s : eyes) {
+			sum += s;
+		}
+		return sum;
+	}
+```
+其中的状态dp[i][j]代表： 已选择i个小球且增量（已经组成的2个球的大小差）为j时的最大大球size。
+```java
+// not choose
+dp[i][j] = max(dp[i][j], dp[i - 1][j]);
+// put in bigger
+dp[i][j + s] = max(dp[i][j + s], dp[i - 1][j]);
+// put in smaller, 2 situation
+dp[i][abs(j - s)] = max(dp[i][abs(j - s)], dp[i - 1][j] + min(j, s));
+```
+这3个状态转移方程对应3种情况，需要说明的就是第3种情况，画个图解释把。
+
 
 
 
