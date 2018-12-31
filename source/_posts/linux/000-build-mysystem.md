@@ -166,6 +166,10 @@ sudo apt install flameshot
 
 flameshot gui
 ```
+然后旧版本不支持文字，可以手动安装最新版：
+[github](https://github.com/lupoDharkael/flameshot/issues/11#issuecomment-397700634)
+
+或者直接安装deb包。
 
 
 ## Ubuntu 18.x的右键问题
