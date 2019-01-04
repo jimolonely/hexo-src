@@ -56,5 +56,13 @@ $ ansible PATTERNS -m MODULE -a PARAMS
 
 [ansible config](https://ansible-tran.readthedocs.io/en/latest/docs/intro_configuration.html)
 
+# hosts
+对哪些机器执行，ansible里叫inventory（清单文件），这个hosts文件默认在`/etc/ansible/hosts`,不过我们可以在任何目录配置它。
 
+1. 在工作目录新建ansible.cfg.
+2. 加入配置： `inventory = hosts`, 注意，必须是在`[defaults]`模块下才行
 
+```
+[defaults]
+inventory = hosts
+```
