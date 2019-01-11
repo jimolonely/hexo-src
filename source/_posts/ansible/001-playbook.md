@@ -91,7 +91,7 @@ hosts: 遵循pattern模式
 - hosts: webservers
   remote_user: root
 ```
-remote_user可以为每个用户独有：
+remote_user可以为每个任务独有：
 
 ```yml
 ---
