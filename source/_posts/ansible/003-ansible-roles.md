@@ -7,6 +7,7 @@ p: ansible/003-ansible-roles
 date: 2019-01-10 17:46:14
 ---
 
+角色是什么，看了再来说。
 
 # 角色目录结构
 
@@ -213,20 +214,127 @@ allow_duplicates: true
 
 角色默认变量允许您为包含或相关角色设置默认变量（参见下文）。 要创建默认值，只需在角色目录中添加defaults / main.yml文件即可。 这些变量将具有可用变量的最低优先级，并且可以被任何其他变量轻松覆盖，包括库存变量。
 
-```ymml
+# 角色依赖
+版本1.3中的新功能。
+
+角色依赖性允许您在使用角色时自动引入其他角色。 角色依赖关系存储在角色目录中包含的meta / main.yml文件中，如上所述。 此文件应包含要在指定角色之前插入的角色和参数列表，例如示例roles / myapp / meta / main.yml中的以下内容：
+```yml
+---
+dependencies:
+  - role: common
+    vars:
+      some_parameter: 3
+  - role: apache
+    vars:
+      apache_port: 80
+  - role: postgres
+    vars:
+      dbname: blarg
+      other_parameter: 12
 ```
-```ymml
+角色依赖始终在包含它们的角色之前执行，并且可以是递归的。 依赖关系也遵循上面指定的复制规则。 如果另一个角色也将其列为依赖项，则不会根据上面给出的相同规则再次运行它。
 ```
+永远记住，当使用allow_duplicates：true时，它需要在依赖角色meta / main.yml中，而不是父级。
+```
+例如，一个car角色依赖4个轮子：
 
+```yml
+---
+dependencies:
+- role: wheel
+  vars:
+     n: 1
+- role: wheel
+  vars:
+     n: 2
+- role: wheel
+  vars:
+     n: 3
+- role: wheel
+  vars:
+     n: 4
+```
+轮子的作用取决于两个角色：轮胎和刹车。 然后，wheel的meta / main.yml将包含以下内容：
+```yml
+---
+dependencies:
+- role: tire
+- role: brake
+```
+那么轮胎和刹车就需要可以重复的声明：
+```yml
+---
+allow_duplicates: true
+```
+执行的顺序如下：
+```yml
+tire(n=1)
+brake(n=1)
+wheel(n=1)
+tire(n=2)
+brake(n=2)
+wheel(n=2)
+...
+car
+```
+为什么wheel没有声明可重复呢？ 因为我们用了不同的参数呀！
 
+# 在角色中集成模块和插件
+这是一个高级主题，与大多数用户无关。
 
+如果您编写自定义模块（请参阅[开发模块](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules.html#developing-modules)？）或插件（请参阅[开发插件](https://docs.ansible.com/ansible/latest/dev_guide/developing_plugins.html#developing-plugins)），您可能希望将其作为角色的一部分进行分发。 一般来说，Ansible作为一个项目非常有兴趣将高质量的模块纳入ansible核心，因此这不应该是常态，但它很容易做到。
 
+一个很好的例子就是如果你在一家名为AcmeWidgets的公司工作，并编写了一个帮助配置内部软件的内部模块，并且你希望组织中的其他人能够轻松使用这个模块 - 但你不想告诉所有人 如何配置他们的Ansible库路径。
 
+除了角色的“任务”和“处理程序”结构外，添加名为“library”的目录。 在这个'library'目录中，直接在其中包含模块。
 
+假设你有这个：
+```yml
+roles/
+   my_custom_modules/
+       library/
+          module1
+          module2
+```
+该模块可用于角色本身，以及在此角色之后调用的任何角色，如下所示：
+```yml
+- hosts: webservers
+  roles:
+    - my_custom_modules
+    - some_other_role_using_my_custom_modules
+    - yet_another_role_using_my_custom_modules
+```
+在一些限制下，这也可用于修改Ansible核心发行版中的模块，例如在生产版本中发布之前使用模块的开发版本。 但这并不总是可取的，因为API签名可能会在核心组件中发生变化，但并不总能保证能够正常工作。 它可以是一种方便的方式来携带针对核心模块的补丁，但是，如果你有充分的理由这样做。 当然，项目希望通过拉取请求尽可能将贡献引导回github。
+
+可以使用相同的机制使用相同的模式在一个角色中嵌入和分发插件。 例如，对于过滤器插件：
+```yml
+roles/
+   my_custom_filter/
+       filter_plugins
+          filter1
+          filter2
+```
+然后可以在“my_custom_filter”之后调用的任何角色中使用模板或jinja模板。
+
+# 角色搜索路径
+Ansible将以下列方式搜索角色：
+
+1. 相对于playbook文件的`role/`目录。
+2. 默认情况下，在`/ etc / ansible / roles`中
+
+在Ansible 1.4及更高版本中，您可以配置其他roles_path来搜索角色。 使用此选项可以将所有常见角色放到一个位置，并在多个playbook项目之间轻松共享。 有关如何在ansible.cfg中进行设置的详细信息，请参阅[配置Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_configuration.html#intro-configuration)。
+
+# Ansible Galaxy
+Ansible Galaxy是一个免费网站，用于查找，下载，评级和审查各种社区开发的Ansible角色，并且可以成为您自动化项目快速启动的绝佳方式。
+
+客户端`ansible-galaxy`包含在Ansible中。 Galaxy客户端允许您从Ansible Galaxy下载角色，并且还提供了一个用于创建自己角色的出色默认框架。
+
+阅读[Ansible Galaxy文档](https://galaxy.ansible.com/docs/)页面以获取更多信息
 
 
 # 参考
-[]()
+[https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html#embedding-modules-and-plugins-in-roles](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html#embedding-modules-and-plugins-in-roles)
+
 
 
 
