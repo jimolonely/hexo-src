@@ -185,4 +185,6 @@ $ sudo apt-get install smplayer
 ```
 安装完成后，在Ubuntu的系统设置->详细信息->默认应用程序->视频中，讲播放视频的默认软件改为smplayer就可以了.
 
+## ubuntu下的FTP软件
 
+在ubunut商店有：filezilla.
