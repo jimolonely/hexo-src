@@ -29,4 +29,15 @@ global_var=xxx
 {{ path | dirname }}
 ```
 
+# 变量比较
+一开始以为需要使用：`{{var}}=='dsdd'`
+
+后来发现只需要： `var=="dsdd"`
+
+```yml
+tasks:
+  - name: compare
+    when: var=="jimo"
+```
+
 
