@@ -29,6 +29,13 @@ global_var=xxx
 {{ path | dirname }}
 ```
 
+# shell-chdir
+```yml
+shell: xxx
+args:
+  chdir: path
+```
+
 # 变量比较
 一开始以为需要使用：`{{var}}=='dsdd'`
 
@@ -39,5 +46,39 @@ tasks:
   - name: compare
     when: var=="jimo"
 ```
+
+# find-kill-pid
+```yml
+    - name: find running pid
+      shell: ps -ef | grep -v grep | grep xxx | awk '{print $2}'
+      register: pid
+
+    - name: kill process
+      shell: "kill -9 {{item}}"
+      with_items: "{{pid.stdout_lines}}"
+```
+
+# replace
+```yml
+- name: replace
+  replace:
+    path: path
+    regexp: old
+    replace: new
+```
+
+# unarchive
+解压包，从src到dest：
+```yml
+- name: unarchive
+  unarchive:
+    src: "本地地址/xxx.tar.gz"
+    dest: "远程地址"
+    remote_src: false
+```
+2个地方需要注意：
+1. remote_src=true代表src是远程的，默认是本地的
+2. xxx.tar.gz 解压后会在远程地址创建一个xxx的目录，所以，远程就不要手动创建
+
 
 
