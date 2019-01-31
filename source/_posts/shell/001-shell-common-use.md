@@ -20,3 +20,39 @@ fi
 if [ -n "$str" ];then
     echo "not empty"
 ```
+
+# 读取文件的某一行
+比如读取第3行
+```shell
+$ sed -n '3p' fileName
+```
+
+# 数组作为函数参数
+分2种情况：
+1. 声明的数组
+2. 脚本命令行参数
+
+如下：
+```shell
+declare -a apps=("a" "b")
+
+test_func() {
+    arr=$1
+    for app in ${arr[*]}
+    do
+        echo "[${app}]"
+    done
+}
+
+# 接受参数
+args=$@
+if [[ -z "$args" ]];then
+    echo "from inner"
+    test_func "${apps[*]}"
+else
+    echo "from command line"
+    test_func "${args[@]}"
+fi
+```
+带参数运行时： `$ bash script.sh c d e`
+
