@@ -16,7 +16,7 @@ date: 2019-02-03 22:17:20
 # 熟悉Scala语言
 
 1. 语法初级了解
-2. scala编码规范：[https://docs.scala-lang.org/style/](https://docs.scala-lang.org/style/)
+2. scala编码规范：
 3. 语法高级使用
 
 # 
