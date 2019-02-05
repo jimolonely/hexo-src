@@ -138,5 +138,125 @@ import _root_.net.liftweb._
 ```scala
 def myFairMethod = ...
 ```
+### get/set方法
+scala没有和java一样的get/set方法，但有下面的方式：
+```scala
+class Foo {
+
+  def bar = ...
+
+  def bar_=(bar: Bar) {
+    ...
+  }
+
+  def isBaz = ...
+}
+
+val foo = new Foo
+foo.bar             // accessor
+foo.bar = bar2      // mutator
+foo.isBaz           // boolean property
+```
+私有变量：
+```scala
+class Company {
+  private var _name: String = _
+
+  def name = _name
+
+  def name_=(name: String) {
+    _name = name
+  }
+}
+```
+### 括号
+方法声明可以有、也可以没有括号：
+```scala
+def foo1() = ...
+
+def foo2 = ...
+```
+但是，建议调用时和声明时一样。
+
+```scala
+// doesn't change state, call as birthdate
+def birthdate = firstName
+
+// updates our internal state, call as age()
+def age() = {
+  _age = updateAge(birthdate)
+  _age
+}
+```
+### 符号方法名
+尽量避免，虽然可以用。例如：`a+b(), c::d, >>=`.
+
+### 常量、值、变量、方法
+类似java的`static final`, scala里常量的声明采用大写首字母的驼峰命名：
+```scala
+object Container {
+  val MyConstant = ...
+}
+```
+而其他命名如下：
+```scala
+val myValue = ...
+def myMethod = ...
+var myVariable
+```
+## 泛型
+不像Java的泛型用T，scala使用从A开始的字母：
+```scala
+class List[A] {
+  def map[B](f: A => B): List[B] = ...
+}
+```
+或者：
+```scala
+// Right
+class Map[Key, Value] {
+  def get(key: Key): Value
+  def put(key: Key, value: Value): Unit
+}
+
+// Wrong; don't use all-caps
+class Map[KEY, VALUE] {
+  def get(key: KEY): VALUE
+  def put(key: KEY, value: VALUE): Unit
+}
+```
+```scala
+class Map[K, V] {
+  def get(key: K): V
+  def put(key: K, value: V): Unit
+}
+```
+### 高级参数类型
+```scala
+class HigherOrderMap[Key[_], Value[_]] { ... }
+
+def doSomething[M[_]: Monad](m: M[Int]) = ...
+```
+
+## 注解
+应该是小写：
+```scala
+class cloneable extends StaticAnnotation
+
+type id = javax.persistence.Id @annotation.target.field
+@id
+var id: Int = 0
+```
+## 简短的特殊性
+在java里可能不是个好习惯，但scala里推荐：
+```scala
+def add(a: Int, b: Int) = a + b
+```
+
+
+
+
+
+
 
 
