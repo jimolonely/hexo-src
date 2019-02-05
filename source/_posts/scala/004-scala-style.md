@@ -253,6 +253,58 @@ var id: Int = 0
 def add(a: Int, b: Int) = a + b
 ```
 
+# 类型
+
+## 引用类型
+// TODO
+
+## 注解
+```scala
+value: Type
+```
+冒号写在value后面而不是Type前面是有原因的，如下：
+```scala
+value :::
+```
+可能会有Type是`::`的。
+## Ascription
+// TODO
+
+## 函数类型
+函数作为参数时，能省括号就省，一元参数时不加括号：
+```scala
+def foo(f: Int => String) = ...
+
+def bar(f: (Boolean, Double) => List[String]) = ...
+```
+极端例子：
+```scala
+// wrong!
+def foo(f: (Int) => (String) => (Boolean) => Double) = ...
+
+// right!
+def foo(f: Int => String => Boolean => Double) = ...
+```
+## 结构类型
+低于50个字符就写在一行，否则分开：
+```scala
+// wrong!
+def foo(a: { def bar(a: Int, b: Int): String; val baz: List[String => String] }) = ...
+
+// right!
+private type FooParam = {
+  val baz: List[String => String]
+  def bar(a: Int, b: Int): String
+}
+
+def foo(a: FooParam) = ...
+```
+内联：
+```scala
+def foo(a: { val bar: String }) = ...
+```
+
+
 
 
 
