@@ -304,6 +304,29 @@ def foo(a: FooParam) = ...
 def foo(a: { val bar: String }) = ...
 ```
 
+# 块
+## 大括号
+左大括号必须和声明的语句在同一行：
+```scala
+def foo = {
+  ...
+}
+```
+## 小括号
+很长的语句可以换行：
+```scala
+(this + is a very ++ long *
+  expression)
+```
+条件语句：
+```scala
+(  someCondition
+|| someOtherCondition
+|| thirdCondition
+)
+```
+
+
 
 
 
