@@ -326,10 +326,86 @@ def foo = {
 )
 ```
 
+# 声明
 
+## class
+class/object/trait的构造方法还是看情况，能一行就一行，否则分开：
+```scala
+class Person(name: String, age: Int) {
+}
 
+class Person(
+    name: String,
+    age: Int,
+    birthdate: Date,
+    astrologicalSign: String,
+    shoeSize: Int,
+    favoriteColor: java.awt.Color) {
+  def firstMethod: Foo = ...
+}
+```
+继承也是一样：
+```scala
+class Person(
+    name: String,
+    age: Int,
+    birthdate: Date,
+    astrologicalSign: String,
+    shoeSize: Int,
+    favoriteColor: java.awt.Color)
+  extends Entity
+  with Logging
+  with Identifiable
+  with Serializable {
+}
+```
+## 类元素的顺序
+换行：
+```scala
+class Foo {
+  val bar = 42
+  val baz = "Daniel"
 
+  def doSomething(): Unit = { ... }
 
+  def add(x: Int, y: Int): Int = x + y
+}
+```
+## 方法
+如下声明方式：一定加上返回类型，否则私有方法或局部方法会忽略。
+```scala
+def foo(bar: Baz): Bin = expr
+
+def foo(x: Int = 6, y: Int = 7): Int = x + y
+```
+如下：
+```scala
+// don't do this
+def printBar(bar: Baz) {
+  println(bar)
+}
+
+// write this instead
+def printBar(bar: Bar): Unit = {
+  println(bar)
+}
+```
+## 修饰符
+声明顺序：
+1. 注解
+2. `Override`
+3. 访问修饰符（`private ,protected`）
+4. `implicit`
+5. `final`
+6. `def`
+
+```scala
+@Transaction
+@throws(classOf[IOException])
+override protected final def foo(): Unit = {
+  ...
+}
+```
 
 
 
