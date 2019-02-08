@@ -406,6 +406,39 @@ override protected final def foo(): Unit = {
   ...
 }
 ```
+## 函数体
+当函数体长度小于30个字符，写在一行：
+```scala
+def add(a: Int, b: Int): Int = a + b
+```
+在30到70个字符时：
+```scala
+def sum(ls: List[String]): Int =
+  ls.map(_.toInt).foldLeft(0)(_ + _)
+```
+但推荐更易读的方式：
+```scala
+def sum(ls: List[String]): Int = {
+  val ints = ls map (_.toInt)
+  ints.foldLeft(0)(_ + _)
+}
+```
+对于match语句：
+```scala
+// right!
+def sum(ls: List[Int]): Int = ls match {
+  case hd :: tail => hd + sum(tail)
+  case Nil => 0
+}
+
+// wrong!
+def sum(ls: List[Int]): Int = {
+  ls match {
+    case hd :: tail => hd + sum(tail)
+    case Nil => 0
+  }
+}
+```
 
 
 
