@@ -21,6 +21,18 @@ date: 2019-02-03 22:17:20
 2. scala编码规范：
 3. 语法高级使用
 
+1.scala中函数和方法的区别
+
+函数是一条语句：由参数+函数体组成
+```scala
+val addOne = (x: Int) => x + 1
+```
+方法：由def定义
+```scala
+def add(x: Int, y: Int): Int = x + y
+println(add(1, 2)) // 3
+```
+
 object: 
 1. 单例
 2. 静态
@@ -52,5 +64,6 @@ scala的协变和逆变，java不支持。
 1. 如何设置别名：`import users.{UserInfo => UI}`
 2. scala 可以在任何地方导包
 3. 从根包导入： `import _root_.users._`.
+
 
 # 
