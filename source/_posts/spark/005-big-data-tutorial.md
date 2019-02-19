@@ -15,6 +15,8 @@ date: 2019-02-03 22:17:20
 
 # 熟悉Scala语言
 
+[https://docs.scala-lang.org/zh-cn/tour/tour-of-scala.html](https://docs.scala-lang.org/zh-cn/tour/tour-of-scala.html)
+
 1. 语法初级了解
 2. scala编码规范：
 3. 语法高级使用
@@ -35,5 +37,20 @@ scala的协变和逆变，java不支持。
 
 内部类和java不一样的地方，内部类是不一样的实例。`OuterClass#InnerClass`
 
+注意： 抽象类型、复合类型、自类型的定义和区别。
+
+什么叫隐式参数？
+
+隐式转换没懂： TODO
+
+注意传值参数和传名参数的不同。
+
+常用注解： `@deprecate, @tailrec(什么是尾递归？), @inline`.
+注意： java定义的注解在java和scala中使用的差别， 关于默认值和明确表示
+
+导包： 
+1. 如何设置别名：`import users.{UserInfo => UI}`
+2. scala 可以在任何地方导包
+3. 从根包导入： `import _root_.users._`.
 
 # 
