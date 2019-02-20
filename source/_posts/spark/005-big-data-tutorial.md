@@ -66,4 +66,8 @@ scala的协变和逆变，java不支持。
 3. 从根包导入： `import _root_.users._`.
 
 
-# 
+# spark
+接着就可以开始拿spark练手了，一方面是熟悉scala语言，一方面学习spark。
+
+1. spark-shell使用： [https://spark.apache.org/docs/latest/quick-start.html](https://spark.apache.org/docs/latest/quick-start.html)
+
