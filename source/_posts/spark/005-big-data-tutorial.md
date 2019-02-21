@@ -71,3 +71,5 @@ scala的协变和逆变，java不支持。
 
 1. spark-shell使用： [https://spark.apache.org/docs/latest/quick-start.html](https://spark.apache.org/docs/latest/quick-start.html)
 
+2. scala版本问题导致的运行失败，需要在`SPARK_HOME/jars`下查看spark需要的scala版本，然后编译时使用相应的scala版本：[blog](https://blog.csdn.net/u013054888/article/details/54600229)
+
