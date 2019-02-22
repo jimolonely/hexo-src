@@ -26,5 +26,15 @@ date: 2019-02-21 11:27:42
 
 可以参考博客：[blog1](https://segmentfault.com/a/1190000013130650), [blog2](https://www.jianshu.com/p/72aeb5d94360)
 
+在此之前，需要熟悉java通过反射创建对象的方式： {% post_link 026-java-create-instance  java创建对象的方式和差别 %}
 
+
+// TODO
+
+# springmvc
+从理解到实现。
+
+传统的基于servlet的spring和spring5+里面的基于reactive stream的东西，都需要熟悉。
+
+## 1.流程理解
 

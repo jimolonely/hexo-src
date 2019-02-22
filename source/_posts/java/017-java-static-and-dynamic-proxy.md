@@ -104,6 +104,24 @@ public class DynamicImageProxy {
 	}
 }
 ```
+需要解释一下Proxy.newProxyInstance()方法：
+```java
+/*
+ 返回指定接口的被代理类的实例，该接口将方法调用分派给指定的调用处理程序
+ * loader：定义被代理类的class loader
+ * interfaces: 被代理类实现的接口，可能不止一个
+ * h： 处理程序，处理被代理类，调用其方法，加一些处理
+ */
+public static Object newProxyInstance(ClassLoader loader,
+                      Class<?>[] interfaces,
+                      InvocationHandler h)
+                               throws IllegalArgumentException
+等价于：
+Proxy.getProxyClass(loader, interfaces).
+         getConstructor(new Class[] { InvocationHandler.class }).
+         newInstance(new Object[] { handler });
+```
+
 可以看到我们是通过反射来调用对象的方法。
 
 使用：
