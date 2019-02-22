@@ -37,4 +37,13 @@ date: 2019-02-21 11:27:42
 传统的基于servlet的spring和spring5+里面的基于reactive stream的东西，都需要熟悉。
 
 ## 1.流程理解
+盗一下下面博客的图：
+
+{% asset_img 000.png %}
+
+{% asset_img 001.png %}
+
+
+## 2.实现一个
+[自己手写一个SpringMVC框架(简化)](https://my.oschina.net/liughDevelop/blog/1622646)
 
