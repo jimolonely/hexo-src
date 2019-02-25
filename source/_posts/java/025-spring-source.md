@@ -47,3 +47,16 @@ date: 2019-02-21 11:27:42
 ## 2.实现一个
 [自己手写一个SpringMVC框架(简化)](https://my.oschina.net/liughDevelop/blog/1622646)
 
+# AOP
+
+## 1.原理理解
+
+[AOP的底层实现-CGLIB动态代理和JDK动态代理](https://blog.csdn.net/dreamrealised/article/details/12885739)
+
+{% post_link 027-cglib 关于CGLib的原理 %}
+
+## 2.实现AOP
+
+[JavaEE手写AOP实现，自动代理， AOP 面向切面的编程思想](https://blog.51cto.com/hiandroidstudio/1970529)
+
+
