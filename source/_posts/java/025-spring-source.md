@@ -49,14 +49,43 @@ date: 2019-02-21 11:27:42
 
 # AOP
 
+aop是什么： 可以看作对OOP的一种扩展，目标是在扩展或增加新功能时解藕和，提高代码的可用性和灵活性。
+
+aop可以做什么： 日志、性能、安全、事务、异常等。
+
+[Java 面向切面编程（Aspect Oriented Programming，AOP）---推荐，写的不错](https://www.cnblogs.com/liuning8023/p/4343957.html)
+
 ## 1.原理理解
 
 [AOP的底层实现-CGLIB动态代理和JDK动态代理](https://blog.csdn.net/dreamrealised/article/details/12885739)
 
 {% post_link 027-cglib 关于CGLib的原理 %}
 
+学习了原理之后问自己以下问题，直到能快速回答出来为止：
+1. AOP是一种模式，与OOP的区别是什么
+2. AOP要解决什么问题，常见的有哪些
+3. AOP中间有哪些概念，解释切面、切点、连接点、通知等概念以及他们的关系
+4. spring的AOP是怎么实现的，2种实现的区别和优缺点？
+
+## 2.spring AOP如何使用
+
+关于使用，推荐几篇博客，写的很仔细：
+1. [Spring AOP 实战](https://segmentfault.com/a/1190000007469982)
+2. [基于注解的Spring AOP的配置和使用--转载](https://www.cnblogs.com/davidwang456/p/4013631.html)
+
+学习完使用后问自己以下问题：
+1. 实现AOP涉及的注解： `@Aspect, @PointCut`如何使用？
+2. 切点的书写规则, 可以是某个包、类、方法、带有某个注解等
+3. 通知的5种类型的含义和执行顺序：`@Before, @Around, @After, @AfterReturning, @AfterThrowing`
+
+
 ## 2.实现AOP
 
-[JavaEE手写AOP实现，自动代理， AOP 面向切面的编程思想](https://blog.51cto.com/hiandroidstudio/1970529)
+[Spring系列之AOP的原理及手动实现](https://juejin.im/post/5c1c402b6fb9a049a570df27), 这篇文章介绍了aop涉及的设计模式。
+
+[他的源码实现](https://github.com/lliyu/myspring/tree/master/src/main/java/aop)
+
+跟着做一遍。
+
 
 
