@@ -30,3 +30,5 @@ date: 2019-02-27 09:21:37
 
 10. 关于java问题的再认识： {% post_link java/028-equals-hashcode equals-hashcode %}
 
+11. {% post_link java/029-eureka-record [eureka学习] %}
+
