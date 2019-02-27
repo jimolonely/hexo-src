@@ -28,3 +28,5 @@ date: 2019-02-27 09:21:37
 
 9. 再学习XML： {% post_link basic/015-xml xml again %}
 
+10. 关于java问题的再认识： {% post_link java/028-equals-hashcode equals-hashcode %}
+
