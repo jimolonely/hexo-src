@@ -87,5 +87,18 @@ aop可以做什么： 日志、性能、安全、事务、异常等。
 
 跟着做一遍。
 
+# spring事务机制
 
+## 如何使用
+参考文章：[透彻的掌握 Spring 中@transactional 的使用](https://www.ibm.com/developerworks/cn/java/j-master-spring-transactional-use/index.html)
+
+然后问自己：
+1. `@Transactional` 注解有哪些属性，分别代表什么意思？
+2. `propagation`属性的3个级别什么意思？
+3. `rollbackFor`在什么情况下不会回滚？
+4. 只有public方法才有效吗？
+5. spring AOP的自调用问题： 非事务方法调用事务方法不会回滚
+
+## 再深入一点
+参考文章： [可能是最漂亮的Spring事务管理详解](https://juejin.im/post/5b00c52ef265da0b95276091)
 
