@@ -163,3 +163,60 @@ hash算法： MurmurHash
 2. 在redis中哪里用到了跳跃表？
   2个地方：1.有序集合集（sorted set） 2.集群节点中用作内部数据结构
 
+# 对象
+实际上，redis的键值都是对象。
+```c
+typedef struct redisObject {
+  unsigned type:4;
+  unsigned encoding:4;
+  // 指向底层数据结构的指针
+  void *ptr;
+}
+```
+## type
+有： `string, list, hash, set, zset`, 通过下面的命令可以查看：
+```shell
+redis> SET msg "hello world"
+OK
+
+redis> TYPE msg
+string
+```
+## encoding
+表示使用哪种数据结构，有：`int,embstr,raw,hashtable,linkedlist,ziplist,intset,skiplist`,
+可以使用`OBJECT ENCODING xxx`查看：
+```shell
+redis> SET msg "hello string"
+OK
+
+redis> OBJECT ENCODING msg
+"embstr"
+```
+一个数据结构可以有多种编码：
+1. string: int/raw/embstr
+2. list: ziplist/linkedlist
+3. hash: ziplist/hashtable
+4. set: intset/hashtable
+5. zset: ziplist/skiplist
+
+问： 
+1. 在什么条件由一种结构换到另一种？
+2. 有什么是embstr呢？ 见下面。
+
+## string对象
+字符串对象的编码可以是： int, raw, embstr
+
+1. long能存下的数字肯定是int编码
+2. 小于等于39字节的恩字符串是 embstr
+3. 大于39字节的是 raw，用sds存
+
+embstr与raw的区别？
+embstr只分配一次内存就将redisObject和sds存好，也只需要释放一次，而raw是2次。
+
+long double类型的浮点数也是存的字符串对象， 在需要运算时才转换。
+
+## 编码的转换
+编码在一定条件是会转换的，比如：
+1. int会转为embstr或raw， 在整数中加入字符串时。
+2. embstr没有修改函数，要修改时也会转成raw。
+
