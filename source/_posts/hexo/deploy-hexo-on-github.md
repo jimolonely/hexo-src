@@ -88,8 +88,9 @@ ok.
 如何限制图片大小：https://yoheikoga.github.io/2016/04/05/How-to-put-pictures-and-change-sizes-on-your-Hexo-Blog/
 
 ## 如何链接站点内文章
+tag/url就是上面的p部分。
 ```
-{% post_link markdown-learning-by-maxiang 点击这里查看这篇文章 %}
+{% post_link tag/url 点击这里查看这篇文章 %}
 ```
 或则使用绝对路径(不过不是同一天就不行)
 ```

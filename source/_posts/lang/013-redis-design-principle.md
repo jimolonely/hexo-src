@@ -159,7 +159,7 @@ hash算法： MurmurHash
 
 # 跳跃表
 1. 什么是跳跃表？解释其原理。
-  见： 
+  见： {% post_link algorithm/002-skip-list skip list理解与java实现 %}
 2. 在redis中哪里用到了跳跃表？
   2个地方：1.有序集合集（sorted set） 2.集群节点中用作内部数据结构
 

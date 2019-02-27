@@ -26,7 +26,7 @@ date: 2019-02-21 11:27:42
 
 可以参考博客：[blog1](https://segmentfault.com/a/1190000013130650), [blog2](https://www.jianshu.com/p/72aeb5d94360)
 
-在此之前，需要熟悉java通过反射创建对象的方式： {% post_link 026-java-create-instance  java创建对象的方式和差别 %}
+在此之前，需要熟悉java通过反射创建对象的方式： {% post_link java/026-java-create-instance  java创建对象的方式和差别 %}
 
 
 // TODO
@@ -59,7 +59,7 @@ aop可以做什么： 日志、性能、安全、事务、异常等。
 
 [AOP的底层实现-CGLIB动态代理和JDK动态代理](https://blog.csdn.net/dreamrealised/article/details/12885739)
 
-{% post_link 027-cglib 关于CGLib的原理 %}
+{% post_link java/027-cglib 关于CGLib的原理 %}
 
 学习了原理之后问自己以下问题，直到能快速回答出来为止：
 1. AOP是一种模式，与OOP的区别是什么
