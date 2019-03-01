@@ -108,9 +108,18 @@ cd ~/.vim/bundle/YouCompleteMe
 ./install.py --all
 ```
 
-
 ### 4.vscode
 
+使用ubuntu自带商店安装会出现自带输入法不能输入中文问题,  使用 [官方推荐](https://code.visualstudio.com/docs/setup/linux) 安装。
+```shell
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+
+sudo apt-get install apt-transport-https
+sudo apt-get update
+sudo apt-get install code # or code-insiders
+```
 ### 5.UML绘图工具
 一些在线的绘图工具有些不错,但绘图不标准,下面是经过实践的安装版linux下的UML绘制工具:
 1. umlet
