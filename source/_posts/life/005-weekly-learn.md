@@ -32,3 +32,4 @@ date: 2019-02-27 09:21:37
 
 11. {% post_link java/029-eureka-record [eureka学习] %}
 
+最后在周末复习一下，准备迎接下周的架构师学习。
