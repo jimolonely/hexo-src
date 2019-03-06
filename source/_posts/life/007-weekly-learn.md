@@ -35,6 +35,8 @@ date: 2019-03-04 16:31:45
 
 7. pgsql表间复制数据： `Insert into Table2(field1,field2,…) select value1,value2,… from Table1`
 
+8. [编译spring-boot源码](https://my.oschina.net/dabird/blog/1942112)，准备学习
+
 
 
 
