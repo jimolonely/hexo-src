@@ -35,7 +35,12 @@ date: 2019-03-04 16:31:45
 
 7. pgsql表间复制数据： `Insert into Table2(field1,field2,…) select value1,value2,… from Table1`
 
-8. [编译spring-boot源码](https://my.oschina.net/dabird/blog/1942112)，准备学习
+8. {% java/030-spring-boot-build-source post_link 编译spring-boot源码 %}，准备学习
+    1. 遇到maven相关的问题： [Properties in parent definition are prohibited](https://chenyongjun.vip/articles/98)
+
+9. {% post_link java/031-java-process-memory-usage 研究java进程内存占用过高原因 %}
+
+
 
 
 

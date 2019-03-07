@@ -29,7 +29,8 @@ mvn -Dmaven.test.failure.ignore=true -Dmaven.test.skip=true clean install
 
 idea： file-》open 即可
 
-遇到一些maven问题，稍微修改下即可。
+遇到一些maven问题，稍微修改下即可。主要是maven版本，idea自带的为3.3.9，需要升级：
+[Properties in parent definition are prohibited](https://chenyongjun.vip/articles/98)
 
 # 测试项目
 
