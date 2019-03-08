@@ -43,7 +43,7 @@ date: 2019-03-04 16:31:45
 
 10. 开始研究quartz： {% post_link java/032-springboot-quartz spring-boot quartz %}
 
- 
+11. 什么是蓝绿部署？ 灰度部署（金丝雀部署）？ 滚动部署？ 重点是它们背后的典故（海豚和金丝雀）。
 
 
 
