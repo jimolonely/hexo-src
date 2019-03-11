@@ -35,13 +35,13 @@ date: 2019-03-04 16:31:45
 
 7. pgsql表间复制数据： `Insert into Table2(field1,field2,…) select value1,value2,… from Table1`
 
-8. {% java/030-spring-boot-build-source post_link 编译spring-boot源码 %}，准备学习
+8. {% post_link java/030-spring-boot-build-source 编译spring-boot源码 %}，准备学习
     1. 遇到maven相关的问题： [Properties in parent definition are prohibited](https://chenyongjun.vip/articles/98)
     2. {% post_link java/033-spring-boot-overview 第一篇-概览 %}
 
 9. {% post_link java/031-java-process-memory-usage 研究java进程内存占用过高原因 %}
 
-10. 开始研究quartz： {% post_link java/032-springboot-quartz spring-boot quartz %}
+10. 开始研究quartz： {% post_link java/032-springboot-quartz spring-boot-quartz %}
 
 11. 什么是蓝绿部署？ 灰度部署（金丝雀部署）？ 滚动部署？ 重点是它们背后的典故（海豚和金丝雀）。
 
