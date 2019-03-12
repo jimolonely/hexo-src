@@ -80,5 +80,16 @@ tasks:
 1. remote_src=true代表src是远程的，默认是本地的
 2. xxx.tar.gz 解压后会在远程地址创建一个xxx的目录，所以，远程就不要手动创建
 
+# 设置自己的变量set_fact
 
+[文档](https://docs.ansible.com/ansible/latest/modules/set_fact_module.html)
+
+```yml
+  tasks:
+    # 设置变量
+    - set_fact:
+        JAR_DIR: "{{playbook_dir}}/iad-jars"
+    - debug:
+        msg: "jar dir: {{JAR_DIR}}"
+```
 

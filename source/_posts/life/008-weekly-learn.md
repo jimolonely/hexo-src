@@ -27,4 +27,6 @@ date: 2019-03-11 09:32:09
 
 3. {% post_link basic/016-java-interview java面试复习 %}
 
+4. 修改了ansible： {% ansible/005-ansible-demo1 ansible实用写法 %}
+
 
