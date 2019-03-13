@@ -29,4 +29,10 @@ date: 2019-03-11 09:32:09
 
 4. 修改了ansible： {% ansible/005-ansible-demo1 ansible实用写法 %}
 
+5. [java: read string from stream](https://stackoverflow.com/questions/309424/how-do-i-read-convert-an-inputstream-into-a-string-in-java)
+
+6. div里对`\n`可以换行： [stakoverflow](https://stackoverflow.com/questions/25862896/text-with-newline-inside-a-div-element-is-not-working)
+
+7. [git: revert (reset) a single file](https://www.norbauer.com/rails-consulting/notes/git-revert-reset-a-single-file): `git checkout filename`
+
 
