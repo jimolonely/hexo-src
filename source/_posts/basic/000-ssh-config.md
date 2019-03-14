@@ -39,6 +39,10 @@ ClientAliveCountMax 0            # 0 次
 ```shell
 # service sshd restart
 ```
+注意：在ubuntu上先安装`openssh-server`:
+```shell
+$ sudo apt install openssh-server
+```
 
 # 参考
 [http://blog.51cto.com/9237101/1907424](http://blog.51cto.com/9237101/1907424)
