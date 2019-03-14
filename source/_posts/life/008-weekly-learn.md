@@ -27,7 +27,7 @@ date: 2019-03-11 09:32:09
 
 3. {% post_link basic/016-java-interview java面试复习 %}
 
-4. 修改了ansible： {% ansible/005-ansible-demo1 ansible实用写法 %}
+4. 修改了ansible： {% post_link ansible/005-ansible-demo1 ansible实用写法 %}
 
 5. [java: read string from stream](https://stackoverflow.com/questions/309424/how-do-i-read-convert-an-inputstream-into-a-string-in-java)
 
