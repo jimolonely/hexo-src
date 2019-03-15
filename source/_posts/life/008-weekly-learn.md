@@ -35,4 +35,19 @@ date: 2019-03-11 09:32:09
 
 7. [git: revert (reset) a single file](https://www.norbauer.com/rails-consulting/notes/git-revert-reset-a-single-file): `git checkout filename`
 
+8. NIO基础理论
+    1. linux 网络IO模型： 阻塞IO、非阻塞IO、IO复用、信号驱动IO、异步IO的区别
+    2. 零拷贝（zero copy）
+        1. 缓存IO是啥？
+        2. 零拷贝的分类
+        3. mmap函数的利弊： 将内核空间映射到用户空间
+    3. 零拷贝的例子：
+        1. FileChannel.transferTo()----》 sendfile
+            1. 2.1版本：直接从磁盘--》内核buffer--》socket buffer--》NIC网卡
+            2. 2.4版本：磁盘--》内核buffer--》追加偏移量到socket buffer--》根据socket的偏移量直接从内核copy 数据到NIC
+
+
+9. [IDEA中将java项目转为maven项目](https://www.jetbrains.com/help/idea/maven-support.html#convert_project_to_maven)
+
+
 
