@@ -17,4 +17,9 @@ date: 2019-02-27 17:37:43
 
 2. 上面的instanceID是什么？
     就是eureka界面STATUS列显示的，[看这篇文章:如何自定义微服务的Instance ID](http://www.itmuch.com/spring-cloud-sum/eureka-instance-id/)
-
+    ```yml
+    eureka:
+      instance:
+        instance-id: ${spring.cloud.client.ipAddress}:${server.port}:${spring.cloud.client.hostname}:${spring.application.name}
+    ```
+    但是在spring-boot2.x里IP改为： [${spring.cloud.client.ip-address}](https://www.jianshu.com/p/5ad8317961b7), 且不需要额外引入那个common包

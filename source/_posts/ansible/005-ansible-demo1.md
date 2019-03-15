@@ -93,3 +93,15 @@ tasks:
         msg: "jar dir: {{JAR_DIR}}"
 ```
 
+# 获取主机IP
+
+```
+"inventory_hostname": "192.168.17.70", 
+"inventory_hostname_short": "192"
+```
+
+```yml
+- debug: var=hostvars
+  tags:
+    - debug
+```

@@ -49,5 +49,7 @@ date: 2019-03-11 09:32:09
 
 9. [IDEA中将java项目转为maven项目](https://www.jetbrains.com/help/idea/maven-support.html#convert_project_to_maven)
 
+10. {% post_link  java/035-mybatis-mapkey mybatis中的mapkey %}
+
 
 
