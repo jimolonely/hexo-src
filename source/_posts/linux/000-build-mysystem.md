@@ -194,6 +194,35 @@ $ sudo apt-get install smplayer
 ```
 安装完成后，在Ubuntu的系统设置->详细信息->默认应用程序->视频中，讲播放视频的默认软件改为smplayer就可以了.
 
+mp4等各种格式都能播放。
+
 ## ubuntu下的FTP软件
 
 在ubunut商店有：filezilla.
+
+## ubuntu下载btorrent
+使用软件：ktorrent
+```shell
+sudo apt-get install ktorrent
+```
+## ubuntu下载迅雷链接
+迅雷下载协议是经过加密的,如：
+thunder://QUFlZDJrOi8vfGZpbGV8JUU4JUExJThDJUU1JUIwJUI4JUU4JUI1JUIwJUU4JTgyJTg5LlRoZS5XYWxraW5nLkRlYWQuUzA2RTAxLiVFNCVCOCVBRCVFOCU4QiVCMSVFNSVBRCU5NyVFNSVCOSU5NS5IRFRWcmlwLjEwMjR4NTc2Lm1wNHw2NDg3NTg1MDl8ZjIyZmI2OTRjMDQ0ZmYyNjU0MjhhNTEzNWVhYzhiOTB8aD12eXFsNHFjNHpmYmx0eWNqdW1rcnNibDJza2JscTJsZnwvWlo=
+直接在Linux下面是没有办法下载的。
+
+先解码：
+```shell
+echo url | base64 -d 
+```
+显示结果是：
+AAed2k://|file|%E8%A1%8C%E5%B0%B8%E8%B5%B0%E8%82%89.The.Walking.Dead.S06E01.%E4%B8%AD%E8%8B%B1%E5%AD%97%E5%B9%95.HDTVrip.1024x576.mp4|648758509|f22fb694c044ff265428a5135eac8b90|h=vyql4qc4zfbltycjumkrsbl2skblq2lf|/ZZ
+
+所以解密后的地址是：ed2k://|file|%E8%A1%8C%E5%B0%B8%E8%B5%B0%E8%82%89.The.Walking.Dead.S06E01.%E4%B8%AD%E8%8B%B1%E5%AD%97%E5%B9%95.HDTVrip.1024x576.mp4|648758509|f22fb694c044ff265428a5135eac8b90|h=vyql4qc4zfbltycjumkrsbl2skblq2lf|/
+
+安装amule软件
+```shell
+sudo apt-get install amule
+```
+
+复制解密后的地址，粘贴到amule里即可.
+
