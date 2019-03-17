@@ -51,5 +51,7 @@ date: 2019-03-11 09:32:09
 
 10. {% post_link  java/035-mybatis-mapkey mybatis中的mapkey %}
 
+11. 学会了ubuntu下载torrent
+
 
 
