@@ -44,5 +44,13 @@ date: 2019-03-18 08:11:57
 6. [slf4j logger format 占位符写法](https://stackoverflow.com/questions/6371638/slf4j-how-to-log-formatted-message-object-array-exception)
 
 
+7. mysql-datediff(date1,date2): `SELECT DATEDIFF("2017-06-25", "2017-06-27"); == (-2)`
+
+8. [发现github上一个电子书库](https://github.com/yuanliangding/books)
+
+9. {% post_link linux/020-ubuntu-install-extensions ubuntu安装扩展/插件 %}
+
+10. {% post_link db/007-pgsql-updateset-ambiguous-column pgsql update set ambiguous column %}
+
 
 
