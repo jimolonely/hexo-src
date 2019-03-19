@@ -165,6 +165,11 @@ sudo apt-get install indicator-sysmonitor
 ```
 [refrence](https://blog.csdn.net/bfboys/article/details/53031998)
 
+在18.x上上面的indicator经常卡死，所以需要换换：
+
+[https://github.com/paradoxxxzero/gnome-shell-system-monitor-applet](https://github.com/paradoxxxzero/gnome-shell-system-monitor-applet)
+
+
 ## screen shot
 ```
 Ctrl+Alt+A: gnome-screenshot -ac
