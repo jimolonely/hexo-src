@@ -52,5 +52,7 @@ date: 2019-03-18 08:11:57
 
 10. {% post_link db/007-pgsql-updateset-ambiguous-column pgsql update set ambiguous column %}
 
+11. {% post_link java/037-jar-java-cmdline 掌握java命令行编译打包 %}
+
 
 
