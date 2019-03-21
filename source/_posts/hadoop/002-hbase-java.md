@@ -574,6 +574,11 @@ public void pageFilter() throws IOException {
 }
 ```
 
+# 最后-HbaseTemplate
+HbaseTemplate是spring-data模块里对hbase操作的封装， 具体使用可以参考：
+[hbaseTemplate use](https://www.programcreek.com/java-api-examples/index.php?api=org.springframework.data.hadoop.hbase.TableCallback)
+
+[HBaseConnection](https://github.com/tguduru/Spring-HBase/blob/master/src/main/java/org/bigdata/hbase/spring/HBaseConnection.java)
 
 # 参考
 [http://hbase.apache.org/book.html#client_dependencies](http://hbase.apache.org/book.html#client_dependencies)

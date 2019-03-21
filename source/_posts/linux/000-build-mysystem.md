@@ -231,3 +231,11 @@ sudo apt-get install amule
 
 复制解密后的地址，粘贴到amule里即可.
 
+## ubuntu电子书阅读器
+
+calibre
+
+FBReader
+
+推荐calibre.
+

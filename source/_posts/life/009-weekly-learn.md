@@ -54,5 +54,7 @@ date: 2019-03-18 08:11:57
 
 11. {% post_link java/037-jar-java-cmdline 掌握java命令行编译打包 %}
 
+12. 复习了hbase的写法，hbaseTemplate的使用
+
 
 
