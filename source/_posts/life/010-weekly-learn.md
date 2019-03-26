@@ -15,6 +15,12 @@ date: 2019-03-25 11:23:08
 
 3. {% post_link java/039-java-headless 什么是Java Headless模式？ %}
 
+4. [读了SpringBoot一点源码，了解了下执行流程](https://juejin.im/post/5c6f730ce51d457f14363a53)
+
+5. 重新开始学习mysql，[从安装开始](https://dev.mysql.com/doc/refman/8.0/en/linux-installation-yum-repo.html)
+
+6. {% post_link java/040-spring-boot-load-properties-order-by-source-code 源码解读spring-boot加载配置文件的顺序 %}
+
 
 
 

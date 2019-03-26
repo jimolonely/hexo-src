@@ -62,4 +62,13 @@ https://www.jianshu.com/p/a6bd7e3048ef
 
 绘制语法：[http://plantuml.com/](http://plantuml.com/)
 
+# 返回上一步下一步
+用于经常看源码。
+
+由于不同操作系统不一样，所以需要去看自己的配置： keymap-->navigate--->back/forward
+
+{% asset_img 003.png %}
+
+如果冲突了，就需要排查系统快捷键或其他软件，或自己改一下idea的快捷键。
+
 
