@@ -13,5 +13,8 @@ date: 2019-03-25 11:23:08
 
 2. 学习springmvc源码：{% post_link java/038-springmvc-handle-content-type springmvc如何处理content-type源码解析 %}
 
+3. {% post_link java/039-java-headless 什么是Java Headless模式？ %}
+
+
 
 
