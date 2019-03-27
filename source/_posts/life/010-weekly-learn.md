@@ -21,6 +21,10 @@ date: 2019-03-25 11:23:08
 
 6. {% post_link java/040-spring-boot-load-properties-order-by-source-code 源码解读spring-boot加载配置文件的顺序 %}
 
+7. [ssh连接缓慢-可以UseDNS关闭](https://blog.csdn.net/doiido/article/details/43793391)
+
+8. {% post_link ansible/006-ansible-install-keepalived ansible 安装 keepalived %}
+
 
 
 
