@@ -17,15 +17,6 @@ date: 2019-03-27 13:21:00
 
 [Centos7.4配置本地yum源和阿里源并配置yum优先级](https://blog.csdn.net/wz947324/article/details/80323559)
 
-```yml
-- name: check if application-prod.yml exists
-  stat:
-    path: /home/application-prod.yml
-  register: application_prod
 
-- fail:
-    msg: "application-prod.yml not exist on /home/"
-  when: application_prod.stat.exists == False
-```
 
 

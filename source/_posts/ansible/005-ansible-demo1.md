@@ -105,3 +105,24 @@ tasks:
   tags:
     - debug
 ```
+
+# 判断文件是否存在
+```yml
+- name: check if application-prod.yml exists
+  stat:
+    path: /home/application-prod.yml
+  register: application_prod
+
+- fail:
+    msg: "application-prod.yml not exist on /home/"
+  when: application_prod.stat.exists == False
+```
+
+# 只运行一次
+假如，我在一个组下需要pull最新代码，而这个组里有多个机器，那么他们会并发执行，
+但是git 模块只需要执行一次，否则会报错，这时候就需要执行一次：
+```yml
+- name: pull code
+  git: repo="" dest=""
+  run_once: true
+```

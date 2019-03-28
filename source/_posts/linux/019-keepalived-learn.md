@@ -125,6 +125,9 @@ vrrp_script里的weight很关键，master检测到应用挂了，权重会减少
 
 如果把weight设为5，这样永远都切不过去，所以是没用的。
 
+## keepalived-LVS
+[http://www.keepalived.org/LVS-NAT-Keepalived-HOWTO.html](http://www.keepalived.org/LVS-NAT-Keepalived-HOWTO.html)
+
 
 # 参考文章
 [keepalived vip漂移基本原理及选举算法](https://www.cnblogs.com/pangguoping/p/5721517.html)
