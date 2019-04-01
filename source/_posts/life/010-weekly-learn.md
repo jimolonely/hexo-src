@@ -25,6 +25,12 @@ date: 2019-03-25 11:23:08
 
 8. {% post_link ansible/006-ansible-install-keepalived ansible 安装 keepalived %}
 
+9. 什么是云原生12要素？
+
+10. 关于postman自动化测试（newman）的方案研究
+
+11. [自动化测试selenium实践](https://juejin.im/post/5b25e8cae51d4558c4720845)
+
 
 
 

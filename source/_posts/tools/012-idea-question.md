@@ -71,4 +71,9 @@ https://www.jianshu.com/p/a6bd7e3048ef
 
 如果冲突了，就需要排查系统快捷键或其他软件，或自己改一下idea的快捷键。
 
+# idea如何查看类图
+[https://www.jetbrains.com/help/idea/class-diagram.html](https://www.jetbrains.com/help/idea/class-diagram.html)
+
+在包上右键，选择diagram.
+
 
