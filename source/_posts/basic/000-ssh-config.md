@@ -30,6 +30,17 @@ ClientAliveCountMax 2           # 2 次
 ClientAliveInterval 20m          # 20 minutes
 ClientAliveCountMax 0            # 0 次
 ```
+
+## 方式3
+1. 修改/etc/profile下tmout参数
+     如：sudo vi /etc/profile
+     tmout=300
+     就是300秒后闲置自动退出；
+   
+2. 在未设置TMOUT或者设置TMOUT=0时，此闲置超时自动退出的功能禁用。
+
+这个很简单。
+
 ## 区别
 这两种方法之间有一点区别。 对于第一种方法，sshd将通过加密通道发送消息，此处称为Client Alive Messages，如果客户端处于非活动状态10分钟，则从客户端请求响应。 sshd守护程序将最多发送这些消息两次。 如果在发送客户端活动消息时达到此阈值，sshd将断开客户端的连接。
 
