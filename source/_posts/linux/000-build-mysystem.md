@@ -239,3 +239,13 @@ FBReader
 
 推荐calibre.
 
+## ubuntu todo list
+ubuntu18.04自带了一款todo应用，我开始一直以为它很简陋，连同步功能都没有，
+然后发现还有一个插件，可以连接到[todoist](https://todoist.com),实现同步。
+
+于是注册了账号，使用了下，还不错。
+
+# ubuntu 单点登录账户
+ubuntu也像windows有账户了，可以试试。
+
+
