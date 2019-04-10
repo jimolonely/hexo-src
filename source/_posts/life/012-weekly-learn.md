@@ -15,4 +15,9 @@ date: 2019-04-09 08:02:55
 
 2. 学习了kafka的原理，阅读了部分源码
 
+3. {% post_link java/042-java-command-line-args 那些没用过的java命令行选项 %}
+
+4. {% post_link db/008-pgsql-common-sqls pgsql常用sql语句 %}
+
+
 

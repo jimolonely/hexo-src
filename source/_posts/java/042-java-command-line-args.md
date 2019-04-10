@@ -108,4 +108,83 @@ Exception in thread "main" java.lang.AssertionError
 
 # -splash
 
+splash screen可以翻译成闪屏，就是GUI程序初始化加载的界面，可以自定义一些展示界面。
+
+本例子来自[官方](https://docs.oracle.com/javase/tutorial/uiswing/misc/splashscreen.html):
+```java
+public class SplashDemo extends Frame implements ActionListener {
+
+
+    public static void main(String[] args) {
+        new SplashDemo();
+    }
+
+    private static WindowListener closeWindow = new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            e.getWindow().dispose();
+        }
+    };
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.exit(0);
+    }
+
+    private SplashDemo() throws HeadlessException {
+        super("Splash Demo by jimo");
+        setSize(300, 200);
+        setLayout(new BorderLayout());
+        Menu m1 = new Menu("File");
+        MenuItem exitItem = new MenuItem("Exit");
+        m1.add(exitItem);
+        m1.addActionListener(this);
+        this.addWindowListener(closeWindow);
+
+        MenuBar mb = new MenuBar();
+        setMenuBar(mb);
+        mb.add(m1);
+
+        SplashScreen splashScreen = SplashScreen.getSplashScreen();
+        if (splashScreen == null) {
+            System.out.println("splash is null");
+            return;
+        }
+        Graphics2D g = splashScreen.createGraphics();
+        if (g == null) {
+            System.out.println("g is null");
+            return;
+        }
+        for (int i = 0; i < 100; i++) {
+            renderSplashFrame(g, i);
+            splashScreen.update();
+            try {
+                Thread.sleep(90);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        splashScreen.close();
+        setVisible(true);
+        toFront();
+    }
+
+    private static void renderSplashFrame(Graphics2D g, int frame) {
+        final String[] comps = {"jimo", "hehe", "haha"};
+        g.setComposite(AlphaComposite.Clear);
+        g.fillRect(120, 140, 200, 40);
+        g.setPaintMode();
+        g.setColor(Color.BLACK);
+        g.drawString("Loading " + comps[(frame / 5) % 3] + "...", 120, 150);
+    }
+}
+```
+1. 命令行编译
+2. 运行： `java -splash:images/splash.gif SplashDemo` (确保gif文件存在)
+
+效果如下：
+
+{% asset_img 000.png %}
+
+
 
