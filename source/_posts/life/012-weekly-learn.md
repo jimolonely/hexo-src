@@ -19,5 +19,10 @@ date: 2019-04-09 08:02:55
 
 4. {% post_link db/008-pgsql-common-sqls pgsql常用sql语句 %}
 
+5. {% post_link java/043-java-annotations java常用注解 %}
+
+6. [再次学习spring-boot的自动装配，此文从Condition注解讲起，不错](https://www.jianshu.com/p/7e0f67bf3213)
+
+
 
 
