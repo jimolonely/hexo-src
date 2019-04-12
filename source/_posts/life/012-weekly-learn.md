@@ -23,6 +23,6 @@ date: 2019-04-09 08:02:55
 
 6. [再次学习spring-boot的自动装配，此文从Condition注解讲起，不错](https://www.jianshu.com/p/7e0f67bf3213)
 
-
+7. {% post_link ansible/005-ansible-demo1 ansible实用写法-修改%}
 
 

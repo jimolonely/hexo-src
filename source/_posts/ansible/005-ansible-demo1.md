@@ -126,3 +126,33 @@ tasks:
   git: repo="" dest=""
   run_once: true
 ```
+
+# sudo操作
+
+执行sudo命令有2种情况
+1. `sudo cmd`: 输入的是当前登录用户的密码，但是如果当前用户不在root用户组，则不行
+    ```shell
+    [yunwei@h1 ~]$ sudo ls
+    [sudo] password for yunwei: 
+    yunwei 不在 sudoers 文件中。此事将被报告。
+    ```
+2. 直接切换到root用户：`su - root`,这时候就是输入root用户密码。
+
+而ansible默认是第一种，由`become_method`标示,[参考](https://docs.ansible.com/ansible/latest/user_guide/become.html#command-line-options)。
+
+所以，要使用第二种情况，需要设置：`become_method: su`. 
+完整示例：
+```yml
+# hosts
+ansible_ssh_user=jimo
+ansible_ssh_pass=123456
+ansible_become_pass='password' # root password
+
+# 使用：
+- import_tasks: deploy.yml
+  become: yes
+  become_user: root
+  become_method: su
+```
+
+
