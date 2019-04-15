@@ -12,7 +12,7 @@ date: 2019-04-11 14:51:29
 
 当然，在讲任何一个注解前都会讲元注解（`@Document, @Retention, @Target`等）,实际上这是递归定义的。
 
-# Nonnull
+# @Nonnull
 ```java
 package javax.annotation;
 import javax.annotation.meta.When;
@@ -45,7 +45,7 @@ public enum When {
 ```
 标示一种类型为null的4种情况。
 
-# TypeQualifierNickname
+# @TypeQualifierNickname
 元注解：
 ```java
 package javax.annotation.meta;
@@ -70,8 +70,7 @@ package org.springframework.lang;
 public @interface Nullable {
 }
 ```
-这个注解的含义： 标识目标可能为null，而因为`TypeQualifierNickname`的存在，当使用`@Nullable`时就和直接使用`@Nonnull`一样了，`@Nullable`
-只是一个别名。
+这个注解的含义： 标识目标可能为null，而因为`TypeQualifierNickname`的存在，当使用`@Nullable`时就和直接使用`@Nonnull`一样了，`@Nullable`只是一个别名。
 
 
 
