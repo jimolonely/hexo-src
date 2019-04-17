@@ -11,6 +11,9 @@ date: 2019-04-15 08:23:32
 
 1. {% post_link basic/000-ssh-config 重新认识ssh连接超时配置%}
 
+2. {% post_link git/003-install-gitlab-server 安装gitlab服务器 %}
+
+
 
 
 
