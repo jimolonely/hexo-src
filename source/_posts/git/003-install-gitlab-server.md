@@ -18,6 +18,10 @@ date: 2019-04-17 09:21:37
 
 然后：注册用户，分配权限，建group，建项目，提交代码。
 
+# 注意事项
+
+1. 创建完项目后，默认只有所有者才有提交权限，在`settings/members`下加入开发者后，还需要修改`settings/repository`下的`Protected Branches`设置为开发者和所有者都有权merge。
+
 
 
 

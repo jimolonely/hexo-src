@@ -237,7 +237,7 @@ calibre
 
 FBReader
 
-推荐calibre.
+推荐fbreader.
 
 ## ubuntu todo list
 ubuntu18.04自带了一款todo应用，我开始一直以为它很简陋，连同步功能都没有，
