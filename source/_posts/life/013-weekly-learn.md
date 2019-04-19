@@ -13,9 +13,11 @@ date: 2019-04-15 08:23:32
 
 2. {% post_link git/003-install-gitlab-server 安装gitlab服务器 %}
 
-3. {% java/044-java-terms 那些java技术和术语解释 %}
+3. {% post_link java/044-java-terms 那些java技术和术语解释 %}
 
 4. [了解了jersey的用法](https://jersey.github.io/)
+
+5. {% post_link linux/023-create-local-repo-in-centos centos创建本地软件仓库 %}
 
 
 
