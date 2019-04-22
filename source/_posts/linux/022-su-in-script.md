@@ -54,7 +54,7 @@ String s = executor.execute("cd ~ && echo 'su - root <<! >/dev/null 2>&1' > su_t
         " && echo 'cd $2' >> su_temp.sh" +
         " && echo '$3 > /tmp/result' >> su_temp.sh" +
         " && echo ! >> su_temp.sh" +
-        " && sh su_temp.sh develop@2wsx#EDC@2019 /etc ls" +
+        " && sh su_temp.sh develop@2wsx#EDC@2019 /etc 'ls'" +
         " && rm -f su_temp.sh " +
         " && cat /tmp/result");
 System.out.println(s);
