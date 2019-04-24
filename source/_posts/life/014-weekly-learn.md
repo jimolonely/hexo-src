@@ -30,5 +30,7 @@ date: 2019-04-22 13:40:41
             throw new ConcurrentModificationException();
     }
     ```
+5. [理解线程池的原理，为什么要创建线程池？](https://blog.csdn.net/xiongyouqiang/article/details/79456030)
+
 
 
