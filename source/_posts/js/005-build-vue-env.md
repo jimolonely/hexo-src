@@ -29,6 +29,14 @@ date: 2019-04-24 18:57:00
 
 使用[超级脚手架vue-cli](https://cli.vuejs.org/zh/guide/#%E4%BB%8B%E7%BB%8D).
 
+# 使用iview框架
+运行`vue ui`
+
+然后在界面上创建项目
+添加插件、iview依赖等。
+
+
+
 
 
 
