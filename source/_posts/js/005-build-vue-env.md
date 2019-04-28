@@ -35,6 +35,11 @@ date: 2019-04-24 18:57:00
 然后在界面上创建项目
 添加插件、iview依赖等。
 
+# bug
+
+iview： [tab页里嵌套select导致下拉不出来原因](https://github.com/iview/iview/issues/844)
+
+
 
 
 
