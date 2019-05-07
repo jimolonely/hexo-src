@@ -11,4 +11,9 @@ date: 2019-05-05 09:01:45
 
 1. Hystrix的请求缓存， 请求合并（collapser）
 
+2. 学习了mysql的innoDB的数据页存储结构。
+
+3. 学习gateway如何配置动态路由
+
+
 
