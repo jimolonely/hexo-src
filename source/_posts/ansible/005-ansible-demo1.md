@@ -66,6 +66,18 @@ tasks:
     regexp: old
     replace: new
 ```
+对于有引号的内容，直接写就行：
+```yml
+- name: modify keepalived conf
+  replace:
+    path: "/etc/sysconfig/keepalived"
+    regexp: KEEPALIVED_OPTIONS="-D"
+    replace: KEEPALIVED_OPTIONS="-D -d -S 0"
+```
+
+
+也可以使用： `ansible-doc -s lineinfile`
+
 
 # unarchive
 解压包，从src到dest：
