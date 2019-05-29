@@ -13,5 +13,7 @@ date: 2019-05-27 08:02:38
 
 2. {% post_link git/004-gitlab-review-way 使用gitlab进行review代码 %}
 
+3. {% post_link db/009-centos-uninstall-mysql centos完全卸载mysql %}
+
 
 
