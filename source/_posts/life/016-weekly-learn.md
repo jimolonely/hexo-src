@@ -15,5 +15,7 @@ date: 2019-05-27 08:02:38
 
 3. {% post_link db/009-centos-uninstall-mysql centos完全卸载mysql %}
 
+4. {% post_link elasticsearch/006-check-error ES启动错误：max file descriptors/max virtual memory %}
+
 
 
