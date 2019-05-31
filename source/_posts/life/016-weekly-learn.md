@@ -17,5 +17,7 @@ date: 2019-05-27 08:02:38
 
 4. {% post_link elasticsearch/006-check-error ES启动错误：max file descriptors/max virtual memory %}
 
+5. {% post_link algorithm/003-lru-java java实现LRU算法 %}
+
 
 
