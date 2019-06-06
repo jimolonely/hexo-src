@@ -11,4 +11,8 @@ date: 2019-06-03 20:41:45
 1. [理解js async/await](https://segmentfault.com/a/1190000007535316),以及[Promise对象](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 
 
+2. 练习算法题
+
+3. {% post_link java/045-feign-pass-params feignclient传参 %}
+
 
