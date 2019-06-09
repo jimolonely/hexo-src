@@ -15,4 +15,6 @@ date: 2019-06-03 20:41:45
 
 3. {% post_link java/045-feign-pass-params feignclient传参 %}
 
+4. {% post_link java/046-springcloud-zipkin-service-not-found spring cloud zipkin 找不到服务 %}
+
 
