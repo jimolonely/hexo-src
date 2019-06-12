@@ -16,5 +16,7 @@ date: 2019-06-10 19:55:37
     2. 再看非主键列是否完全依赖主键（2NF）
     3. 再看传递依赖：是否非主键列之间不存在依赖（3NF）
 
+3. {% post_link git/005-gitlab-backup-config gitlab定时备份配置 %}
+
 
 
