@@ -18,5 +18,7 @@ date: 2019-06-10 19:55:37
 
 3. {% post_link git/005-gitlab-backup-config gitlab定时备份配置 %}
 
+4. {% post_link java/048-spring-boot-multi-netcard spring cloud多网卡问题 %}
+
 
 
