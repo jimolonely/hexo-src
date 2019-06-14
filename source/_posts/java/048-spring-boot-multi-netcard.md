@@ -18,23 +18,10 @@ date: 2019-06-14 08:27:13
 
 # 问题解决
 
-手动修改IP。这里有2种方式：
+手动修改IP。
 
-## 1.server.address
-
-```yml
-eureka:
-  instance:
-    prefer-ip-address: true
-
-server:
-  port: 5557
-  address: 192.168.1.126
-```
-这种方式：只有192.168.1.126能访问，其他IP不行。
-
-## 2.inetutils.preferred-networks
-
+## 1.inetutils.preferred-networks
+指定IP：注意是正则的，可以只写唯一的一部分
 ```yml
 spring:
   cloud:
@@ -42,4 +29,14 @@ spring:
       preferred-networks: 192.168.1.
 ```
 
+## 2.inetutils.ignored-interfaces
+忽略eth0网卡：
+```yml
+spring:
+  cloud:
+    inetutils:
+      ignored-interfaces: ['eth0']
+```
+
+**特别重要：这些配置只有在bootstrap配置里才起作用，也就是要先加载**
 
