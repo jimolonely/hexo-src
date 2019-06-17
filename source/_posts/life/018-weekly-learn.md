@@ -20,5 +20,12 @@ date: 2019-06-10 19:55:37
 
 4. {% post_link java/048-spring-boot-multi-netcard spring cloud多网卡问题 %}
 
+5. docker
+    1. COPY的上下文环境，不允许copycontext之外的文件
+    2. 视图设置JVM参数失败，想到可以直接设置容器参数：-m ,但内存不足不能启动
+    3. 关于网络共通问题
+    4. 学会用`docker stats`查看服务资源消耗
+    5. 学会移除none的image镜像： `docker rmi $(docker images -f "dangling=true" -q)`
+    
 
 
