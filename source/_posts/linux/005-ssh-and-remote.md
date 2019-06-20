@@ -19,6 +19,8 @@ $ rdesktop -u xxx ip:port -p xxxx -r sound:local -r disk:Jimo=/home/jimo/xxx
 还需要注意的就是密码，当然可以不指定，等到出现界面时才输，在命令行上输密码需要转义，比如!,需要写成：\!,
 否则会被当成shell命令执行
 
+默认会有分辨率问题，可以通过参数`-g 1908x1080` 或者`-f`设置全屏调整.
+
 ## 2.ssh
 对于远程的云服务器,需要ssh链接.
 ```shell
