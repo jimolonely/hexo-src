@@ -24,11 +24,11 @@ https://www.cnblogs.com/CloudMan6/p/7163399.html
 1. bind volume
 2. docker managed volume
 
-{% asset_img 001.ong %}
+{% asset_img 001.png %}
 
 ### 容器与容器-bind volume
 
-{% asset_img 002.ong %}
+{% asset_img 002.png %}
 
 ### 容器与容器-volume container
 创建专门的volume容器来实现

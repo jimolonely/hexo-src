@@ -245,6 +245,12 @@ ubuntu18.04自带了一款todo应用，我开始一直以为它很简陋，连�
 
 于是注册了账号，使用了下，还不错。
 
+## ubuntu 下有道云
+参考github: https://github.com/jamasBian/youdao-note-electron
+
+因为18.10网页版访问不了。
+
+
 # ubuntu 单点登录账户
 ubuntu也像windows有账户了，可以试试。
 
