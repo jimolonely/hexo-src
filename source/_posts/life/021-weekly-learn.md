@@ -15,6 +15,8 @@ date: 2019-07-01 10:30:47
 
 3. 了解c4模型： [https://c4model.com/](https://c4model.com/)，画架构图可以参考下，先画使用者，再画模块。
 
+4. 学习docker存储和docker machine
+
 
 
 
