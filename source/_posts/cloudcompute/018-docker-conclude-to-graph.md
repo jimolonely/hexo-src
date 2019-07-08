@@ -148,6 +148,30 @@ TODO
 
 ### macvlan
 
+1. 打卡网卡混杂模式： `ip link set ens32 promisc on`
+2. 创建macvlan网络（多个主机都要运行）： 
+    ```shell
+    docker network create -d macvlan \
+      --subnet=192.168.77.0/24\
+      --gateway=192.168.77.1
+      -o parent=enp0s9 mac_net1
+    ```
+3. 连接macvlan(位于不同的主机)： `docker run -itd --name box1 --ip=192.168.77.20 --network mac_net1 busybox`
+4. 测试联通性： 相互能ping通ip，但主机名不行
+5. 分析macvlan原理： https://www.cnblogs.com/CloudMan6/p/7383919.html
+
+    1. 没有创建bridge，因为是直接通过物理网卡的
+    2. 进入容器查看ip a，发现有`eth0@ifx`,这就是虚拟出的网卡
+    3. 连接示意图如下：
+
+      {% asset_img 008.png %}
+6. 用sub-interface实现多macvlan网络： 源于macvlan会独占网卡，因此一个网卡只能创建一个网络，但可以通过链接到网卡的子网卡上（也就是使用VLAN，可以接1-4094个网络），盗图如下：
+
+    {% asset_img 009.png %}
+
+7. 不同的macvlan通信：使用路由中转
+
+
 
 
 
