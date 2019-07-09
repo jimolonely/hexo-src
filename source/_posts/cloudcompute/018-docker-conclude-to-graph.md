@@ -171,6 +171,34 @@ TODO
 
 7. 不同的macvlan通信：使用路由中转
 
+## 第三方网络方案
+
+### flannel
+
+1. 是什么？
+    centos开发的容器网络解决方案，主要为kubernates设计，但也可以单独使用
+2. 它的基本原理？
+    通过为每隔主机分配子网，然后容器从子网中分配IP，无需NAT和端口映射就可以跨主机通信
+3. 具体如何实现？
+    1. flannel在每个主机都有agent，叫fanneld，用来分配subnet
+    2. 主机间信息共享：通过etcd实现，这些信息是： 网络配置、已分配子网、IP等信息
+
+实践
+
+1. 安装etcd： https://etcd.io/
+
+2. 安装flannel： https://github.com/coreos/flannel
+
+3. 配置flannel网络
+
+4. 容器连接网络： `--bip , --mtu`
+
+5. 测试连通性： 没有DNS只能通过ip访问； 没有隔离功能；
+
+盗个图： 
+
+{% asset_img 010.png %}
+
 
 
 

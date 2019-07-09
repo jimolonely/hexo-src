@@ -11,5 +11,9 @@ date: 2019-07-08 07:57:35
 
 1. {% post_link cloudcompute/018-docker-conclude-to-graph 学习docker macvlan网络 %}
 
+2. 研究在线协同文档编辑软件： nextcloud、owncloud、cryptpad
+
+3. 学习flannel网络
+
 
 
