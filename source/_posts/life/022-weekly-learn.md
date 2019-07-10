@@ -17,5 +17,6 @@ date: 2019-07-08 07:57:35
 
 4. 增加cs-basic-concept
 
+5. {% post_link git/006-git-revert-deleted-files git-恢复之前版本误删的文件 %}
 
 
