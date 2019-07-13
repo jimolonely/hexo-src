@@ -6,6 +6,24 @@ tags:
 p: linux/000-build-mysystem
 date: 2017-12-27 16:24:19
 ---
+
+# 最新部分
+从零开始配置ubuntu
+
+1. 拷贝我的密码脚本到系统（python3 -m http:server）
+2. 打开firefox,登录，firefox会同步插件
+3. 登录ubuntu账户
+4. 打开软件更新，检查更新，更新完毕重启系统（搜索update-manager）
+5. 去搜狗输入法官方网站下载ubuntu的包，安装
+6. 安装网络监控插件： 
+    1. 安装chrome-gnome-shell： `apt install chrome-gnome-shell`
+    2. 然后在firefox里安装gnome shell integration插件
+    3. 访问：[https://extensions.gnome.org/extension/120/system-monitor/](https://extensions.gnome.org/extension/120/system-monitor/)，安装
+7. 重启系统，使插件和输入法生效
+8. 安装坚果云：去坚果云官网下载安装包，安装
+
+
+
 # 开始
 当然是如何打造个性化系统,一般可以按以下步骤来.
 ## 常用文件夹
