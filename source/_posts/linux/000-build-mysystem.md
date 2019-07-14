@@ -63,7 +63,7 @@ java -version
 sudo apt-get install openjdk-8-jdk -y
 java -version
 ```
-然后参考{% linux/018-ubuntu-java ubuntu安装/更新Java %}切换java版本
+然后参考{% post_link linux/018-ubuntu-java ubuntu安装/更新Java %}切换java版本
 
 ### maven
 ```shell
@@ -91,7 +91,7 @@ $ vi ~/.m2/setting.xml
 
 ### vim
 
-{% linux/006-vim 获取vimrc文件 %}
+{% post_link linux/006-vim 获取vimrc文件 %}
 
 安装管理插件：
 ```shell
