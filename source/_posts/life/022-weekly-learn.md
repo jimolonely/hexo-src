@@ -21,4 +21,7 @@ date: 2019-07-08 07:57:35
 
 6. 学习僵尸进程
 
-7. 啥都没学
+7. 重新构建系统
+
+8. {% post_link tools/016-vscode-config vscode自定义配置 %}
+

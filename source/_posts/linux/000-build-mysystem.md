@@ -10,6 +10,9 @@ date: 2017-12-27 16:24:19
 # 最新部分
 从零开始配置ubuntu
 
+## 基础配置
+
+0. 更换下载源： 软件更新里选择从其他站点下载，选择阿里云
 1. 拷贝我的密码脚本到系统（python3 -m http:server）
 2. 打开firefox,登录，firefox会同步插件
 3. 登录ubuntu账户
@@ -21,65 +24,59 @@ date: 2017-12-27 16:24:19
     3. 访问：[https://extensions.gnome.org/extension/120/system-monitor/](https://extensions.gnome.org/extension/120/system-monitor/)，安装
 7. 重启系统，使插件和输入法生效
 8. 安装坚果云：去坚果云官网下载安装包，安装
+9. [安装截图软件flame](## screen shot)
+10. 配置快捷键：
+    1. 命令行界面的： 粘贴改为Ctrl+V
+    2. 系统快捷键： 
+          1. 主目录： 改为WIN+E
+          2. 自定义截图快捷键：运行flameshot gui，Ctrl+Alt+A
+11. 登录todoist账号（系统同步），同步清单 
+    1. 使用ubuntu自带的TODO软件，选择扩展，打开Todoist，就会自动同步Todoist的列表了
 
+12. 建立常用目录：
+    ```shell
+    mkdir ~/workspace/Git -pv
+    mkdir ~/software/source -pv
+    ```
 
+## 必要软件安装
 
-# 开始
-当然是如何打造个性化系统,一般可以按以下步骤来.
-## 常用文件夹
-```shell
-sudo mkdir ~/software/source -pv
-sudo mkdir ~/software/bin -pv
-mkdir ~/knowme/books -pv
-mkdir ~/workspace/Git -pv
-mkdir ~/backup
-sudo apt-get update
+### git
 ```
-
-## Install git
-```shell
 sudo apt-get install git -y
-
-git config --global user.name "jimolonely"
-git config --global user.email xxx@163.com
 ```
-### 配置保存密码
-#### 方法1
-```shell
-git config --global credential.helper store
-```
-#### 方法2
-在~目录下创建.gitconfig文件，写入：
-```shell
-[credential]    
-    helper = store
-```
+然后是配置多用户、多git地址的方法，参考 {% post_link git/000-multi-git-account 一台电脑如何配置多个github账户 %}
 
-## 开发语言环境相关
+我的git账户有：
+1. github
+2. gitlab
+3. 公司内部的gitlab
 
-### Install java
+### Java
+首先安装java
 ```shell
 sudo apt-get install default-jdk -y
 java -version
 ```
-
-### python
-(一般都自带了)
-#### 更换pypi镜像地址
-在~/.pip/pip.conf下配上阿里云的：
+因为默认是JDK11或最新版本Java，如果需要JDK8，那么再安装：
 ```shell
-[global]
-index-url = http://mirrors.aliyun.com/pypi/simple/
-[install]
-trusted-host=mirrors.aliyun.com
+sudo apt-get install openjdk-8-jdk -y
+java -version
 ```
+然后参考{% linux/018-ubuntu-java ubuntu安装/更新Java %}切换java版本
 
 ### maven
 ```shell
 sudo apt-get install maven
 mvn -v
 ```
-然后修改为阿里云的镜像，在/etc/maven/settings.xml
+然后修改为阿里云的镜像，
+```
+$ mkdir ~/.m2
+$ cp /etc/maven/settings.xml ~/.m2/
+$ vi ~/.m2/setting.xml
+```
+修改镜像：
 ```
 <mirror>
       <id>alimaven</id>
@@ -92,27 +89,12 @@ mvn -v
 
 {% asset_img 000.png %}
 
-## 数据库相关
+### vim
 
-### 1. dbeaver
+{% linux/006-vim 获取vimrc文件 %}
 
-### 2. mysql
-
-
-## 开发工具
-
-### 1.eclipse
-
-### 2.intellij
-
-### 3.vim
-
-#### 3.1 clone vimrc
+安装管理插件：
 ```shell
-cd ~/workspace/Git/
-git clone https://github.com/jimolonely/myshell.git
-cp myshell/vim/.vimrc ~/.vimrc
-cp -r myshell/vim/.vim/ ~
 # 安装vbundle
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 ```
@@ -120,15 +102,17 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 ```shell
 :BundleInstall
 ```
+安装自动补全插件：
+
 等安装完成后进入~/.vim/bundle/YouCompleteMe安装
 ```shell
 cd ~/.vim/bundle/YouCompleteMe
 ./install.py --all
 ```
 
-### 4.vscode
+### vscode
 
-使用ubuntu自带商店安装会出现自带输入法不能输入中文问题,  使用 [官方推荐](https://code.visualstudio.com/docs/setup/linux) 安装。
+使用ubuntu自带商店安装就是非常慢,  可以使用 [官方推荐](https://code.visualstudio.com/docs/setup/linux) 安装。
 ```shell
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
 sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
@@ -138,6 +122,82 @@ sudo apt-get install apt-transport-https
 sudo apt-get update
 sudo apt-get install code # or code-insiders
 ```
+然后是vscode的自定义，主要是快捷键： {% post_link tools/016-vscode-config vscode自定义配置 %}
+
+### intellij
+虽然商店有，但是下载太慢，还是去官网下吧。
+
+配置导入，记得将之前idea的配置备份打包。
+
+### VPN软件
+这个就不说了，自己想办法，为了装Google浏览器及其同步。
+
+### chrome浏览器
+因为chrome有同步，所以不用备份
+
+开启vpn后，去官网下载chrome，然后登录，同步。
+
+### ubuntu 下有道云
+参考github: https://github.com/jamasBian/youdao-note-electron
+
+因为18.10网页版访问不了。
+
+### nodejs & npm
+
+nodejs和npm直接装就行：
+```shell
+$ sudo apt install nodejs
+$ sudo apt install npm
+```
+但是npm需要配置为非root用户也可以安装包：
+
+参考： {% post_link js/001-npms npm非root安装包问题 %}
+
+再配一下镜像这些。
+
+### Android Studio
+
+
+
+## 工作相关
+
+### github项目拉取
+1. hexo-src： 编译
+2. MyCost
+
+### 公司邮箱
+使用Thunderbird登录公司邮箱
+
+
+# 可选安装
+
+下面是根据需要再安装的软件。
+
+## 其他开发环境相关
+
+### python
+(一般都自带了)
+#### 更换pypi镜像地址
+在~/.pip/pip.conf下配上阿里云的：
+```shell
+[global]
+index-url = http://mirrors.aliyun.com/pypi/simple/
+[install]
+trusted-host=mirrors.aliyun.com
+```
+
+## 数据库相关
+
+使用idea自带的数据库客户端就很强大。
+
+### 1. dbeaver
+
+### 2. mysql
+
+## 开发工具
+
+### eclipse
+
 ### 5.UML绘图工具
 一些在线的绘图工具有些不错,但绘图不标准,下面是经过实践的安装版linux下的UML绘制工具:
 1. umlet
@@ -162,8 +222,6 @@ sudo apt-get install code # or code-insiders
 一个百度云命令行工具，地址：https://github.com/GangZhuo/BaiduPCS
 
 ### 3.浏览器
-#### 3.1chrome
-因为chrome有同步，所以不用备份
 
 #### 3.2firefox
 
@@ -202,7 +260,6 @@ flameshot gui
 [github](https://github.com/lupoDharkael/flameshot/issues/11#issuecomment-397700634)
 
 或者直接安装deb包。
-
 
 ## Ubuntu 18.x的右键问题
 现在2指单击代表右键，3指单击代表中间键。
@@ -262,12 +319,6 @@ ubuntu18.04自带了一款todo应用，我开始一直以为它很简陋，连�
 然后发现还有一个插件，可以连接到[todoist](https://todoist.com),实现同步。
 
 于是注册了账号，使用了下，还不错。
-
-## ubuntu 下有道云
-参考github: https://github.com/jamasBian/youdao-note-electron
-
-因为18.10网页版访问不了。
-
 
 # ubuntu 单点登录账户
 ubuntu也像windows有账户了，可以试试。

@@ -12,7 +12,21 @@ date: 2019-01-27 09:50:17
 
 参考[文章](https://linuxconfig.org/how-to-install-java-on-ubuntu-18-04-bionic-beaver-linux)
 
-注意里面对于安装多个jdk版本时如何切换jdk版本：
+
+## 安装相应版本Java
+
+JDK11（默认）
+```shell
+$ sudo apt install openjdk-11-jdk
+```
+JDK8
+```shell
+$ sudo apt install openjdk-8-jdk
+```
+
+## 切换版本
+
+注意对于安装多个jdk版本时如何切换jdk版本：
 
 ```shell
 $ sudo update-alternatives --config java

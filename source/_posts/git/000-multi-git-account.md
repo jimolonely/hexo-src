@@ -142,3 +142,24 @@ $ git config --global --unset user.name
 现在可以混用https和ssh提交了.
 
 但最好全部改为ssh,因为如果使用了credential.helper store,会把密码存储在~/.git-credentials下,不太好.
+
+# 附：使用全局用户名密码的方式
+
+```shell
+sudo apt-get install git -y
+
+git config --global user.name "jimolonely"
+git config --global user.email xxx@163.com
+```
+
+## 配置保存密码
+### 方法1
+```shell
+git config --global credential.helper store
+```
+### 方法2
+在~目录下创建.gitconfig文件，写入：
+```shell
+[credential]    
+    helper = store
+```
