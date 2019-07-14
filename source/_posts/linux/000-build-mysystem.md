@@ -38,6 +38,7 @@ date: 2017-12-27 16:24:19
     mkdir ~/workspace/Git -pv
     mkdir ~/software/source -pv
     ```
+13. {% post_link linux/025-ubuntu-use-navidia-card ubuntu下使用NVIDIA显卡 %}
 
 ## 必要软件安装
 

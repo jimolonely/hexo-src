@@ -25,3 +25,4 @@ date: 2019-07-08 07:57:35
 
 8. {% post_link tools/016-vscode-config vscode自定义配置 %}
 
+9. {% post_link linux/025-ubuntu-use-navidia-card ubuntu下使用NVIDIA显卡 %}

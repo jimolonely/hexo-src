@@ -21,7 +21,7 @@ date: 2018-07-22 10:04:03
 ```
  npm config set prefix '~/.npm-global'
 ```
-4. Open or create a ~/.profile file and add this line:
+4. Open or create a ~/.bashrc file and add this line:
 ```
  export PATH=~/.npm-global/bin:$PATH
 ```
