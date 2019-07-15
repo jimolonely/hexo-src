@@ -199,6 +199,67 @@ TODO
 
 {% asset_img 010.png %}
 
+// TODO
+使用host-gw作为backend
+
+### weave网络
+
+1. 安装： [https://www.weave.works/docs/net/latest/install/installing-weave/](https://www.weave.works/docs/net/latest/install/installing-weave/)
+2. 运行`weave launch`拉取docker镜像并运行weave, 完了之后如果有个防火墙警告，需要重新配防火墙：
+    ```
+    WARNING: existing iptables rule
+
+    '-A FORWARD -j REJECT --reject-with icmp-host-prohibited'
+
+    will block name resolution via weaveDNS - please reconfigure your firewall.
+    ```
+
+3. 查看网络配置，多了weave： `docker network ls`, `docker network inspect weave`
+    ```json
+    # docker network inspect weave
+    {
+        "Name": "weave",
+        "Id": "a96fe9925c0e970ddb7c0e8334f8a625c9eef1307b994183b7bfa331616be050",
+        "Created": "2019-07-15T09:19:51.673661228+09:00",
+        "Scope": "local",
+        "Driver": "weavemesh",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "weavemesh",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "10.32.0.0/12"
+                }
+            ]
+        },
+    }
+    ```
+
+4. 配置网络： (恢复之前的环境，执行`eval $(weave env --restore)`)
+    ```
+    # weave env
+    export DOCKER_HOST=unix:///var/run/weave/weave.sock ORIG_DOCKER_HOST=
+    # eval $(weave env)
+
+    # docker run --name bbox1 -itd busybox
+    ```
+
+5. 查看网络结构：
+    1. `docker exec bbox1 ip a`, 找到ethwe@ifxxx
+    2. `ip link`, 找到上述网卡
+    3. `brctl show`，看weave网络链接的网卡不止一个
+    4. `ip -d link`: 深入探究
+    5. 得出网络连接拓扑：
+    {% asset_img 011.png %}
+
+6. 再运行一个bbox2，会发现可以通过hostname访问，说明有DNS服务，网络结构：
+    {% asset_img 012.png %}
+
+7. weave 主机间连通性
+
+8. weave与外网连通
+
 
 
 
