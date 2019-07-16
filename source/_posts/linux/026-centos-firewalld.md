@@ -132,6 +132,40 @@ Zone定义了一个信任级别，什么的信任级别： 连接、接口或地
 ```
 关于配置的XML含义和具体配置，参考[文档](https://firewalld.org/documentation/zone/options.html)
 
+### service
+
+firewalld服务可以是本地端口和目标的列表，还可以是在启用服务时自动加载的防火墙帮助程序模块列表。
+
+在上面已经见过了，可以看更多[例子](https://firewalld.org/documentation/service/examples.html)
+
+### IPSet
+ipset可用于将多个IP或MAC地址组合在一起。 IP地址的ipset可用于IPv4或IPv6。 这由ipset的系列设置定义。 它可以是inet（默认值）或inet6。
+
+通过使用ipsets，例如，黑名单或白名单的规则数量减少到ipset中的一长串地址的少数规则。 所需规则的数量取决于用例。
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+  <ipset type="hash:net">
+  <short>white-list</short>
+  <entry>1.2.3.4</entry>
+  <entry>1.2.3.5</entry>
+  <entry>1.2.3.6</entry>
+</ipset>
+```
+### ICMP类型
+Internet控制消息协议（ICMP）用于在Internet协议（IP）中交换信息以及错误消息。 可以在firewalld中使用ICMP类型来限制这些消息的交换。
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<icmptype>
+  <short>Echo Reply (pong)</short>
+  <description>This message is the answer to an Echo Request.</description>
+</icmptype>
+```
+
+# 配置firewalld
+
+[使用firewalld](https://firewalld.org/documentation/utilities/firewall-cmd.html)
 
 
 
