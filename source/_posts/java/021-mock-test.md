@@ -284,6 +284,28 @@ public class ATest {
 	}
 ```
 
+### 根据参数返回不同的值
+
+https://stackoverflow.com/questions/22338536/mockito-return-value-based-on-property-of-a-parameter
+
+使用doAnswer()
+```java
+public void setUp() {
+    doAnswer(new Answer<String>(){
+        @Override
+        public String answer(InvocationOnMock invocation){
+			Obj yours = innovation.getArguments(0);
+			theProperty = yours.getXXX();
+            if ("value".equals(theProperty)){
+                return "result";
+            }
+            else if("otherValue".equals(theProperty)) {
+                return "otherResult";
+            }
+            return xxx;
+        }}).when(mockObject).myMethod(anyString());
+}
+```
 
 ### 方法没有返回值
 理论上应该抛出异常，否则就是方法本身不可测了。
