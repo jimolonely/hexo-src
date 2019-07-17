@@ -12,4 +12,6 @@ date: 2019-07-15 08:08:15
 
 2. {% post_link linux/026-centos-firewalld 重新认识centos防火墙 %}
 
+3. {% post_link linux/027-snap-ubuntu snap应用商店 %}
+
 
