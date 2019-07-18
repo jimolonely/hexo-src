@@ -260,6 +260,35 @@ TODO
 
 8. weave与外网连通
 
+### calico网络
+
+1. 3层网络，driver为calico，
+
+2. 同一个网络可通信，不同网络不行
+
+3. calico的network policy可自定义ACL，实现不同calico网络的通信
+
+4. policy的修改：配置文件`calicoctl apply -f policy.yml`
+
+5. calico可创建子网，先创建IP Pool
+
+## 网络选择因素
+没有最好，只有适合，下面是一些选择的总结。
+
+1. 网络拓扑：基于什么网络实现，vxlan、macvlan、overlay、underlay还是纯3层网络
+
+2. 是否需要分布式存储网络信息，比如etcd、consule
+
+3. 是否需要划分子网
+
+4. 连通与隔离性考虑
+
+5. 性能：underlay优于overlay，因为更底层
+
+
+
+
+
 
 
 
