@@ -16,4 +16,6 @@ date: 2019-07-15 08:08:15
 
 4. 学习docker calico网络
 
+5. 学习docker存储方案：Rex-Ray
+
 

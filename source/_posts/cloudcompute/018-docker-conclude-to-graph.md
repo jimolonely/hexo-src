@@ -63,6 +63,11 @@ https://www.cnblogs.com/CloudMan6/p/7163399.html
 
 现在说出这些阶段如何实现。
 
+## Rex-Ray分布式存储方案
+
+学习如何使用[https://rexray.io/](https://rexray.io/)
+
+
 # docker machine
 [https://docs.docker.com/machine/install-machine/](https://docs.docker.com/machine/install-machine/)
 
