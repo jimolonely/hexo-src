@@ -130,6 +130,8 @@ sudo apt-get install code # or code-insiders
 
 配置导入，记得将之前idea的配置备份打包。
 
+下载安装后，使用自定义application launcher制作启动图标。
+
 ### VPN软件
 这个就不说了，自己想办法，为了装Google浏览器及其同步。
 
