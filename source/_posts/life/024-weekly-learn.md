@@ -11,4 +11,7 @@ date: 2019-07-22 21:32:16
 
 1. {% post_link  linux/028-ubuntu-application-launcher ubuntu制作启动图标 %}
 
+2. {% post_link java/050-java-run-js java运行js脚本 %}
+
+
 
