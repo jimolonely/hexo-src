@@ -15,7 +15,7 @@ date: 2019-07-22 21:32:16
 
 3. {% post_link java/051-spring-http-status-code spring如何返回http状态码 %}
 
-4. {% java/mybatis-pgsql-return-insert-id mybatis+pgsql返回插入(更新)后的主键id %}
+4. {% post_link java/mybatis-pgsql-return-insert-id mybatis+pgsql返回插入(更新)后的主键id %}
 
 
 
