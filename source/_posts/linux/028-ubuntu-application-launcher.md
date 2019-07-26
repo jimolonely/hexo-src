@@ -30,5 +30,11 @@ Icon=/home/jack/software/idea/bin/idea.png
 
 允许：trust the launch
 
+# 可搜索到
+把快捷方式copy到系统应用去，就可以直接搜到了
+```shell
+sudo cp /home/jack/software/idea/bin/idea.desktop /usr/share/applications/
+```
+
 
 参考：[https://linuxconfig.org/how-to-create-desktop-shortcut-launcher-on-ubuntu-18-04-bionic-beaver-linux](https://linuxconfig.org/how-to-create-desktop-shortcut-launcher-on-ubuntu-18-04-bionic-beaver-linux)
