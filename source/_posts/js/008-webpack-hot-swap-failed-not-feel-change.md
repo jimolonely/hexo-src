@@ -34,8 +34,10 @@ $ cat /proc/sys/fs/inotify/max_user_watches
 
 现在就可以了，估计windows下不会出现。
 
---------------------- 
-作者：kongxx 
-来源：CSDN 
-原文：https://blog.csdn.net/kongxx/article/details/72515914 
-版权声明：本文为博主原创文章，转载请附上博文链接！
+# 永久生效
+上述操作只是当前有效，要永久生效，需要修改配置文件。
+
+```shell
+echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+```
