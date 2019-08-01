@@ -13,3 +13,10 @@ date: 2019-07-29 12:43:15
 
 2. {% post_link android/001-android-webdav-client android web-dav client %}
 
+3. spring boot 基于 jasypt的配置加密
+
+4. 使用JWT Token模拟session：需要前后端配合
+
+5. {% post_link java/056-mybatis-generate-plugin mybatis生成插件 %}
+
+
