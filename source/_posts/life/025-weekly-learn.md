@@ -19,4 +19,6 @@ date: 2019-07-29 12:43:15
 
 5. {% post_link java/056-mybatis-generate-plugin mybatis生成插件 %}
 
+6. 学习JVM，看完书籍，打算再看一遍
+
 
