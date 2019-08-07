@@ -32,6 +32,61 @@ date: 2019-08-05 20:09:29
 
 双亲委派模型：优先父类加载器（组合形式）加载，找不到才子类，why？因为和jdk重名就混乱了
 
+# mysql
+[count(1) vs count(*) vs count(col)的区别](https://blog.csdn.net/iFuMI/article/details/77920767)
+
+any, some, all,  exists(子查询)
+
+不能同时查询和修改
+
+mysql独有的操作符`<=>`: 
+
+```m
+mysql> SELECT 1 <=> 1, NULL <=> NULL, 1 <=> NULL;
+        -> 1, 1, 0
+mysql> SELECT 1 = 1, NULL = NULL, 1 = NULL;
+        -> 1, NULL, NULL
+```
+## 使用B+树索引的技巧
+
+记住：二级索引需要回表操作（先查到主键，再通过主键查询返回完整记录）
+
+1. 不要用 `seelct *`, 制定列，最好只包含索引列
+2. 只对搜索、排序、聚合的列建立索引
+3. 列的值不能大量重复，否则索引没有意义
+4. 索引列尽量小，占用空间小，查询越快；可以只指定对前缀编码：`KEY idx_name_birthday_phone_number (name(10), birthday, phone_number)`
+
+
+## 连接查询原理和优化
+
+一般情况下，我们都把只涉及单表的过滤条件放到WHERE子句中，把涉及两表的过滤条件都放到ON子句中，我们也一般把放到ON子句中的过滤条件也称之为连接条件。
+
+1. 嵌套循环：最笨的方法，全表扫描
+
+2. 
+
+## 优化IN子查询的方式
+
+```m
+SELECT * FROM s1 
+    WHERE key1 IN (SELECT common_field FROM s2 WHERE key3 = 'a');
+```
+1. 通过**物化表**(将子查询的结果集保存到临时表)
+    1. 结果集小（tmp_table_size, max_heap_table_size）：建立基于内存的hash索引
+    2. 结果集大：基于B+树的磁盘索引
+
+2. 转成内连接优化： 选择哪个方向成本最低的来
+
+3. 不通过物化直接转为内连接：mysql内部的半连接（semi join）操作
+
+4. 如果都不行，会被转化为exists语句执行，充分利用索引
+
+
+
+
+
+
+
 
 
 
