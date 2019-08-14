@@ -167,4 +167,23 @@ ansible_become_pass='password' # root password
   become_method: su
 ```
 
+# ansible清空目录
+
+`file absent`会删除整个目录，而有时只想清除目录下的文件, 清空或者清除部分文件：
+
+find + file命令：先找出来，再删除
+```s
+    - name: list all jar files
+      local_action: find path="{{playbook_dir}}/any-dirs/" patterns="*.jar" file_type=file
+      register: jars
+
+    - debug:
+        msg: "{{jars.files}}"
+
+    - name: clear jars
+      local_action: file path={{item.path}} state=absent
+      with_items:
+        - "{{jars.files}}"
+```
+
 
