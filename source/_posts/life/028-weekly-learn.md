@@ -17,5 +17,7 @@ date: 2019-08-19 10:56:24
 
 4. {% post_link server/006-tomcat9-doc-1-introduction Tomcat9-文档1-介绍 %}
 
+5. {% post_link server/007-tomcat9-doc-2-setup Tomcat9-文档2-安装 %}
+
 
 
