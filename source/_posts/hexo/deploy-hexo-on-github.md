@@ -209,3 +209,39 @@ p: linux/008-linux-kernel1
 ## hexo代码样式
 
 原版采用[highlight.js](http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html)
+
+## hexo代码块等宽字体
+
+最近发现hexo默认的代码块里面的字符没对齐，源于粘贴了字符图，开始以为是样式问题，
+后来发现是字体不等宽导致的，于是开始换字体。
+
+在`themes/landscape/source/css/highlight.styl`里，发现下面控制着字体：
+```css
+.article-entry
+  pre, code
+    font-family:  font-mono
+    font-size: 1em
+```
+于是我直接改了这里，发现并不起作用。
+
+后来发现，这个`font-mono`是个变量，真正的字体定义是在`_variables.styl`里：
+
+```css
+// Fonts
+font-sans = Consolas, Monaco, Menlo, Consolas, monospace, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif
+font-serif = Consolas, Monaco, Menlo, Consolas, monospace, Georgia, "Times New Roman", serif
+font-mono = Consolas, monospace
+font-icon = FontAwesome
+font-icon-path = "fonts/fontawesome-webfont"
+font-icon-version = "4.0.3"
+font-size = 14px
+line-height = 1.6em
+line-height-title = 1.1em
+```
+上面已经是我改过的，我优先使用`Consolas`字体。
+
+小插曲： `font-mono`的修改并不是那么简单， 我的方法是在浏览器中直接修改样式看哪个字体起作用，最后只剩下`Consolas, monospace`时ok了。
+
