@@ -17,7 +17,7 @@ date: 2019-08-14 13:44:59
 
 [http://asciiflow.com/](http://asciiflow.com/)
 
-```s
+~~~~
             +------------------+                +-------------------+
             |                  |                |                   |
             |                  |                |                   |
@@ -33,7 +33,8 @@ date: 2019-08-14 13:44:59
 |                             ^
 |                             |
 +-----------------------------+
-```
+~~~~
+
 # Graph Easy
 
 当我们不能联网时，需要有个本地工具也能绘制，这就要本地安装了，使用[Graph-Easy](https://metacpan.org/pod/distribution/Graph-Easy/bin/graph-easy)
@@ -48,7 +49,7 @@ $ sudo apt install libgraph-easy-perl
 因为这是一个perl模块，然而我不熟悉perl语言，就不通过编程使用了，只是学会用法就好，具体语法[参加文档](https://metacpan.org/pod/Graph::Easy#SYNOPSIS)
 
 命令行使用：
-```s
+```python
 $ echo "[ Bonn ] - car -> [ Berlin ]" | graph-easy
 +------+  car   +--------+
 | Bonn | -----> | Berlin |
