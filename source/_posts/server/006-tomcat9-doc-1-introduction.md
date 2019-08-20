@@ -92,3 +92,5 @@ CATALINA_BASE属性是一个环境变量。 您可以在执行Tomcat启动脚本
 配置文件中的所有信息都在启动时读取，这意味着对文件的任何更改都需要重新启动容器。
 
 
+{% post_link server/007-tomcat9-doc-2-setup next: Tomcat9-文档2-安装 %}
+

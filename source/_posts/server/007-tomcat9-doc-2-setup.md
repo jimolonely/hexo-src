@@ -8,6 +8,8 @@ date: 2019-08-20 10:43:33
 
 本文翻译自：[https://tomcat.apache.org/tomcat-9.0-doc/setup.html](https://tomcat.apache.org/tomcat-9.0-doc/setup.html)
 
+{% post_link server/006-tomcat9-doc-1-introduction prev: Tomcat9-文档1-介绍 %}
+
 # 介绍
 有几种方法可以将Tomcat设置为在不同平台上运行。这方面的主要文档是一个名为[RUNNING.txt](https://tomcat.apache.org/tomcat-9.0-doc/RUNNING.txt)的文件。如果以下信息无法解答您的一些问题，我们建议您参考该文件。
 
@@ -85,4 +87,8 @@ cd $CATALINA_HOME
 文件`$ CATALINA_HOME/bin/daemon.sh`可以用作模板，用于在启动时从`/etc/init.d`使用jsvc自动启动Tomcat。
 
 请注意，`Commons-Daemon JAR`文件必须位于运行时类路径上才能以这种方式运行Tomcat。 Commons-Daemon JAR文件位于`bootstrap.jar`清单的Class-Path条目中，但如果您获得Commons-Daemon类的`ClassNotFoundException或NoClassDefFoundError`，则在启动jsvc时将Commons-Daemon JAR添加到`-cp`参数。
+
+<hr>
+
+{% post_link server/008-tomcat9-doc-4-deployer next: Tomcat9-文档3-部署 %}
 
