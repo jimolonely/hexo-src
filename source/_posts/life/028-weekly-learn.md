@@ -21,5 +21,7 @@ date: 2019-08-19 10:56:24
 
 6. {% post_link server/008-tomcat9-doc-4-deployer Tomcat9-文档3-部署 %}
 
+7. {% post_link server/009-tomcat9-doc-5-manager Tomcat9-文档4-管理 %}
+
 
 
