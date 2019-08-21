@@ -80,7 +80,7 @@ HTML接口受到CSRF（跨站点请求伪造）攻击的保护，但文本和JMX
                 allow="127\.0\.0\.1"/>
 </Context>
 ```
-# 用户友好的HTMML界面
+# 用户友好的HTML界面
 Manager Web应用程序的用户友好HTML界面位于
 
 ```s
@@ -443,6 +443,369 @@ Default maximum session inactive interval 30 minutes
 $ curl -u jimo-script:jimo localhost:8080/manager/text/expire?path=/spring-boot-pkg-war&idle=1
 [1] 4560
 ```
+
+## 启动现有应用程序
+
+```s
+http://localhost:8080/manager/text/start?path=/examples
+```
+发出停止的应用程序信号以重新启动，并使其自身再次可用例如，如果应用程序所需的数据库暂时不可用，则停止和启动很有用。通常最好停止依赖此数据库的Web应用程序，而不是让用户不断遇到数据库异常。
+
+如果此命令成功，您将看到如下响应：
+
+```s
+OK - Started application at context path /examples
+```
+否则，响应将以FAIL开头并包含错误消息。可能的问题原因包括：
+
+* 遇到异常
+    * 尝试启动Web应用程序时遇到异常。检查Tomcat日志以获取详细信息。
+
+* 指定了无效的上下文路径
+    * 上下文路径必须以斜杠字符开头。要引用ROOT Web应用程序，请使用“/”。
+
+* path / foo没有上下文
+    * 您指定的上下文路径上没有已部署的应用程序。
+
+* 未指定上下文路径
+    * path参数是必需的。
+
+## 停止现有的应用程序
+
+```s
+http://localhost:8080/manager/text/stop?path=/examples
+```
+发信号通知现有应用程序使其自身不可用，但将其部署。应用程序停止时进入的任何请求都将看到HTTP错误404，此应用程序将在列表应用程序命令中显示为“已停止”。
+
+如果此命令成功，您将看到如下响应：
+
+```s
+OK - Stopped application at context path /examples
+```
+否则，响应将以FAIL开头并包含错误消息。可能的问题原因包括：
+
+* 遇到异常
+    * 尝试停止Web应用程序时遇到异常。检查Tomcat日志以获取详细信息。
+
+* 指定了无效的上下文路径
+    * 上下文路径必须以斜杠字符开头。要引用ROOT Web应用程序，请使用“/”。
+
+* path / foo没有上下文
+    * 您指定的上下文路径上没有已部署的应用程序。
+
+* 未指定上下文路径path参数是必需的。
+
+## 取消部署现有应用程序
+
+```s
+http://localhost:8080/manager/text/undeploy?path=/examples
+```
+**警告 - 此命令将删除此虚拟主机的`appBase`目录（通常为“`webapps`”）中存在的所有Web应用程序源码。这将删除应用程序`.WAR`（如果存在），应用程序目录来自`unpacked`形式的部署或`.WAR`扩展以及`$CATALINA_BASE/conf/[enginename]/[hostname]/`目录中的XML Context定义。如果您只是想让应用程序停止服务，则应该使用`/stop`命令**。
+
+发信号通知现有应用程序正常关闭自身，并将其从Tomcat中删除（这也使得此上下文路径可供以后重用）。此外，如果文档根目录存在于此虚拟主机的appBase目录（通常为“webapps”）中，则将其删除。此命令与/ deploy命令逻辑相反。
+
+如果此命令成功，您将看到如下响应：
+
+```s
+OK - Undeployed application at context path /examples
+```
+否则，响应将以FAIL开头并包含错误消息。可能的问题原因包括：
+
+* 遇到异常
+    * 尝试取消部署Web应用程序时遇到异常。检查Tomcat日志以获取详细信息。
+
+* 指定了无效的上下文路径
+    * 上下文路径必须以斜杠字符开头。要引用ROOT Web应用程序，请使用“/”。
+
+* 没有名为/ foo的上下文
+    * 没有已指定名称的已部署应用程序。
+
+* 未指定上下文路径path参数是必需的。
+
+## 发现内存泄漏
+
+```s
+http://localhost:8080/manager/text/findleaks[?statusLine=[true|false]]
+```
+查找会触发完整垃圾回收（Full GC）的泄漏诊断。它应该在生产系统中极其谨慎地使用。
+
+查找泄漏诊断尝试识别在停止，重新加载或取消部署时导致内存泄漏的Web应用程序。应始终使用分析器确认结果。诊断使用`StandardHost`实现提供的其他功能。如果使用不扩展`StandardHost`的自定义主机，它将无法工作。
+
+从Java代码中明确触发完整的垃圾收集被记录为不可靠。此外，根据所使用的JVM，还有禁用显式GC触发的选项，如`-XX：+ DisableExplicitGC`。如果要确保诊断程序成功运行完整的GC，则需要使用GC日志记录，JConsole或类似工具进行检查。
+
+如果此命令成功，您将看到如下响应：
+
+```s
+/leaking-webapp
+```
+如果您希望在响应中看到状态行，则在请求中包含`statusLine`查询参数，其值为`true`。
+
+已停止，重新加载或取消部署的Web应用程序的每个上下文路径，但先前运行中的哪些类仍然加载到内存中，从而导致内存泄漏，将列在新行上。如果应用程序已多次重新加载，则可能会多次列出。
+
+如果命令不成功，响应将以FAIL开头并包含错误消息。
+
+实践：
+
+```s
+$ curl -u jimo-script:jimo localhost:8080/manager/text/findleaks?statusLine=true
+OK - 没有发现内存泄漏
+```
+
+## 连接器SSL / TLS密码信息
+```s
+http://localhost:8080/manager/text/sslConnectorCiphers
+```
+SSL连接器/密码诊断列出了当前为每个连接器配置的SSL / TLS密码。 对于NIO和NIO2，列出了各个密码套件的名称。 对于APR，返回SSLCipherSuite的值。
+
+响应将如下所示：
+```s
+OK - Connector / SSL Cipher information
+Connector[HTTP/1.1-8080]
+  SSL is not enabled for this connector
+Connector[HTTP/1.1-8443]
+  TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA
+  TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+  TLS_ECDH_RSA_WITH_AES_128_CBC_SHA
+  TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA
+  ...
+```
+实践：
+```s
+$ curl -u jimo-script:jimo localhost:8080/manager/text/sslConnectorCiphers
+OK - Connector/SSL 密码.信息
+Connector[HTTP/1.1-8080]
+  不允许SSL连接
+Connector[AJP/1.3-8009]
+  不允许SSL连接
+```
+
+## 连接器SSL / TLS证书链信息
+```s
+http://localhost:8080/manager/text/sslConnectorCerts
+```
+SSL Connector / Certs诊断列出了当前为每个虚拟主机配置的证书链。
+
+响应将如下所示：
+
+```s
+OK - Connector / Certificate Chain information
+Connector[HTTP/1.1-8080]
+SSL is not enabled for this connector
+Connector[HTTP/1.1-8443]-_default_-RSA
+[
+[
+  Version: V3
+  Subject: CN=localhost, OU=Apache Tomcat PMC, O=The Apache Software Foundation, L=Wakefield, ST=MA, C=US
+  Signature Algorithm: SHA256withRSA, OID = 1.2.840.113549.1.1.11
+  ...
+```
+实践：
+```s
+$ curl -u jimo-script:jimo localhost:8080/manager/text/sslConnectorCerts
+OK - Connector / Certificate Chain information
+Connector[HTTP/1.1-8080]
+不允许SSL连接
+Connector[AJP/1.3-8009]
+不允许SSL连接
+```
+
+## 连接器SSL / TLS可信证书信息
+```s
+http://localhost:8080/manager/text/sslConnectorTrustedCerts
+```
+SSL Connector / Certs诊断列出了当前为每个虚拟主机配置的可信证书。
+
+响应将如下所示：
+```s
+OK - Connector / Trusted Certificate information
+Connector[HTTP/1.1-8080]
+SSL is not enabled for this connector
+Connector[AJP/1.3-8009]
+SSL is not enabled for this connector
+Connector[HTTP/1.1-8443]-_default_
+[
+[
+  Version: V3
+  Subject: CN=Apache Tomcat Test CA, OU=Apache Tomcat PMC, O=The Apache Software Foundation, L=Wakefield, ST=MA, C=US
+  ...
+```
+
+## 重新加载TLS配置
+```s
+http://localhost:8080/manager/text/sslReload?tlsHostName=name
+```
+重新加载TLS配置文件（证书和密钥文件，这不会触发重新解析`server.xml`）。 要为所有主机重新加载文件，请不要指定tlsHostName参数。
+```s
+$ curl -u jimo-script:jimo localhost:8080/manager/text/sslReload
+FAIL - 重新加载TLS配制失败
+```
+
+## 线程转储
+```s
+http://localhost:8080/manager/text/threaddump
+```
+编写JVM线程转储。
+
+响应将如下所示：
+```s
+OK - JVM thread dump
+2014-12-08 07:24:40.080
+Full thread dump Java HotSpot(TM) Client VM (25.25-b02 mixed mode):
+
+"http-nio-8080-exec-2" Id=26 cpu=46800300 ns usr=46800300 ns blocked 0 for -1 ms waited 0 for -1 ms
+   java.lang.Thread.State: RUNNABLE
+        locks java.util.concurrent.ThreadPoolExecutor$Worker@1738ad4
+        at sun.management.ThreadImpl.dumpThreads0(Native Method)
+        at sun.management.ThreadImpl.dumpAllThreads(ThreadImpl.java:446)
+        at org.apache.tomcat.util.Diagnostics.getThreadDump(Diagnostics.java:440)
+        at org.apache.tomcat.util.Diagnostics.getThreadDump(Diagnostics.java:409)
+        at org.apache.catalina.manager.ManagerServlet.threadDump(ManagerServlet.java:557)
+        at org.apache.catalina.manager.ManagerServlet.doGet(ManagerServlet.java:371)
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:618)
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:725)
+...
+```
+实践：
+```s
+$ curl -u jimo-script:jimo localhost:8080/manager/text/threaddump
+OK - JVM thread dump
+2019-08-21 15:17:32.786
+打印全部线程 OpenJDK 64-Bit Server VM (25.222-b10 mixed mode):
+
+"ajp-nio-8009-Acceptor" Id=48 cpu=69203 ns usr=0 ns blocked 0 for -1 ms waited 0 for -1 ms (running in native)
+   java.lang.Thread.State: RUNNABLE
+	at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method)
+	at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422)
+	at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250)
+	- locked (a java.lang.Object@226a310c) index 2 frame sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250)
+	at org.apache.tomcat.util.net.NioEndpoint.serverSocketAccept(NioEndpoint.java:463)
+	at org.apache.tomcat.util.net.NioEndpoint.serverSocketAccept(NioEndpoint.java:73)
+	at org.apache.tomcat.util.net.Acceptor.run(Acceptor.java:95)
+	at java.lang.Thread.run(Thread.java:748)
+
+"ajp-nio-8009-ClientPoller" Id=47 cpu=331431986 ns usr=250000000 ns blocked 0 for -1 ms waited 0 for -1 ms (running in native)
+   java.lang.Thread.State: RUNNABLE
+	at sun.nio.ch.EPollArrayWrapper.epollWait(Native Method)
+	at sun.nio.ch.EPollArrayWrapper.poll(EPollArrayWrapper.java:269)
+	at sun.nio.ch.EPollSelectorImpl.doSelect(EPollSelectorImpl.java:93)
+	at sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)
+	- locked (a sun.nio.ch.EPollSelectorImpl@56c54bf3) index 3 frame sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)
+	at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:97)
+	at org.apache.tomcat.util.net.NioEndpoint$Poller.run(NioEndpoint.java:708)
+	at java.lang.Thread.run(Thread.java:748)
+...
+```
+
+## VM信息
+```s
+http://localhost:8080/manager/text/vminfo
+```
+编写有关Java虚拟机的一些诊断信息。
+
+响应将如下所示：
+```s
+$ curl -u jimo-script:jimo localhost:8080/manager/text/vminfo
+OK - VM信息
+2019-08-21 15:19:23.113
+运行时信息:
+  vmName: OpenJDK 64-Bit Server VM
+  vmVersion: 25.222-b10
+  vmVendor: Private Build
+  specName: Java Virtual Machine Specification
+  specVersion: 1.8
+  specVendor: Oracle Corporation
+  managementSpecVersion: 1.2
+  name: 1197@jack
+  startTime: 1566366568078
+  uptime: 5395096
+  isBootClassPathSupported: true
+
+操作系统信息:
+  name: Linux
+  version: 5.0.0-25-generic
+  architecture: amd64
+  availableProcessors: 12
+  systemLoadAverage: 0.21
+
+ThreadMXBean capabilities:
+  isCurrentThreadCpuTimeSupported: true
+  isThreadCpuTimeSupported: true
+  isThreadCpuTimeEnabled: true
+  isObjectMonitorUsageSupported: true
+  isSynchronizerUsageSupported: true
+  isThreadContentionMonitoringSupported: true
+  isThreadContentionMonitoringEnabled: false
+
+线程数:
+  daemon: 32
+  total: 35
+  peak: 35
+  totalStarted: 39
+...
+```
+
+## 保存配置
+```s
+http://localhost:8080/manager/text/save
+```
+如果指定不带任何参数，则此命令将服务器的当前配置保存到`server.xml`。 如果需要，现有文件将重命名为备份。
+
+如果使用与已部署的Web应用程序的路径匹配的path参数指定，则该Web应用程序的配置将保存到xmlBase中适当命名的`context.xml`文件中，以用于当前主机。
+
+要使用该命令，必须存在`StoreConfig MBean`。 通常，这是使用[StoreConfigLifecycleListener](https://tomcat.apache.org/tomcat-9.0-doc/config/listeners.html#StoreConfig_Lifecycle_Listener_-_org.apache.catalina.storeconfig.StoreConfigLifecycleListener)配置的。
+
+如果命令不成功，响应将以FAIL开头并包含错误消息。
+
+实践：
+
+```s
+$ curl -u jimo-script:jimo localhost:8080/manager/text/save
+FAIL - No StoreConfig MBean registered at [Catalina:type=StoreConfig]. 
+Registration is typically performed by the StoreConfigLifecycleListener.
+```
+
+# 服务器状态
+从以下链接中，您可以查看有关服务器的状态信息。 `manager-xxx`角色中的任何一个都允许访问此页面。
+
+```s
+http://localhost:8080/manager/status
+http://localhost:8080/manager/status/all
+```
+以HTML格式显示服务器状态信息。
+```s
+http://localhost:8080/manager/status?XML=true
+http://localhost:8080/manager/status/all?XML=true
+```
+以XML格式显示服务器状态信息。
+
+首先，您有服务器和JVM版本号，JVM提供程序，操作系统名称和编号，后跟架构类型。
+
+其次，有关于JVM的内存使用情况的信息。
+
+然后，有关于Tomcat AJP和HTTP连接器的信息。两者都有相同的信息：
+
+* 线程信息：最大线程数，最小和最大备用线程数，当前线程数和当前线程忙数。
+
+* 请求信息：最大处理时间和处理时间，请求和错误计数，接收和发送的字节数。
+
+* 显示阶段，时间，发送字节，字节接收，客户端，VHost和请求的表。表中列出了所有现有线程。以下是可能的线程阶段列表：
+
+    * “解析和准备请求”：正在解析请求标头或正在进行读取请求主体的必要准备（如果已指定传输编码）。
+
+    * “service”：线程正在处理请求并生成响应。此阶段遵循“解析和准备请求”阶段，并在“完成”阶段之前。此阶段始终至少有一个线程（服务器状态页面）。
+
+    * “finishing”：请求处理结束。仍在输出缓冲区中的任何其余响应都将发送到客户端。如果适当保持连接活动，则此阶段之后是“保持活动”，如果“保持活动”不合适，则“准备好”。
+
+    * “Keep-Alive”：如果客户端发送另一个请求，则线程会保持对客户端的连接打开。如果收到另一个请求，则下一阶段将是“解析和准备请求”。如果在保持活动超时之前没有收到请求，则连接将关闭，下一阶段将为“就绪”。
+
+    * “ready”：线程处于静止状态并准备好使用。
+
+如果您使用`/status/all`命令，则可以使用有关每个已部署Web应用程序的其他信息。
+
+# 使用JMX代理Servlet
+## 什么是JMX代理Servlet
+JMX代理Servlet是一个轻量级代理，用于获取和设置tomcat内部.（或者通过MBean公开的任何类）其用法不是非常用户友好，但UI对于集成命令行脚本以监视和更改tomcat的内部非常有用。 您可以使用代理执行两项操作：获取信息和设置信息。 为了让您真正了解JMX代理Servlet，您应该对JMX有一个大致的了解。 如果您不知道JMX是什么，那么请准备好遭罪把。
+
 
 
 ```s
