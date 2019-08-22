@@ -25,5 +25,7 @@ date: 2019-08-19 10:56:24
 
 8. {% post_link server/010-tomcat9-doc-6-host-manager Tomcat9-文档5-主机管理 %}
 
+9. {% post_link db/010-docker-install-mysql docker安装mysql %}
+
 
 
