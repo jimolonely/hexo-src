@@ -814,3 +814,6 @@ JMX代理Servlet是一个轻量级代理，用于获取和设置tomcat内部.（
 ```s
 ```
 
+<hr>
+
+{% post_link server/010-tomcat9-doc-6-host-manager next: Tomcat9-文档5-主机管理 %}

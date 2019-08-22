@@ -23,5 +23,7 @@ date: 2019-08-19 10:56:24
 
 7. {% post_link server/009-tomcat9-doc-5-manager Tomcat9-文档4-管理 %}
 
+8. {% post_link server/010-tomcat9-doc-6-host-manager Tomcat9-文档5-主机管理 %}
+
 
 
