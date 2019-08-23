@@ -307,6 +307,11 @@ compiler:testCompile
 For more information, run 'mvn help:describe [...] -Ddetail'
 ```
 
+## 写插件实践
+
+{% post_link maven/007-write-custom-maven-plugin 自己写maven插件 %}
+
+
 
 ```s
 ```
