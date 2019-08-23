@@ -8,6 +8,32 @@ date: 2019-08-22 08:13:23
 
 本文为阅读书籍《maven实战--》的读书笔记。
 
+# 项目结构
+
+```s
+my-app
+|-- pom.xml
+`-- src
+    |-- main
+    |   `-- java
+    |       `-- com
+    |           `-- mycompany
+    |               `-- app
+    |                   `-- App.java
+    `-- test
+        `-- java
+            `-- com
+                `-- mycompany
+                    `-- app
+                        `-- AppTest.java
+```
+
+
+```s
+```
+```s
+```
+
 # maven坐标
 
 1. groupId：公司+项目，，eg：`org.springframework.boot`
@@ -151,7 +177,141 @@ $ mvn dependency:analyze
 </mirrors>
 ```
 
+# maven生命周期
 
+Maven拥有三套相互独立的生命周期，它们分别为clean、default和site。
+
+* clean生命周期的目的是清理项目
+* default生命周期的目的是构建项目
+* site生命周期的目的是建立项目站点。
+
+## clean
+
+1. pre-clean执行一些清理前需要完成的工作。
+2. clean清理上一次构建生成的文件。
+3. post-clean执行一些清理后需要完成的工作。
+
+## default
+
+[官方文档](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html)
+
+* validate
+* initialize
+* generate-sources
+* process-sources处理项目主资源文件。一般来说，是对src/main/resources目录的内容进行变量替换等工作后，复制到项目输出的主classpath目录中。
+* generate-resources
+* process-resources
+* compile编译项目的主源码。一般来说，是编译src/main/java目录下的Java文件至项目输出的主classpath目录中。
+* process-classes
+* generate-test-sources
+* process-test-sources处理项目测试资源文件。一般来说，是对src/test/resources目录的内容进行变量替换等工作后，复制到项目输出的测试classpath目录中。
+* generate-test-resources
+* process-test-resources
+* test-compile编译项目的测试代码。一般来说，是编译src/test/java目录下的Java文件至项目输出的测试classpath目录中。
+* process-test-classes
+* test使用单元测试框架运行测试，测试代码不会被打包或部署。
+* prepare-package
+* package接受编译好的代码，打包成可发布的格式，如JAR。
+* pre-integration-test
+* integration-test
+* post-integration-test
+* verify
+* install将包安装到Maven本地仓库，供本地其他Maven项目使用。
+* deploy将最终的包复制到远程仓库，供其他开发人员和Maven项目使用。
+
+## site
+
+* pre-site执行一些在生成项目站点之前需要完成的工作。
+* site生成项目站点文档。
+* post-site执行一些在生成项目站点之后需要完成的工作。
+* site-deploy将生成的项目站点发布到服务器上。
+
+## 生命周期命令
+
+就是各个生命周期的命令组合使用：
+```s
+$ mvn clean
+$ mvn test
+$ mvn clean install
+$ mvn clean deploy site-deploy
+```
+
+# 插件
+
+maven的核心功能只有几兆，生命周期的功能都是由插件完成的，需要时会下载。
+
+[官方文档介绍了插件及其开源地址](https://maven.apache.org/plugins/index.html)
+
+## 插件目标
+
+因为很多任务背后有很多可以复用的代码，因此，这些功能聚集在一个插件里，每个功能就是一个插件目标。
+
+`maven-dependency-plugin`有十多个目标，每个目标对应了一个功能，常见的插件目标为`dependency：analyze`、`dependency：tree`和`dependency：list`。
+这是一种通用的写法，冒号前面是插件前缀，冒号后面是该插件的目标。类似地，还可以写出`compiler：compile`（这是`maven-compiler-plugin`的`compile`目标）和`surefire：test`（这是`maven-surefire-plugin`的`test`目标）。
+
+## 插件配置
+
+命令行配置： `-Dkey=value`, 实际上是java自带的系统属性方式
+```s
+$ mvn install -Dmaven.test.skip=true
+```
+
+POM文件全局配置
+```xml
+  <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+      </configuration>
+  </plugin>
+```
+
+## 插件帮助描述
+
+`mvn help:describe -Dplugin=xxx [-Dgoal=xxx] [-Ddetail]`
+
+```s
+$ mvn help:describe -Dplugin=org.apache.maven.plugins:maven-compiler-plugin
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.jimo:jasypt-demo >------------------------
+[INFO] Building jasypt-demo 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-help-plugin:3.1.1:describe (default-cli) @ jasypt-demo ---
+[INFO] org.apache.maven.plugins:maven-compiler-plugin:3.8.1
+
+Name: Apache Maven Compiler Plugin
+Description: The Compiler Plugin is used to compile the sources of your
+  project.
+Group Id: org.apache.maven.plugins
+Artifact Id: maven-compiler-plugin
+Version: 3.8.1
+Goal Prefix: compiler
+
+This plugin has 3 goals:
+
+compiler:compile
+  Description: Compiles application sources
+
+compiler:help
+  Description: Display help information on maven-compiler-plugin.
+    Call mvn compiler:help -Ddetail=true -Dgoal=<goal-name> to display
+    parameter details.
+
+compiler:testCompile
+  Description: Compiles application test sources.
+
+For more information, run 'mvn help:describe [...] -Ddetail'
+```
+
+
+```s
+```
+```s
+```
 
 
 
