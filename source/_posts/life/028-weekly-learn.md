@@ -31,5 +31,8 @@ date: 2019-08-19 10:56:24
 
 11. {% post_link maven/007-write-custom-maven-plugin 自己写maven插件 %}
 
+12. {% post_link maven/006-read-book-maven-practice 读《maven实战》笔记 %}
+
+
 
 
