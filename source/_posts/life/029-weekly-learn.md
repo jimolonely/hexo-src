@@ -13,4 +13,9 @@ date: 2019-08-26 08:25:56
 
 2. 实践 IO多路复用：https://juejin.im/post/5ccaef8cf265da038932a357
 
+3. vs code的实现原理：https://mp.weixin.qq.com/s/AbLsl4z14zNRY8K22DmBbQ
+
+4. {% post_link java/059-byte-int-string-utf8 int和string转byte时的区别 %}
+
+
 
