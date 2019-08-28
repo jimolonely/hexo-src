@@ -17,5 +17,15 @@ date: 2019-08-26 08:25:56
 
 4. {% post_link java/059-byte-int-string-utf8 int和string转byte时的区别 %}
 
+5. {% post_link java/060-hbase-shell-hex-decode hbase shell里编码原理与解析 %}
 
+
+
+java bio nio
+
+https://blog.csdn.net/anxpp/article/details/51512200
+
+java-nio: http://tutorials.jenkov.com/java-nio/index.html
+
+https://www.tutorialspoint.com/java_nio/
 
