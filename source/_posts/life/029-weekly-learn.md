@@ -19,7 +19,7 @@ date: 2019-08-26 08:25:56
 
 5. {% post_link java/060-hbase-shell-hex-decode hbase shell里编码原理与解析 %}
 
-
+6. 优化hbase耗时查询太难了，换存储行不
 
 java bio nio
 
@@ -28,4 +28,6 @@ https://blog.csdn.net/anxpp/article/details/51512200
 java-nio: http://tutorials.jenkov.com/java-nio/index.html
 
 https://www.tutorialspoint.com/java_nio/
+
+翻译RFC：https://tools.ietf.org/html/rfc7231#section-4.3.3
 
