@@ -643,13 +643,28 @@ public Object preProcessQueryPattern(ProceedingJoinPoint pjp,
 
 当在同一切面中定义的两条通知都需要在同一个连接点上运行时，排序是未定义的（因为无法通过反射为`javac`编译的类检索声明顺序）。考虑将这些通知方法折叠到每个切面类中每个连接点的一个通知方法中，或者将这些通知重构为可以在切面级别订购的单独切面类。
 
+## 4.5.introduction
+声明（在AspectJ中称为类型间声明）使方面能够声明建议对象实现给定接口，并代表这些对象提供该接口的实现。
 
-
+您可以使用`@DeclareParents`注释进行介绍。 此批注用于声明匹配类型具有新父级（名称）。 例如，给定名为`UsageTracked`的接口和名为`DefaultUsageTracked`的接口的实现，以下方面声明服务接口的所有实现者也实现`UsageTracked`接口（例如，通过JMX公开统计信息）：
 ```java
+@Aspect
+public class UsageTracking {
+
+    @DeclareParents(value="com.xzy.myapp.service.*+", defaultImpl=DefaultUsageTracked.class)
+    public static UsageTracked mixin;
+
+    @Before("com.xyz.myapp.SystemArchitecture.businessService() && this(usageTracked)")
+    public void recordUsage(UsageTracked usageTracked) {
+        usageTracked.incrementUseCount();
+    }
+}
+```
+要实现的接口由注释字段的类型确定。 `@DeclareParents`注释的value属性是AspectJ类型模式。 任何匹配类型的bean都实现`UsageTracked`接口。 请注意，在前面示例的`before advice`中，服务bean可以直接用作UsageTracked接口的实现。 如果以编程方式访问bean，您将编写以下内容：
+```java
+UsageTracked usageTracked = (UsageTracked) context.getBean("myService");
 ```
 
-```java
-```
 
 ```java
 ```
