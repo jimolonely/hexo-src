@@ -40,7 +40,33 @@ my-app
 4. packaging: jar, war等
 5. classfier: 附属构件，由附加的插件生成，比如`spring-boot-starter-web-2.0.4.RELEASE-javadoc.jar`
 
-# 3.dependency
+# 3.maven的组合和继承
+
+## 组合
+
+为了快速构建多个模块
+
+```xml
+<modules>
+  <module>A</module>
+  <module>B</module>
+</modules>
+```
+
+## 继承
+
+为了复用配置
+
+```xml
+<parent>
+  <groupId></groupId>
+  <artifactId></artifactId>
+  <version></version>
+  <relativePath>../xxx/pom.xml</relativePath>
+</parent>
+```
+
+# 4.dependency
 
 依赖构造的是有向无环图。
 
@@ -167,7 +193,7 @@ B模块的pom想复用A的pom里的dependencyManagement的依赖，除了复制�
 </dependencyManagement>
 ```
 
-# 4.插件
+# 5.插件
 
 maven的核心功能只有几兆，生命周期的功能都是由插件完成的，需要时会下载。
 
@@ -238,7 +264,7 @@ compiler:testCompile
 For more information, run 'mvn help:describe [...] -Ddetail'
 ```
 
-# 5.常用maven命令
+# 6.常用maven命令
 
 执行测试：`mvn clean test`
 
@@ -288,6 +314,10 @@ $ mvn dependency:analyze
 [WARNING]    org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:jar:2.0.1.RELEASE:compile
 [WARNING]    com.github.ulisesbocchio:jasypt-spring-boot-starter:jar:2.1.1:compile
 ```
+
+## pluginManagement
+
+和dependencyManagement类似。
 
 # 仓库
 
