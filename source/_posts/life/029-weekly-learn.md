@@ -23,6 +23,8 @@ date: 2019-08-26 08:25:56
 
 7. {% post_link java/061-spring-aop-doc-translate spring aop文档阅读与翻译 %}
 
+8. {% post_link tools/020-idea-plugin-devlop idea插件开发01-入门篇 %}
+
 
 
 java bio nio
