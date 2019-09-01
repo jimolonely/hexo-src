@@ -8,7 +8,11 @@ date: 2019-08-22 08:13:23
 
 本文为阅读书籍《maven实战--》的读书笔记。
 
-# 项目结构
+maven是声明式的：也就是所有功能由插件实现。
+
+# 1.项目结构
+
+约定大于配置：如果存在古老的项目不是这种结构，那么maven也有相应的配置来修改。
 
 ```s
 my-app
@@ -28,13 +32,7 @@ my-app
                         `-- AppTest.java
 ```
 
-
-```s
-```
-```s
-```
-
-# maven坐标
+# 2.maven坐标
 
 1. groupId：公司+项目，，eg：`org.springframework.boot`
 2. artifactId: 项目下的模块，eg：`spring-boot-starter-web`
@@ -42,7 +40,9 @@ my-app
 4. packaging: jar, war等
 5. classfier: 附属构件，由附加的插件生成，比如`spring-boot-starter-web-2.0.4.RELEASE-javadoc.jar`
 
-## dependency
+# 3.dependency
+
+依赖构造的是有向无环图。
 
 ```xml
 <project>
@@ -64,9 +64,10 @@ my-app
   </dependencies>
 </project>
 ```
+
 * type: packaging, jar(默认)/war
-* scope: 见[后面](##scope)
-* optional: 是否可选,见[后面](#可选依赖(optional))
+* scope: 见[后面](###scope)
+* optional: 是否可选,见[后面](##可选依赖(optional))
 
 ## scope
 
@@ -76,7 +77,7 @@ my-app
 * runtime: 测试和运行有效，编译时无效: eg: `JDBC驱动`
 * system: 和provided一样，只是依赖时必须用systemPath显示指定依赖路径，而不是由maven解析，是与本机绑定：
     ```xml
-      <dependency>
+    <dependency>
       <groupId></groupId>
       <artifactId></artifactId>
       <version></version>
@@ -84,15 +85,15 @@ my-app
       <systemPath>/xxx/xx.jar</systemPath>
     </dependency>
     ```
-* import: TODO
+* import: [import范围](### import范围)
 
-# 传递性依赖
+## 传递性依赖
 
-A -> B -> C
+如果：A -> B -> C
 
-A--> C
+那么：A--> C
 
-## 传递性依赖范围影响
+### 传递性依赖范围影响
 
 | | compile | test | provided | runtime |
 |:---|:---|:---|:---|:---|
@@ -101,18 +102,149 @@ A--> C
 | provided | provided | - | provided | provided |
 | runtime | runtime | - | - | runtime |
 
-## 依赖路径
+### 依赖路径
 
 1. 最近优先：`A->B->C->X（1.0）、A->D->X（2.0）`
 2. 路径长度相同，先声明的优先(2.0.8之后)：`A->B->Y（1.0）、A->C->Y（2.0）`
 
-# 可选依赖(optional)
+## 可选依赖(optional)
 
 如果，A->B、B->X（可选）、B->Y（可选），那么A将不会依赖X和Y
 
 但是不建议使用，因为OOP的单一职责原则。
 
-# 常用maven命令
+## dependencyManagement
+
+依赖管理：Maven提供的dependencyManagement元素既能让子模块继承到父模块的依赖配置，又能保证子模块依赖使用的灵活性。在dependencyManagement元素下的依赖声明不会引入实际的依赖，不过它能够约束dependencies下的依赖使用。
+
+啥意思？看下面解释：
+
+1. 依赖管理是在继承中使用的
+
+2. 假如父pom声明了一些依赖：但是这并不会给父pom引入依赖
+    ```xml
+    <dependencyManagement>
+      <dependency>
+        <groupId>A</groupId>
+        <artifactId>a</artifactId>
+        <version>xx</version>
+      </dependency>
+    </dependencyManagement>
+    ```
+3. 子pom如果引入了a依赖，那么不需要声明版本,因为父pom里已经有了：
+    ```xml
+    <dependency>
+      <groupId>A</groupId>
+      <artifactId>a</artifactId>
+    </dependency>
+    ```
+    如果子pom不声明a依赖，那么a就不会被引入
+
+笔者强烈推荐这种写法，虽然也存在一定冗余，但是会降低冲突的概率。
+
+### import范围
+
+import范围的依赖只在dependencyManagement元素下才有效果，使用该范围的依赖通常指向一个POM，作用是将目标POM中的dependencyManagement配置导入并合并到当前POM的dependencyManagement元素中。
+
+比如，A模块(假如groupId为A，artifactId为a)的pom的内容如下：
+```xml
+<dependencyManagement>
+  <dependency>
+   ...
+  </dependency>
+</dependencyManagement>
+```
+B模块的pom想复用A的pom里的dependencyManagement的依赖，除了复制和继承，还可以使用import导入：
+```xml
+<dependencyManagement>
+  <dependency>
+    <groupId>A</groupId>
+    <artifactId>a</artifactId>
+    <version>xx</version>
+    <type>pom</type>
+    <scope>import></scope>
+  </dependency>
+</dependencyManagement>
+```
+
+# 4.插件
+
+maven的核心功能只有几兆，生命周期的功能都是由插件完成的，需要时会下载。
+
+[官方文档介绍了插件及其开源地址](https://maven.apache.org/plugins/index.html)
+
+## 插件目标
+
+因为很多任务背后有很多可以复用的代码，因此，这些功能聚集在一个插件里，每个功能就是一个插件目标。
+
+`maven-dependency-plugin`有十多个目标，每个目标对应了一个功能，常见的插件目标为`dependency：analyze`、`dependency：tree`和`dependency：list`。
+这是一种通用的写法，冒号前面是插件前缀，冒号后面是该插件的目标。类似地，还可以写出`compiler：compile`（这是`maven-compiler-plugin`的`compile`目标）和`surefire：test`（这是`maven-surefire-plugin`的`test`目标）。
+
+## 插件配置
+
+命令行配置： `-Dkey=value`, 实际上是java自带的系统属性方式
+```s
+$ mvn install -Dmaven.test.skip=true
+```
+
+POM文件全局配置
+```xml
+  <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+      </configuration>
+  </plugin>
+```
+
+## 插件帮助描述
+
+`mvn help:describe -Dplugin=xxx [-Dgoal=xxx] [-Ddetail]`
+
+```s
+$ mvn help:describe -Dplugin=org.apache.maven.plugins:maven-compiler-plugin
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.jimo:jasypt-demo >------------------------
+[INFO] Building jasypt-demo 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-help-plugin:3.1.1:describe (default-cli) @ jasypt-demo ---
+[INFO] org.apache.maven.plugins:maven-compiler-plugin:3.8.1
+
+Name: Apache Maven Compiler Plugin
+Description: The Compiler Plugin is used to compile the sources of your
+  project.
+Group Id: org.apache.maven.plugins
+Artifact Id: maven-compiler-plugin
+Version: 3.8.1
+Goal Prefix: compiler
+
+This plugin has 3 goals:
+
+compiler:compile
+  Description: Compiles application sources
+
+compiler:help
+  Description: Display help information on maven-compiler-plugin.
+    Call mvn compiler:help -Ddetail=true -Dgoal=<goal-name> to display
+    parameter details.
+
+compiler:testCompile
+  Description: Compiles application test sources.
+
+For more information, run 'mvn help:describe [...] -Ddetail'
+```
+
+# 5.常用maven命令
+
+执行测试：`mvn clean test`
+
+打包任务：`jar:jar`
+
+安装任务：`install:install`
 
 ## 查看依赖
 看3个地方：都是冒号分隔的
@@ -236,87 +368,60 @@ $ mvn clean install
 $ mvn clean deploy site-deploy
 ```
 
-# 插件
-
-maven的核心功能只有几兆，生命周期的功能都是由插件完成的，需要时会下载。
-
-[官方文档介绍了插件及其开源地址](https://maven.apache.org/plugins/index.html)
-
-## 插件目标
-
-因为很多任务背后有很多可以复用的代码，因此，这些功能聚集在一个插件里，每个功能就是一个插件目标。
-
-`maven-dependency-plugin`有十多个目标，每个目标对应了一个功能，常见的插件目标为`dependency：analyze`、`dependency：tree`和`dependency：list`。
-这是一种通用的写法，冒号前面是插件前缀，冒号后面是该插件的目标。类似地，还可以写出`compiler：compile`（这是`maven-compiler-plugin`的`compile`目标）和`surefire：test`（这是`maven-surefire-plugin`的`test`目标）。
-
-## 插件配置
-
-命令行配置： `-Dkey=value`, 实际上是java自带的系统属性方式
-```s
-$ mvn install -Dmaven.test.skip=true
-```
-
-POM文件全局配置
-```xml
-  <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-compiler-plugin</artifactId>
-      <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-      </configuration>
-  </plugin>
-```
-
-## 插件帮助描述
-
-`mvn help:describe -Dplugin=xxx [-Dgoal=xxx] [-Ddetail]`
-
-```s
-$ mvn help:describe -Dplugin=org.apache.maven.plugins:maven-compiler-plugin
-[INFO] Scanning for projects...
-[INFO] 
-[INFO] ------------------------< com.jimo:jasypt-demo >------------------------
-[INFO] Building jasypt-demo 0.0.1-SNAPSHOT
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO] 
-[INFO] --- maven-help-plugin:3.1.1:describe (default-cli) @ jasypt-demo ---
-[INFO] org.apache.maven.plugins:maven-compiler-plugin:3.8.1
-
-Name: Apache Maven Compiler Plugin
-Description: The Compiler Plugin is used to compile the sources of your
-  project.
-Group Id: org.apache.maven.plugins
-Artifact Id: maven-compiler-plugin
-Version: 3.8.1
-Goal Prefix: compiler
-
-This plugin has 3 goals:
-
-compiler:compile
-  Description: Compiles application sources
-
-compiler:help
-  Description: Display help information on maven-compiler-plugin.
-    Call mvn compiler:help -Ddetail=true -Dgoal=<goal-name> to display
-    parameter details.
-
-compiler:testCompile
-  Description: Compiles application test sources.
-
-For more information, run 'mvn help:describe [...] -Ddetail'
-```
+# 实践操作
 
 ## 写插件实践
 
 {% post_link maven/007-write-custom-maven-plugin 自己写maven插件 %}
 
+测试插件：`maven-invoker-plugin`
 
+## 打包时指定主类
 
+当直接打包运行时会出现找不到主类问题：
 ```s
+$ java -jar target/test-maven-main-1.0-SNAPSHOT.jar 
+target/test-maven-main-1.0-SNAPSHOT.jar中没有主清单属性
 ```
+
+原因是META-INF里没有主类信息；
+
+这时候增加插件解决：
+```xml
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.jimo.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+```
+结果：
 ```s
+$ mvn clean package
+
+$ java -jar target/test-maven-main-1.0-SNAPSHOT.jar 
+hello world
 ```
+
 
 
 
