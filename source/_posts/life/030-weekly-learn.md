@@ -13,8 +13,15 @@ date: 2019-09-02 22:16:18
 
 2. 19-09-04: 今天不到9点下班，还算轻松,回来学习kafka
 
+3. 19-09-05：加班到11点，已经习惯了
 
+https://www.cnblogs.com/zhangkanghui/p/9613844.html
 
+https://www.cnblogs.com/mr-yang-localhost/p/8284317.html
+
+https://www.cnblogs.com/mr-yang-localhost/p/8284317.html
+
+https://www.cnblogs.com/mr-yang-localhost/p/8284317.html
 
 
 
