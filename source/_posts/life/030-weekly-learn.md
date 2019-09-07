@@ -17,6 +17,7 @@ date: 2019-09-02 22:16:18
 
 4. 19-09-06：今天团建，因为我是新来的，按传统得敬每个同事一杯，有的同事故意刁难，我大概喝了30杯酒，吐了2次，第一次体会到我不会喝醉，只是吐了再喝。
 
+5. {% post_link java/062-spring-boot-security-01 spring-boot-security应用01 %}
 
 
 https://www.cnblogs.com/zhangkanghui/p/9613844.html
