@@ -21,6 +21,8 @@ date: 2019-09-02 22:16:18
 
 6. {% post_link java/064-spring-boot-starter-priciple spring-boot starter原理 %}
 
+7. {% basic/021-geohash  geohash原理 %}
+
 
 
 https://www.cnblogs.com/zhangkanghui/p/9613844.html
