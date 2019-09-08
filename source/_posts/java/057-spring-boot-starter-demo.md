@@ -7,7 +7,7 @@ p: java/057-spring-boot-starter-demo
 date: 2019-08-16 15:52:45
 ---
 
-本文从实践的角度出发，实现一个spring-boot的starter依赖包，为理解spring-boot的starter原理做好准备。
+本文从实践的角度出发，实现一个spring-boot的starter依赖包，为理解spring-boot的starter原理做好准备.关于原理篇参看：{% post_link java/064-spring-boot-starter-priciple spring-boot starter原理 %}
 
 应用场景：
 假如有一个开源库，为了顺应时代潮流，想方便使用spring-boot的开发者使用，就需要实现一个方便的依赖，让spring-boot自动加载，让用户以spring-boot的方式使用

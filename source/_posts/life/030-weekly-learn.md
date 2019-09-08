@@ -19,6 +19,9 @@ date: 2019-09-02 22:16:18
 
 5. {% post_link java/062-spring-boot-security-01 spring-boot-security应用01 %}
 
+6. {% post_link java/064-spring-boot-starter-priciple spring-boot starter原理 %}
+
+
 
 https://www.cnblogs.com/zhangkanghui/p/9613844.html
 
