@@ -29,21 +29,8 @@ https://www.cnblogs.com/zhangkanghui/p/9613844.html
 
 https://www.cnblogs.com/mr-yang-localhost/p/8284317.html
 
-https://www.cnblogs.com/mr-yang-localhost/p/8284317.html
-
-https://www.cnblogs.com/mr-yang-localhost/p/8284317.html
 
 
 
-
-java bio nio
-
-https://blog.csdn.net/anxpp/article/details/51512200
-
-java-nio: http://tutorials.jenkov.com/java-nio/index.html
-
-https://www.tutorialspoint.com/java_nio/
-
-翻译RFC：https://tools.ietf.org/html/rfc7231#section-4.3.3
 
 
