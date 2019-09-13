@@ -8,10 +8,11 @@ date: 2019-09-12 14:29:29
 
 这是2019年第37周周报.
 
-
 log4j日志配置：https://www.cnblogs.com/mr-yang-localhost/p/8284317.html
 
-log4j、logback、log4j12、slf4j的区别
+1. {% post_link java/067-log4j-slf4j-logback-log4j12-diff log4j、logback、log4j12、slf4j的区别 %}
+
+
 
 
 
