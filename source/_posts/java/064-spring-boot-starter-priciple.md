@@ -129,7 +129,7 @@ date: 2019-09-08 07:53:22
 ```
 我们分析每一个注解。
 
-## @@SpringBootConfiguration
+## @SpringBootConfiguration
 
 这是一个spring-boot项目的注解类，查看其定义：
 ```java
@@ -142,7 +142,7 @@ public @interface SpringBootConfiguration {
 ```
 事实上只是`@Configuration`的另一种声明，只是一个是spring的注解，一个是spring-boot的，那意义就很明确了：
 
-声明在一个类上，标识这是一个配置类，也就是以前的一个spring的配置文件，而本质上，其也是一个componenet
+声明在一个类上，标识这是一个配置类，也就是以前的一个spring的配置文件，而本质上，其也是一个component
 ```java
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -317,7 +317,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		return loadSpringFactories(classLoader).getOrDefault(factoryClassName, Collections.emptyList());
 	}
 ```
-如果打个断电在这里，可以看看`factoryClassName`变量的变化，都是`spring.factories`里声明的各个组：
+如果打个断点在这里，可以看看`factoryClassName`变量的变化，都是`spring.factories`里声明的各个组：
 ```java
 # Initializers
 org.springframework.context.ApplicationContextInitializer=\
