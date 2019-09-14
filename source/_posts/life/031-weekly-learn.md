@@ -12,7 +12,9 @@ log4j日志配置：https://www.cnblogs.com/mr-yang-localhost/p/8284317.html
 
 1. {% post_link java/067-log4j-slf4j-logback-log4j12-diff log4j、logback、log4j12、slf4j的区别 %}
 
+2. {% post_link linux/030-ubuntu-change-dns ubuntu修改DNS %}
 
+3. {% post_link maven/008-maven-define-jdk-version maven手动指定JDK版本 %}
 
 
 
