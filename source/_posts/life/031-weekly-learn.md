@@ -24,6 +24,8 @@ log4j日志配置：https://www.cnblogs.com/mr-yang-localhost/p/8284317.html
 
 {% post_link spark/008-spark-standalone-conf-run spark standalone模式的配置与运行 %}
 
+{% post_link linux/032-ubuntu-ufw ubuntu防火墙 %}
+
 
 
 java bio nio
