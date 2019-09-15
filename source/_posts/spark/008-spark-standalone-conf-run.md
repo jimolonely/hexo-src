@@ -38,8 +38,9 @@ $ sbin/start-all.sh
 starting org.apache.spark.deploy.master.Master, logging to /home/jack/workspace/spark/spark-2.4.4-bin-hadoop2.7/logs/spark-jack-org.apache.spark.deploy.master.Master-1-jack.out
 localhost: ssh: connect to host localhost port 22: Connection refused
 ```
+这个解决办法参看：{% post_link linux/031-ubuntu-ssh-connection-refuesd ubuntu localhost:ssh:connect to host localhost port 22:Connection refused %}
 
-另外的启动方式：
+另外的启动方式：单个启动
 ```s
 $ ./start-master.sh 
 org.apache.spark.deploy.master.Master running as process 12891.  Stop it first.
@@ -47,6 +48,64 @@ org.apache.spark.deploy.master.Master running as process 12891.  Stop it first.
 $ ./start-slave.sh spark://localhost:7077
 ```
 
+我还是修改完ssh来启动：
+```s
+$ sbin/start-all.sh 
+starting org.apache.spark.deploy.master.Master, logging to /home/jack/workspace/spark/spark-2.4.4-bin-hadoop2.7/logs/
+spark-jack-org.apache.spark.deploy.master.Master-1-jack.out
+localhost: starting org.apache.spark.deploy.worker.Worker, logging to /home/jack/workspace/spark/spark-2.4.4-bin-hadoop2.7/logs/
+spark-jack-org.apache.spark.deploy.worker.Worker-1-jack.out
+```
+
+检查启动结果：
 
 ```s
+$ jps
+23479 Worker
+23304 Master
+23851 Jps
 ```
+
+# 运行Pi示例
+
+比之前local模式多了个`--master spark://localhost:7077`
+
+```s
+$ bin/spark-submit \
+ --class org.apache.spark.examples.SparkPi \
+ --master spark://localhost:7077 \
+ --executor-memory 1G \
+ --total-executor-cores 2 \
+ ./examples/jars/spark-examples_2.11-2.4.4.jar \
+ 100
+```
+
+结果都差不多，但是我们有一个界面，运行在8080端口，可以查看结果：
+
+{% asset_img 000.png %}
+
+# 通过spark-shell提交任务
+
+```s
+$ bin/spark-shell --master spark://localhost:7077
+```
+这时候我们看一下进程：
+```s
+$ jps
+27680 CoarseGrainedExecutorBackend
+27571 SparkSubmit
+28212 Jps
+23479 Worker
+23304 Master
+```
+会发现有一个`CoarseGrainedExecutorBackend`, 这个executorBackend的出现代表spark已经申请了资源，虽然还没执行任务，具体流程请参考：
+{% post_link spark/007-spark-data-flow spark运行流程 %}
+
+# 模拟报错
+
+给一个不存在的文件：
+```s
+scala> sc.textFile("xxx").flatMap(_.split(" ")).map((_,1)).reduceByKey(_+_).collect
+org.apache.hadoop.mapred.InvalidInputException: Input path does not exist: file:/home/jack/workspace/spark/spark-2.4.4-bin-hadoop2.7/xxx
+```
+

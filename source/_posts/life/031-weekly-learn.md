@@ -16,6 +16,14 @@ log4j日志配置：https://www.cnblogs.com/mr-yang-localhost/p/8284317.html
 
 3. {% post_link maven/008-maven-define-jdk-version maven手动指定JDK版本 %}
 
+{% post_link spark/006-spark-config-wordcount spark001：wordcount %}
+
+{% post_link spark/007-spark-data-flow spark运行流程 %}
+
+{% post_link linux/031-ubuntu-ssh-connection-refuesd ubuntu localhost:ssh:connect to host localhost port 22:Connection refused %}
+
+{% post_link spark/008-spark-standalone-conf-run spark standalone模式的配置与运行 %}
+
 
 
 java bio nio
