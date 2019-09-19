@@ -12,6 +12,12 @@ date: 2019-09-17 20:07:02
 
 redis 管道写入数据
 
+kerberos理解
+
+LDAP 研究：https://segmentfault.com/a/1190000014683418?utm_source=tag-newest
+
+OAuth2.0原理和实践：
+
 java bio nio
 
 https://blog.csdn.net/anxpp/article/details/51512200
