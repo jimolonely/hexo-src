@@ -463,8 +463,74 @@ c.GitHubOAuthenticator.client_secret = 'xxxx'
 c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
 ```
 
+# 使用REST API
+
+需要做几步：
+
+1. 获取token：
+  * 通过界面
+  * 通过命令行: `jupyterhub token <username>`
+2. 配置token到配置文件：
+  ```python
+  c.JupyterHub.api_tokens = {
+      'secret-token': 'username',
+  }
+  ```
+3. 使用：
+  ```s
+  # 1.token是放在header里的，token前面还有个token标识
+  # 2.默认API端口是8081，冲突了可以改
+  curl -X GET -H "Authorization: token <token>" "http://IP:8081/hub/api/users/"
+  ```
+
 # 新增用户
 
 1. 通过jupyter接口增加用户
+  * [接口文档](https://jupyterhub.readthedocs.io/en/stable/_static/rest-api/index.html)
+
 2. 再登录
+
+# 动态用户
+
+如果手动设置了白名单配置，那么只有白名单里的用户可以使用，因此去掉白名单声明，启动时可以看到下面的日志：
+
+```s
+[I 2019-09-20 09:53:14.707 JupyterHub app:1563] Not using whitelist. Any authenticated user will be allowed.
+```
+当然，我们也可以自定义认证器：
+[https://github.com/jupyterhub/jupyterhub/issues/1012](https://github.com/jupyterhub/jupyterhub/issues/1012)
+
+# 现在的配置
+
+```python
+# The docker instances need access to the Hub, so the default loopback port doesn't work:
+from jupyter_client.localinterfaces import public_ips
+c.JupyterHub.hub_ip = public_ips()[0]
+
+from oauthenticator.github import GitHubOAuthenticator
+c.JupyterHub.authenticator_class = GitHubOAuthenticator
+
+
+#c.Spawner.notebook_dir='/home/jack/workspace/temp/notebook/{username}'
+# c.Authenticator.whitelist = {'hehe','jack','jimolonely'}
+# c.Authenticator.admin_users = {'hehe'}
+
+c.JupyterHub.api_tokens = {
+    '95d7628d65224032857d7d36805f3324': 'jimolonely',
+}
+
+c.GitHubOAuthenticator.oauth_callback_url = 'http://localhost:8000/hub/oauth_callback'
+c.GitHubOAuthenticator.client_id = 'xxx'
+c.GitHubOAuthenticator.client_secret = 'xxxx'
+
+c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
+```
+
+# 自定义notebook镜像
+
+原生镜像：[https://hub.docker.com/r/jupyterhub/singleuser/dockerfile](https://hub.docker.com/r/jupyterhub/singleuser/dockerfile)
+
+
+
+
 
