@@ -526,6 +526,161 @@ c.GitHubOAuthenticator.client_secret = 'xxxx'
 c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
 ```
 
+# 自定义认证代码
+
+我们做一个最简单的认证：如果用户名和密码相同就通过。
+
+整个过程如下：
+
+1. 写一个自定义认证器，实现jupyterhub的Authenticator类
+2. 安装到本地python库
+3. 配置自己的认证器类
+
+## 自定义认证器
+
+认证器代码结构：
+
+```s
+my-authenticator$ tree
+.
+├── jauth
+│   ├── __init__.py
+│   └── jauth.py
+└── setup.py
+```
+
+jauth.py
+
+```python
+from jupyterhub.auth import Authenticator
+
+
+class JimoAuth(Authenticator):
+
+    def authenticate(self, handler, data):
+        print(handler)
+        print(data)
+        username = data['username']
+        # check password:
+        if data['username'] == data['password']:
+            return username
+```
+
+`__init__.py`
+
+```python
+from .jauth import *
+```
+
+setup.py: 安装
+
+```python
+from setuptools import setup
+
+setup(name='jauth',
+      version='1.0',
+      description='jimo Authenticator for Jupyterhub',
+      author='jimo',
+      license='MIT',
+      author_email='jimo@163.com',
+      url='https://github.com/jimolonely',
+      packages=['jauth'],
+      )
+```
+
+## 安装到本地python库
+
+```s
+my-authenticator$ sudo python3 setup.py install
+[sudo] jack 的密码： 
+running install
+running bdist_egg
+running egg_info
+creating jauth.egg-info
+writing jauth.egg-info/PKG-INFO
+writing dependency_links to jauth.egg-info/dependency_links.txt
+writing top-level names to jauth.egg-info/top_level.txt
+writing manifest file 'jauth.egg-info/SOURCES.txt'
+reading manifest file 'jauth.egg-info/SOURCES.txt'
+writing manifest file 'jauth.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_py
+creating build
+creating build/lib
+creating build/lib/jauth
+copying jauth/__init__.py -> build/lib/jauth
+copying jauth/jauth.py -> build/lib/jauth
+creating build/bdist.linux-x86_64
+creating build/bdist.linux-x86_64/egg
+creating build/bdist.linux-x86_64/egg/jauth
+copying build/lib/jauth/__init__.py -> build/bdist.linux-x86_64/egg/jauth
+copying build/lib/jauth/jauth.py -> build/bdist.linux-x86_64/egg/jauth
+byte-compiling build/bdist.linux-x86_64/egg/jauth/__init__.py to __init__.cpython-36.pyc
+byte-compiling build/bdist.linux-x86_64/egg/jauth/jauth.py to jauth.cpython-36.pyc
+creating build/bdist.linux-x86_64/egg/EGG-INFO
+copying jauth.egg-info/PKG-INFO -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying jauth.egg-info/SOURCES.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying jauth.egg-info/dependency_links.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying jauth.egg-info/top_level.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+zip_safe flag not set; analyzing archive contents...
+creating dist
+creating 'dist/jauth-1.0-py3.6.egg' and adding 'build/bdist.linux-x86_64/egg' to it
+removing 'build/bdist.linux-x86_64/egg' (and everything under it)
+Processing jauth-1.0-py3.6.egg
+Copying jauth-1.0-py3.6.egg to /usr/local/lib/python3.6/dist-packages
+Adding jauth 1.0 to easy-install.pth file
+
+Installed /usr/local/lib/python3.6/dist-packages/jauth-1.0-py3.6.egg
+Processing dependencies for jauth==1.0
+Finished processing dependencies for jauth==1.0
+```
+
+安装完成会生成一些文件，最后能在`/usr/local/lib/python3.6/dist-packages`下面找到。
+
+## 配置自己的认证器类
+
+下面是所有配置：
+
+jc_auth.py
+```python
+from jupyter_client.localinterfaces import public_ips
+c.JupyterHub.hub_ip = public_ips()[0]
+c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
+
+# 配置认证器类
+from jauth import JimoAuth
+c.JupyterHub.authenticator_class = JimoAuth
+```
+
+## 运行
+
+```s
+$ jupyterhub -f jc_auth.py
+```
+
+可以看看登录失败和成功的日志：
+
+```python
+<jupyterhub.handlers.login.LoginHandler object at 0x7f421a5b10b8>
+{'next': '', 'username': 'jj', 'password': 'jjjj'}
+[W 2019-09-21 08:00:31.841 JupyterHub base:670] Failed login for jj
+[I 2019-09-21 08:00:31.841 JupyterHub log:174] 200 POST /hub/login?next= (@::1) 1.61ms
+<jupyterhub.handlers.login.LoginHandler object at 0x7f421ae15208>
+{'next': '', 'username': 'jj', 'password': 'jj'}
+[I 2019-09-21 08:00:48.058 JupyterHub base:663] User logged in: jj
+```
+
+最后docker也运行成功：
+
+```s
+$ docker ps
+CONTAINER ID        IMAGE                       COMMAND                  CREATED             STATUS              PORTS                       NAMES
+d3f65881f6c2        jupyterhub/singleuser:1.0   "tini -g -- start-no…"   11 minutes ago      Up 11 minutes       127.0.0.1:32775->8888/tcp   jupyter-jj
+```
+
+
+
 # 自定义notebook镜像
 
 原生镜像：[https://hub.docker.com/r/jupyterhub/singleuser/dockerfile](https://hub.docker.com/r/jupyterhub/singleuser/dockerfile)
