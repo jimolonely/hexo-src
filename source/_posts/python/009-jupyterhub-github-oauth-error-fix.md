@@ -888,6 +888,10 @@ server{
 [W 2019-09-22 03:31:04.027 SingleUserNotebookApp log:174] 404 GET /notebook/user/jimo/static/components/react/react-dom.production.min.js (@127.0.0.1) 3.69ms
 [W 2019-09-22 03:31:04.067 SingleUserNotebookApp log:174] 404 GET /notebook/user/jimo/static/components/react/react-dom.production.min.js (@127.0.0.1) 1.60ms
 ```
+map $http_upgrade $connection_upgrade {
+  default upgrade;
+  ''      close;
+}
 
 于是，继续修改配置，修改docker里访问API的路径，加个前缀：
 
@@ -967,6 +971,46 @@ server{
         proxy_set_header Connection $connection_upgrade;
     }
 }
+```
+
+index.html
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>vue-sso-demo</title>
+</head>
+
+<body>
+  <h1>The Great Jupyterhub In Just</h1>
+
+  <h1><button id="btn">open jupyterhub</button></h1>
+
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+  <script>
+    $("#btn").click(function () {
+
+      $.ajax({
+        'url': '/notebook/hub/login',
+        'type': 'get',
+        headers: {
+          Authorization: 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJqaW1vIiwiaWF0IjoxNTE2MjM5MDIyfQ.hdMd2TNqSY2EUVpv4HqofQN_jfSWjclk95cH7aoGseQ'
+        },
+        success: function (da) {
+          console.log(da)
+          window.location.href = '/notebook/hub/home'
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>
 ```
 
 
