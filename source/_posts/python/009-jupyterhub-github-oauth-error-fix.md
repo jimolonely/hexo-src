@@ -686,6 +686,299 @@ d3f65881f6c2        jupyterhub/singleuser:1.0   "tini -g -- start-no…"   11 mi
 原生镜像：[https://hub.docker.com/r/jupyterhub/singleuser/dockerfile](https://hub.docker.com/r/jupyterhub/singleuser/dockerfile)
 
 
+# 使用JWT验证
+
+JWT也是官方的一种验证方式：[https://github.com/mogthesprog/jwtauthenticator](https://github.com/mogthesprog/jwtauthenticator)
+
+安装完成后，下面是配置：
+
+```python
+from jupyter_client.localinterfaces import public_ips
+c.JupyterHub.hub_ip = public_ips()[0]
+
+from oauthenticator.github import GitHubOAuthenticator
+c.JupyterHub.authenticator_class = GitHubOAuthenticator
+
+
+c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
+
+c.JupyterHub.authenticator_class = 'jwtauthenticator.jwtauthenticator.JSONWebTokenAuthenticator'
+
+c.JSONWebTokenAuthenticator.secret = 'jimo'            # The secrect key used to generate the given token
+
+c.JSONWebTokenAuthenticator.username_claim_field = 'username'                           # The claim field contianing the username/sAMAccountNAme/userPrincipalName
+c.JSONWebTokenAuthenticator.expected_audience = ''
+```
+
+* secret是JWT的秘钥
+* username_claim_field是JWT里自定定义的用户名的key
+
+启动服务后，使用postman验证下：
+
+在header里增加一个Authorization:
+
+```s
+bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJqaW1vIiwiaWF0IjoxNTE2MjM5MDIyfQ.hdMd2TNqSY2EUVpv4HqofQN_jfSWjclk95cH7aoGseQ
+```
+
+这个token可以去官方网站生成一个做测试：[https://jwt.io/](https://jwt.io/):
+
+* 填入secret
+* 修改payload，增加`username: jimo`
+
+POSTMAN可以成功，但是我们需要在web界面做到，于是随便一个网站，增加带JWT header的请求会出现跨域问题，比如，我写了一个简单的web界面：
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>vue-sso-demo</title>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <h1><button id="btn">open jupyterhub</button></h1>
+
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+  <script>
+    $("#btn").click(function () {
+
+      $.ajax({
+        'url': 'http://localhost:8000/hub/login',
+        'type': 'get',
+        headers: {
+          Authorization: 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJqaW1vIiwiaWF0IjoxNTE2MjM5MDIyfQ.hdMd2TNqSY2EUVpv4HqofQN_jfSWjclk95cH7aoGseQ'
+        },
+        success: function (da) {
+          console.log(da)
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>
+```
+错误：
+```s
+OPTIONS http://localhost:8000/hub/login 405 (Method Not Allowed)
+Access to XMLHttpRequest at 'http://localhost:8000/hub/login' from origin 'null' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: It does not have HTTP ok status.
+```
+
+我尝试过关闭jupyterhub的跨域，然而没有成功。那就只剩下一条路：把他们放在同一个域下。
+
+我使用nginx来做代理，配置如下：
+
+```s
+server{
+
+    listen 8080;
+    server_name localhost;
+
+    root /home/jack/workspace/temp/vue-jupyterhub-app/app;
+    index index.html;
+
+    location ~/(hub|user) {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass_request_headers on;
+        proxy_pass_header Authorization;
+        proxy_pass http://localhost:8000;
+    }
+}
+```
+
+代理到8080端口，包括前端页面和jupyterhub服务器，这里有个问题：就是所有的jupyterhub开头的URI都不能再被我们的应用使用了。
+
+接着可以登录，也可以生成notebook，也能打开，但是连不上websocket：
+
+```s
+WebSocket connection to 'ws://localhost:8080/user/jimo/api/kernels/750982b7-7696-4f88-9829-79e98c5f9932/channels?session_id=9db4d742f14940c88e643f3eddfa1de4' failed: Error during WebSocket handshake: Unexpected response code: 504
+```
+
+增加下面的配置可以解决这个问题：
+
+```s
+  map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+  }
+
+  server {
+
+    location ~/(hub|user) {
+
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+		}
+	}
+```
+
+现在可以正常写代码运行了，但是有几个API访问是403的，比如：
+
+* 停止服务
+* 请求Token
+
+查看后台日志：
+
+```s
+[W 2019-09-22 09:56:43.145 JupyterHub base:60] Blocking Cross Origin API request.  Referer: http://localhost:8080/hub/token, Host: localhost/hub/
+[E 2019-09-22 09:56:43.145 JupyterHub users:273] Error authenticating request for /hub/api/users/jimo/tokens: 
+[W 2019-09-22 09:56:43.146 JupyterHub log:174] 403 POST /hub/api/users/jimo/tokens (@127.0.0.1) 7.12ms
+
+[W 2019-09-22 09:59:30.636 JupyterHub base:60] Blocking Cross Origin API request.  Referer: http://localhost:8080/hub/home, Host: localhost/hub/
+[W 2019-09-22 09:59:30.637 JupyterHub log:174] 403 DELETE /hub/api/users/jimo/server (@127.0.0.1) 10.50ms
+```
+
+看来还是跨域的问题导致的认证失败。
+
+这个问题可以这样解决：（目前没找到更好的方法）：使用80端口，这样jupyterhub就认为是一个域了。
+
+## 更近一步
+
+上面的nginx配置依然有问题，因为在集成到我们的应用时，不可能把`user, hub`等URI剔除，即便可以，也不友好，因此需要给jupyterhub自定义一个前缀URI，这里使用notebook：
+
+```python
+c.JupyterHub.base_url = u'/notebook'
+```
+
+相应的nginx配置也得改：
+
+```s
+server{
+
+    listen 80;
+    server_name localhost;
+
+    root /home/jack/workspace/temp/vue-jupyterhub-app/app;
+    index index.html;
+
+    location / {
+        root /home/jack/workspace/temp/vue-jupyterhub-app/app;
+        index index.html;    
+    }
+
+    location /notebook {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass_request_headers on;
+        proxy_pass_header Authorization;
+        proxy_pass http://localhost:8000;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+}
+```
+
+现在关于jupyterhub的一切都在`/notebook/`下了。
+
+然而，新的问题又来了：docker容器里请求jupyterhub 的API的路径也变了，而docker配置未修改，于是访问时就会出现404：
+
+```s
+[E 2019-09-22 03:31:03.980 SingleUserNotebookApp web:2991] Could not open static file ''
+[W 2019-09-22 03:31:03.981 SingleUserNotebookApp log:174] 404 GET /notebook/user/jimo/notebook? (@127.0.0.1) 26.89ms
+[W 2019-09-22 03:31:04.027 SingleUserNotebookApp log:174] 404 GET /notebook/user/jimo/static/components/react/react-dom.production.min.js (@127.0.0.1) 3.69ms
+[W 2019-09-22 03:31:04.067 SingleUserNotebookApp log:174] 404 GET /notebook/user/jimo/static/components/react/react-dom.production.min.js (@127.0.0.1) 1.60ms
+```
+
+于是，继续修改配置，修改docker里访问API的路径，加个前缀：
+
+```python
+c.DockerSpawner.hub_prefix = '/notebook'
+```
+
+最后记得删除旧的docker实例，再重新生成就ok了。
+
+## 完整配置
+
+jc.py
+
+```python
+# The docker instances need access to the Hub, so the default loopback port doesn't work:
+from jupyter_client.localinterfaces import public_ips
+c.JupyterHub.hub_ip = public_ips()[0]
+
+from oauthenticator.github import GitHubOAuthenticator
+c.JupyterHub.authenticator_class = GitHubOAuthenticator
+
+
+c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
+
+c.JupyterHub.authenticator_class = 'jwtauthenticator.jwtauthenticator.JSONWebTokenAuthenticator'
+
+c.JSONWebTokenAuthenticator.secret = 'jimo'            # The secrect key used to generate the given token
+
+c.JSONWebTokenAuthenticator.username_claim_field = 'username'                           # The claim field contianing the username/sAMAccountNAme/userPrincipalName
+c.JSONWebTokenAuthenticator.expected_audience = ''
+
+origin='*'
+c.Spawner.args = [f'--NotebookApp.allow_origin={origin}']
+c.JupyterHub.tornado_settings = {
+    'headers': {
+        'Access-Control-Allow-Origin': origin,
+    },
+}
+
+c.Authenticator.admin_users = {'jimo'}
+
+c.JupyterHub.base_url = u'/notebook'
+
+c.DockerSpawner.hub_prefix = '/notebook'
+```
+
+nginx的 hub.conf
+
+```s
+map $http_upgrade $connection_upgrade {
+  default upgrade;
+  ''      close;
+}
+
+server{
+
+    listen 80;
+    server_name localhost;
+
+    root /home/jack/workspace/temp/vue-jupyterhub-app/app;
+    index index.html;
+
+    location / {
+        root /home/jack/workspace/temp/vue-jupyterhub-app/app;
+        index index.html;    
+    }
+
+    location /notebook {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass_request_headers on;
+        proxy_pass_header Authorization;
+        proxy_pass http://localhost:8000;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+}
+```
+
+
+
+# 读取cookie认证
+
+要让jupyterhub读取我们应用的cookie，他们必须处于同一个域下，可以是一个子域名。
+
+经过测试，是可以读取到cookie的，于是怎么验证就是个问题了。
+
+
+
 
 
 
