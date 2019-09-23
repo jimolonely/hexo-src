@@ -39,11 +39,13 @@ public class LoginInterceptor implements HandlerInterceptor {
             throw new AuthFailException();
         }
         try {
-            String userInfo = JwtUtil.checkToken(token);
-
             // 允许返回token在响应头中
             response.setHeader("Access-Control-Expose-Headers", "token");
             response.setHeader("Access-Control-Allow-Headers", "token");
+            response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+
+            String userInfo = JwtUtil.checkToken(token);
+
             response.setHeader("token", JwtUtil.getToken(userInfo));
             return true;
         } catch (Exception e) {
