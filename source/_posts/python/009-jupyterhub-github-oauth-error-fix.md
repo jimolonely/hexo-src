@@ -679,13 +679,6 @@ CONTAINER ID        IMAGE                       COMMAND                  CREATED
 d3f65881f6c2        jupyterhub/singleuser:1.0   "tini -g -- start-no…"   11 minutes ago      Up 11 minutes       127.0.0.1:32775->8888/tcp   jupyter-jj
 ```
 
-
-
-# 自定义notebook镜像
-
-原生镜像：[https://hub.docker.com/r/jupyterhub/singleuser/dockerfile](https://hub.docker.com/r/jupyterhub/singleuser/dockerfile)
-
-
 # 使用JWT验证
 
 JWT也是官方的一种验证方式：[https://github.com/mogthesprog/jwtauthenticator](https://github.com/mogthesprog/jwtauthenticator)
@@ -1009,7 +1002,6 @@ index.html
     })
   </script>
 </body>
-
 </html>
 ```
 
@@ -1022,6 +1014,101 @@ index.html
 经过测试，是可以读取到cookie的，于是怎么验证就是个问题了。
 
 
+
+# 自定义notebook镜像
+
+## 明白原生镜像
+原生镜像：[https://hub.docker.com/r/jupyterhub/singleuser/dockerfile](https://hub.docker.com/r/jupyterhub/singleuser/dockerfile)
+
+查看其dockerfile
+```s
+# Build as jupyterhub/singleuser
+# Run with the DockerSpawner in JupyterHub
+
+ARG BASE_IMAGE=jupyter/base-notebook
+FROM $BASE_IMAGE
+MAINTAINER Project Jupyter <jupyter@googlegroups.com>
+
+ADD install_jupyterhub /tmp/install_jupyterhub
+ARG JUPYTERHUB_VERSION=master
+# install pinned jupyterhub and ensure notebook is installed
+RUN python3 /tmp/install_jupyterhub && \
+    python3 -m pip install notebook
+```
+
+### base镜像
+首先找到其base镜像：[jupyter/base-notebook ](https://hub.docker.com/r/jupyter/base-notebook/dockerfile)
+
+里面主要做的就是打包jupyter的notebook，暂时不研究。
+
+注意：其使用conda安装python的。
+
+### install_jupyterhub
+
+显然，这是一个本地文件，我们找到github上的源码：[https://github.com/jupyterhub/jupyterhub/tree/master/singleuser](https://github.com/jupyterhub/jupyterhub/tree/master/singleuser)
+
+install_jupyterhub是一个没有后缀的python文件：
+```python
+#!/usr/bin/env python
+import os
+from subprocess import check_call
+import sys
+
+V = os.environ['JUPYTERHUB_VERSION']
+
+pip_install = [
+    sys.executable, '-m', 'pip', 'install', '--no-cache', '--upgrade',
+    '--upgrade-strategy', 'only-if-needed',
+]
+if V == 'master':
+    req = 'https://github.com/jupyterhub/jupyterhub/archive/master.tar.gz'
+else:
+    version_info = [ int(part) for part in V.split('.') ]
+    version_info[-1] += 1
+    upper_bound = '.'.join(map(str, version_info))
+    vs = '>=%s,<%s' % (V, upper_bound)
+    req = 'jupyterhub%s' % vs
+
+check_call(pip_install + [req])
+```
+
+脚本很好懂，就是从github下载源码安装，所以不需要关心这一步。
+
+## 修改镜像
+
+根据我们的需求修改：
+* 安装相应的包
+* 修改内核代码
+
+
+
+
+由于咱们需要更改python内核代码增加一些magic函数，所以需要修改docker镜像里的python代码。
+
+找到python对应的版本：看起来都是用的python3.7
+
+```s
+/opt/conda/bin$
+lrwxrwxrwx 1 jovyan users        9 Aug  3 03:26 python -> python3.7*
+lrwxrwxrwx 1 jovyan users        9 Aug  3 03:26 python3 -> python3.7*
+```
+
+确定我们要改的包的路径：`/opt/conda/lib/python3.7/site-packages/IPython`
+
+
+
+
+## 离线安装
+
+### 离线打包python环境
+
+```s
+python3.7 -m pip freeze > hub_req.txt
+
+python3.7 -m pip download -r hub_req.txt -d ./pkgs/
+```
+
+### 离线打包docker环境
 
 
 
