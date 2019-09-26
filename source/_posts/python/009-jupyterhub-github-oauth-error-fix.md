@@ -1014,6 +1014,9 @@ index.html
 经过测试，是可以读取到cookie的，于是怎么验证就是个问题了。
 
 
+# 自定义界面
+
+TODO
 
 # 自定义notebook镜像
 
@@ -1080,9 +1083,6 @@ check_call(pip_install + [req])
 * 安装相应的包
 * 修改内核代码
 
-
-
-
 由于咱们需要更改python内核代码增加一些magic函数，所以需要修改docker镜像里的python代码。
 
 找到python对应的版本：看起来都是用的python3.7
@@ -1095,6 +1095,37 @@ lrwxrwxrwx 1 jovyan users        9 Aug  3 03:26 python3 -> python3.7*
 
 确定我们要改的包的路径：`/opt/conda/lib/python3.7/site-packages/IPython`
 
+由于修改镜像涉及到保密信息，大家根据自己情况修改，确保最后build成功。
+
+## 指定自己的镜像
+
+修改hub的配置，指向我们自己的镜像：
+
+```python
+c.DockerSpawner.image = 'test/docker-notebook:v2'
+```
+
+## 数据持久化
+
+使用docker的一个点是：数据默认是存在docker里的，用于生产时肯定需要持久化到外部存储里。
+
+目前没有云存储，暂时映射到本机上的一个目录：
+
+```python
+c.DockerSpawner.volumes = {'/mnt/docker/data/hub-data-{username}':'/home/jovyan'}
+```
+前面是本机目录，后面是容器内用户的工作空间。
+
+**非常重要：确保docker对本机目录有读写权限，最简单的做法：chmod 777 -R /mnt/docker/data**
+
+否则会出现权限问题：
+```python
+  File "/opt/conda/lib/python3.7/os.py", line 221, in makedirs
+    mkdir(name, mode)
+PermissionError: [Errno 13] Permission denied: '/home/jovyan/.local'
+```
+
+## 资源限制
 
 
 
@@ -1102,13 +1133,31 @@ lrwxrwxrwx 1 jovyan users        9 Aug  3 03:26 python3 -> python3.7*
 
 ### 离线打包python环境
 
+https://blog.csdn.net/vevenlcf/article/details/83110204
+
 ```s
 python3.7 -m pip freeze > hub_req.txt
 
 python3.7 -m pip download -r hub_req.txt -d ./pkgs/
+
+tar -czf pkgs.tar.gz pkgs/
 ```
 
-### 离线打包docker环境
+### 离线打包docker镜像
+
+打包：
+```s
+docker save -o just-docker-notebook.tar just/docker-notebook:v2
+# 再压缩下
+tar -czf just-docker-notebook.tar.gz just-docker-notebook.tar
+```
+
+导入：
+```s
+docker load < just-docker-notebook.tar
+docker images
+```
+
 
 
 
