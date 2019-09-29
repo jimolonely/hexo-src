@@ -1016,7 +1016,25 @@ index.html
 
 # 自定义界面
 
-TODO
+juopyterhub提供了自定义界面的方式：[https://jupyterhub.readthedocs.io/en/stable/reference/templates.html](https://jupyterhub.readthedocs.io/en/stable/reference/templates.html)
+
+我们只需要遵循以下步骤：
+
+1. 选择自定义页面路径: 我选的`/home/jimo/jwt_auth/pages`
+2. 修改hub配置，指定自定义路径：
+    ```python
+    c.JupyterHub.template_paths=['/home/jimo/jwt_auth/pages']
+    ```
+3. 参考[源码页面](https://github.com/jupyterhub/jupyterhub/tree/master/share/jupyterhub/templates)，修改为自己想要的样子
+
+一般我们修改页面只是做一些logo、汉化等。
+
+比如：截断很长的用户名，使用[jinja的过滤器语法的truncate方法](https://jinja.palletsprojects.com/en/2.10.x/templates/#truncate)：
+
+```html
+ <p class="navbar-text">{{user.name | truncate(length=5)}}</p>
+```
+
 
 # 自定义notebook镜像
 
