@@ -1183,7 +1183,9 @@ c.Spawner.pre_spawn_hook = create_dir_hook
 
 ## 资源限制
 
-
+```python
+c.Spawner.mem_limit = '500M'
+```
 
 ## 离线安装
 
