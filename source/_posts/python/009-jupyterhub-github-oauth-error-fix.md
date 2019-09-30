@@ -1143,6 +1143,44 @@ c.DockerSpawner.volumes = {'/mnt/docker/data/hub-data-{username}':'/home/jovyan'
 PermissionError: [Errno 13] Permission denied: '/home/jovyan/.local'
 ```
 
+## Permission denied: '/home/jovyan/.local'
+
+然而，上述做法是需要手动操作的，就是新增的用户没办法在宿主机上创建文件，因为没有写的权限。
+
+关于这个问题，可以在[github issue](https://github.com/jupyterhub/dockerspawner/issues/160)里找到：
+
+> 这是一个常见的Docker问题，在创建docker实例时挂在外部不存在的目录卷时。 这是Docker的一个长期困扰 使用容器内部卷时就不是问题，这就是为什么要偏向使用它的部分原因。
+
+既然是docker的问题，那么就只有走偏方了：能不能在启动容器前就把外部目录的权限分配好？
+
+还真可以，而且是官方操作：[bootstrap-script](https://github.com/jupyterhub/jupyterhub/tree/master/examples/bootstrap-script)
+
+启动脚本：可以在启动notebook实例前干一些事情，想干什么范围就很广了。
+
+比如，我们创建目录并分配权限：在jupyterhub_config.py里
+
+```python
+import os
+def create_dir_hook(spawner):
+    username = spawner.user.name # get the username
+    volume_path = os.path.join('/home/jimo/jwt_auth', username)
+    if not os.path.exists(volume_path):
+        # create a directory with umask 0777
+        # hub and container user must have the same UID to be writeable
+        # still readable by other users on the system
+        os.mkdir(volume_path, 0o777)
+        # now do whatever you think your user needs
+
+# attach the hook function to the spawner
+c.Spawner.pre_spawn_hook = create_dir_hook
+```
+
+## 关于docker网络
+
+集成了自己的东西到notebook里，notebook又在docker里，而自己的东西需要与外部网络通信。
+
+
+
 ## 资源限制
 
 
