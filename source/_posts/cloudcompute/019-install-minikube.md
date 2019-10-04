@@ -141,6 +141,8 @@ $ sudo chmod 777 -R /home/jack/.kube/config
 $ sudo chmod 777 -R /home/jack/.minikube
 ```
 
+最后还是出现了网络问题。
+
 
 
 
