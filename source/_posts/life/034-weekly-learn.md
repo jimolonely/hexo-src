@@ -11,5 +11,7 @@ date: 2019-10-02 21:24:21
 
 1. 学习k8s
 
+2. {% post_link cloudcompute/019-install-minikube 安装minikube %}
+
 
 
