@@ -176,12 +176,20 @@ $ minikube start --image-repository=registry.cn-hangzhou.aliyuncs.com/google_con
 ```s
 $ kubectl get pods
 No resources found in default namespace.
+
+$ kubectl cluster-info
+Kubernetes master is running at https://192.168.99.100:8443
+KubeDNS is running at https://192.168.99.100:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 ```
 
 # 6.总结
 
 最后的测试使用见后续博客。
 
+
+**下次启动时，直接使用缓存：** `minikube start --cache`
 
 
 
