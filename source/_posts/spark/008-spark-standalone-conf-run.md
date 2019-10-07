@@ -6,6 +6,8 @@ p: spark/008-spark-standalone-conf-run
 date: 2019-09-15 08:11:01
 ---
 
+上一篇：{% post_link spark/007-spark-data-flow spark运行流程 %}
+
 # 修改配置
 
 1. 从模板解析出配置来：
@@ -108,4 +110,6 @@ $ jps
 scala> sc.textFile("xxx").flatMap(_.split(" ")).map((_,1)).reduceByKey(_+_).collect
 org.apache.hadoop.mapred.InvalidInputException: Input path does not exist: file:/home/jack/workspace/spark/spark-2.4.4-bin-hadoop2.7/xxx
 ```
+
+下一篇：{% post_link spark/009-spark-history-conf spark历史服务配置 %}
 

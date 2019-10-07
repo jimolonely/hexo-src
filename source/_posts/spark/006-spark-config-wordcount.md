@@ -1,5 +1,5 @@
 ---
-title: spark001：wordcount
+title: spark：wordcount
 tags:
   - spark
 p: spark/006-spark-config-wordcount
@@ -167,4 +167,6 @@ $ jps
 
 关于webUI，直接打开localhost:404去看就ok。
 
+
+下一篇：{% post_link spark/007-spark-data-flow spark运行流程 %}
 

@@ -6,6 +6,7 @@ p: spark/007-spark-data-flow
 date: 2019-09-14 20:57:08
 ---
 
+上一篇：{% post_link spark/006-spark-config-wordcount spark：wordcount %}
 
 # 通用流程
 
@@ -69,4 +70,7 @@ until finished             |           |                               |        
                         |  +-----------------+ |               | +------------+  +----------+ |
                         +----------------------+               +------------------------------+
 ```
+
+下一篇：{% post_link spark/008-spark-standalone-conf-run spark standalone模式的配置与运行 %}
+
 
