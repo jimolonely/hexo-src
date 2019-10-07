@@ -143,6 +143,46 @@ $ sudo chmod 777 -R /home/jack/.minikube
 
 最后还是出现了网络问题。
 
+```s
+E1007 09:36:37.141950    7393 cache_images.go:79] CacheImage k8s.gcr.io/kube-addon-manager:v9.0.2 -> /home/jack/.minikube/cache/images/k8s.gcr.io/kube-addon-manager_v9.0.2 failed: fetching image: Get https://k8s.gcr.io/v2/: dial tcp 108.177.125.82:443: i/o timeout
+E1007 09:36:37.142572    7393 cache_images.go:79] CacheImage k8s.gcr.io/pause:3.1 -> /home/jack/.minikube/cache/images/k8s.gcr.io/pause_3.1 failed: fetching image: Get https://k8s.gcr.io/v2/: dial tcp 108.177.125.82:443: i/o timeout
+```
+
+# 5.解决网络问题
+
+从官方issue得知，不能访问google镜像很正常，可以使用代理镜像：[https://github.com/kubernetes/minikube/issues/3860](https://github.com/kubernetes/minikube/issues/3860)
+
+具体方法如下：
+
+```s
+minikube start --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
+```
+最终的运行结果如下：
+```s
+$ minikube start --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
+😄  minikube v1.4.0 on Ubuntu 18.04
+✅  Using image repository registry.cn-hangzhou.aliyuncs.com/google_containers
+💡  Tip: Use 'minikube start -p <name>' to create a new cluster, or 'minikube delete' to delete this one.
+🏃  Using the running virtualbox "minikube" VM ...
+⌛  Waiting for the host to be provisioned ...
+🐳  Preparing Kubernetes v1.16.0 on Docker 18.09.9 ...
+🔄  Relaunching Kubernetes using kubeadm ... 
+⌛  Waiting for: apiserver proxy etcd scheduler controller dns
+🏄  Done! kubectl is now configured to use "minikube"
+```
+
+然后我们可以使用`kubectl`命令做实验了：
+
+```s
+$ kubectl get pods
+No resources found in default namespace.
+```
+
+# 6.总结
+
+最后的测试使用见后续博客。
+
+
 
 
 
