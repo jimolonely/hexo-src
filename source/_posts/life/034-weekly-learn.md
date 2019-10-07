@@ -13,5 +13,7 @@ date: 2019-10-02 21:24:21
 
 2. {% post_link cloudcompute/019-install-minikube 安装minikube %}
 
+3. {% post_link cloudcompute/021-kubectl-minikube-hello minikube-kubectl实践使用入门 %}
+
 
 

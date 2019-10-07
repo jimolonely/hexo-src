@@ -184,6 +184,10 @@ KubeDNS is running at https://192.168.99.100:8443/api/v1/namespaces/kube-system/
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 ```
 
+## 国内镜像
+
+[http://mirror.azk8s.cn/help/gcr-proxy-cache.html](http://mirror.azk8s.cn/help/gcr-proxy-cache.html)
+
 # 6.总结
 
 最后的测试使用见后续博客。
