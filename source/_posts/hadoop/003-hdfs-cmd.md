@@ -16,3 +16,9 @@ date: 2018-12-12 17:33:07
 # hadoop fs -ls -t /dir
 ```
 
+# get
+
+# put
+
+# cat
+
