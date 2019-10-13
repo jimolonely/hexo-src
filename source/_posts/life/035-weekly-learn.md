@@ -15,5 +15,7 @@ date: 2019-10-10 08:52:32
 
 3. {% post_link server/012-nginx-multi-domain-server nginx多域名共用80端口 %}
 
+4. {% post_link tools/023-make-tutorial make命令学习 %}
+
 
 
