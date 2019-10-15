@@ -1216,7 +1216,29 @@ docker load < just-docker-notebook.tar
 docker images
 ```
 
+# 释放不活动用户资源
 
+按照默认情况，用户启动之后，notebook的docker容器会一直运行，这样其实很占资源，对于不活动用户的资源，需要在一定时间后清理。
+
+
+
+我们通过增加一个服务：https://github.com/jupyterhub/jupyterhub/tree/master/examples/cull-idle
+
+
+
+1. 把项目中的cull_idle_servers.py脚本弄下来
+2. 在配置文件中配置服务：这里是3600秒
+    ```python
+    c.JupyterHub.services = [
+        {
+            'name': 'cull-idle',
+            'admin': True,
+            'command': [sys.executable, 'cull_idle_servers.py', '--timeout=3600'],
+        }
+    ]
+    ```
+
+其实这个cull_idle_servers.py是通过轮询的方式来做的，自己也可以写一个。
 
 
 
