@@ -19,5 +19,7 @@ date: 2019-10-10 08:52:32
 
 5. {% post_link cloudcompute/023-docker-stats docker stats:查看docker占用资源 %}
 
+6. {% post_link shell/003-carriage-linechange '\r':command not found %}
+
 
 
