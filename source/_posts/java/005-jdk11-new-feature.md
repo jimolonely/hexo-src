@@ -58,7 +58,7 @@ date: 2018-09-08 15:20:32
 ```java
     /**
      * @func Thread移除stop和destroy方法
-     * @author wangpeng
+     * @author jimo
      * @date 2018/8/27 8:37
      */
     @Test
@@ -97,7 +97,7 @@ lambda表达式中支持可变参数var，并且可以注解.
 ```java
     /**
      * @func 测试Math函数的时间, 看JDK11在优化了64位架构后有什么提升
-     * @author wangpeng
+     * @author jimo
      * @date 2018/8/25 19:24
      */
     @Test
@@ -225,7 +225,7 @@ public class FlightRecorderTest extends Event {
 ```java
     /**
      * @func 读取jfr文件
-     * @author wangpeng
+     * @author jimo
      * @date 2018/8/26 16:52
      */
     @Test
