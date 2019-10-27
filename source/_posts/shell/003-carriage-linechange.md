@@ -1,7 +1,7 @@
 ---
-title: '\r':command not found
+title: r command not found
 tags:
-  - shell
+  - shell 
   - linux
 p: shell/003-carriage-linechange
 date: 2019-10-15 17:15:44
