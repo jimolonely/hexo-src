@@ -3,7 +3,7 @@ title: Pluggable Annotation Processing的讲解与实践
 tags:
   - java
   - lombok
-p: java/074-pluggable-annotation-processing-lombok
+p: java/075-pluggable-annotation-processing-lombok
 date: 2019-10-24 12:35:10
 ---
 
