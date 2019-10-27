@@ -421,5 +421,14 @@ arr[2] = 3
 4)  Kedar   English  85
 ```
 
+## awk split函数
 
+按某个分隔符分割再打印：
+
+```s
+# echo 1+2+3 | awk '{split($0,a,"+");print a[2]}'
+2
+# echo 1+2+3 | awk '{split($0,a,"+");print a[3]}'
+3
+```
 
