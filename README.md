@@ -12,3 +12,16 @@ $ npm install -g hexo-cli
 ```
 $ npm install
 ```
+
+# 如何发布到Github Pages?
+
+如果是Linux下，可以直接使用 [submit.sh](./submit.sh).
+
+如果是Windows，那么手动执行命令：
+
+```shell
+hexo g
+# 要配置git ssh: ssh -T git@github.com
+hexo d
+```
+
