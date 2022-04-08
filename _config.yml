@@ -13,8 +13,8 @@ avatar: /images/avatar.jpg
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://jimolonely.github.io
-root: /
+url: http://jimolonely.github.io/history
+root: /history/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
@@ -85,7 +85,7 @@ theme: landscape
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:jimolonely/jimolonely.github.io.git
+  repo: git@github.com:jimolonely/history.git
   branch: master
   # message: {{ now('YYYY-MM-DD HH:mm:ss') }} 要上会报错
   name: jimolonely
