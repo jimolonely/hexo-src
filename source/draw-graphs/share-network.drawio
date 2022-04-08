@@ -1,0 +1,30 @@
+<mxfile host="app.diagrams.net" modified="2022-04-02T08:26:00.067Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36" etag="k7TvIeAhJ6XqGwPWIH-Z" version="17.1.0" type="github">
+  <diagram id="kb7WeKETP4gxOHDlYehf" name="Page-1">
+    <mxGraphModel dx="1422" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nCti6BmKClmU2otONBLH-2" value="自己电脑 B" style="fontColor=#0066CC;verticalAlign=top;verticalLabelPosition=bottom;labelPosition=center;align=center;html=1;outlineConnect=0;fillColor=#CCCCCC;strokeColor=#6881B3;gradientColor=none;gradientDirection=north;strokeWidth=2;shape=mxgraph.networks.laptop;" vertex="1" parent="1">
+          <mxGeometry x="550" y="390" width="100" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="nCti6BmKClmU2otONBLH-7" value="公司内网" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;shadow=1;sketch=0;" vertex="1" parent="1">
+          <mxGeometry x="10" y="210" width="390" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="nCti6BmKClmU2otONBLH-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.85;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.15;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="nCti6BmKClmU2otONBLH-3" target="nCti6BmKClmU2otONBLH-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nCti6BmKClmU2otONBLH-6" value="网线" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=20;" vertex="1" connectable="0" parent="nCti6BmKClmU2otONBLH-5">
+          <mxGeometry x="-0.1478" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nCti6BmKClmU2otONBLH-3" value="公司电脑 A" style="fontColor=#0066CC;verticalAlign=top;verticalLabelPosition=bottom;labelPosition=center;align=center;html=1;outlineConnect=0;fillColor=#CCCCCC;strokeColor=#6881B3;gradientColor=none;gradientDirection=north;strokeWidth=2;shape=mxgraph.networks.laptop;" vertex="1" parent="1">
+          <mxGeometry x="250" y="390" width="100" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="nCti6BmKClmU2otONBLH-8" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#0080F0;shadow=0;dashed=0;shape=mxgraph.ios7.icons.wifi;pointerEvents=1" vertex="1" parent="1">
+          <mxGeometry x="286" y="369" width="29.7" height="21" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
